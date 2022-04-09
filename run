@@ -1,0 +1,12 @@
+clear
+cd test
+echo ""
+echo "--------Run tests.--------"
+echo ""
+go test
+cd ../demo
+echo ""
+echo "---------Run demo.--------"
+echo ""
+go run parse_demo.go sentence.go part_of_speech.go punctuation.go
+cd ..
