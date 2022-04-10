@@ -21,7 +21,7 @@ type SubstitutionSet map[VariableStruct]Unifiable
 
 // Copy() - Makes a copy of the substitution set.
 func (ss SubstitutionSet) Copy() SubstitutionSet {
-    newSS := SubstitutionSet{}
+    newSS := make(SubstitutionSet, 1500)
     for k, v := range ss {
         newSS[k] = v
     }
