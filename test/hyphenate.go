@@ -68,7 +68,7 @@ func (s HyphenateStruct) GetSolver(kb KnowledgeBase,
 
 // RecreateVariables - Refer to comments in expression.go.
 func (jws HyphenateStruct) RecreateVariables(
-                               vars map[VariableStruct]VariableStruct) Expression {
+                               vars map[string]VariableStruct) Expression {
     bip := BuiltInPredicateStruct(jws).RecreateVariables(vars)
     return Expression(HyphenateStruct(*bip))
 }

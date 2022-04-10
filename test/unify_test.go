@@ -69,6 +69,10 @@ func TestUnify(t *testing.T) {
 
     goal = Complex{test2, A, B, C}
     solution, failure = Solve(goal, kb, SubstitutionSet{})
+    if len(failure) != 0 {
+        t.Error("\nTestUnify - Solve failed.")
+        return
+    }
 
     expected = "test2(eagle, parrot, [raven, sparrow])"
     actual   = solution.String()

@@ -176,14 +176,14 @@ func TestLinkedList(t *testing.T) {
 
     jobs6 := MakeLinkedList(true, doctor, carpenter, v1)
     newSS, _ := jobs5.Unify(jobs6, ss)
-    binding := newSS[v1].String()
+    binding := newSS[v1.String()].String()
     expected = "[sales manager]"
     if binding != expected {
         t.Error("Unify - $X should unify with " + expected)
     }
 
     newSS, _ = jobs5.Unify(v1, ss)
-    binding = newSS[v1].String()
+    binding = newSS[v1.String()].String()
     expected = "[doctor, carpenter, sales manager]"
     if binding != expected {
         t.Error("Unify - $X should unify with " + expected)
