@@ -39,7 +39,7 @@ func (ts TooLongStruct) GetSolver(kb KnowledgeBase,
 
 // RecreateVariables - Refer to comments in expression.go.
 func (ts TooLongStruct) RecreateVariables(
-                        vars map[Variable]Variable) Expression {
+                        vars map[VariableStruct]VariableStruct) Expression {
     return ts
 }
 
