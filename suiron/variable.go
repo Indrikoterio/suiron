@@ -99,6 +99,7 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
     newSS := ss.Copy()
     newSS[v] = other
     return newSS, true
+
 } // Unify
 
 
