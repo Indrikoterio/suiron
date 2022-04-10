@@ -15,13 +15,13 @@ import (
     "fmt"
 )
 
-type Variable struct {
+type VariableStruct struct {
     name   string
     id     int
 }
 
 // String - return this term as a string.
-func (v Variable) String() string {
+func (v VariableStruct) String() string {
     if v.id == 0 { return v.name }
     return fmt.Sprint(v.name, "_", v.id)
 }
@@ -31,24 +31,24 @@ var variableId int
 // LogicVar - Factory function to create a logic Variable from a string.
 // The variable must begin with a dollar sign and a letter. Eg. $X
 // If it does not, a error is produced.
-func LogicVar(str string) (Variable, error) {
+func LogicVar(str string) (VariableStruct, error) {
     name := strings.TrimSpace(str)
     r := []rune(name)
     if len(r) < 2 {
         err := makeVariableError("variable must start with $ and letter", name)
-        return Variable{ name: name, id: 0 }, err
+        return VariableStruct{ name: name, id: 0 }, err
     }
     first  := r[0]
     second := r[1]
     if first != '$' {
         err := makeVariableError("variable must start with $", name)
-        return Variable{ name: name, id: 0 }, err
+        return VariableStruct{ name: name, id: 0 }, err
     }
     if !unicode.IsLetter(second) {
         err := makeVariableError("second character must be a letter", name)
-        return Variable{ name: name, id: 0 }, err
+        return VariableStruct{ name: name, id: 0 }, err
     }
-    return Variable{ name: name, id: 0 }, nil
+    return VariableStruct{ name: name, id: 0 }, nil
 }
 
 // makeVariableError - creates an error for LogicVar().
@@ -58,29 +58,29 @@ func makeVariableError(msg string, str string) error {
     return fmt.Errorf("LogicVar() - %v: >%v<\n", msg, str)
 }
 
-// CopyVar - creates a copy of the given Variable.
+// CopyVar - creates a copy of the given VariableStruct.
 // The new variable has the same name as the copied variable,
 // but the ID is different.
 // There is no need to check validity, because the original
 // has already been validated.
-func CopyVar(v Variable) Variable {
+func CopyVar(v VariableStruct) VariableStruct {
     variableId += 1
-    return Variable{ name: v.name, id: variableId }
+    return VariableStruct{ name: v.name, id: variableId }
 }
 
 // TermType - Returns an integer constant which identifies the type.
-func (v Variable) TermType() int { return VARIABLE }
+func (v VariableStruct) TermType() int { return VARIABLE }
 
 // Unify - Unifies this variable with another unifiable expression
 // (if this variable is not already bound). Please refer to unifiable.go.
-func (v Variable) Unify(other Unifiable, ss SubstitutionSet) (SubstitutionSet, bool) {
+func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (SubstitutionSet, bool) {
 
     otherType := other.TermType()
     if otherType == VARIABLE {
         // A variable unifies with itself.
-        if v.id == other.(Variable).id {
+        if v.id == other.(VariableStruct).id {
             if v.id == 0 {
-                if v.name == other.(Variable).name { return ss, true }
+                if v.name == other.(VariableStruct).name { return ss, true }
             } else {
                 return ss, true
             }
@@ -108,13 +108,13 @@ func (v Variable) Unify(other Unifiable, ss SubstitutionSet) (SubstitutionSet, b
 // See comments in expression.go.
 // Note: This method creates variables from previously validated variables,
 // so there is no need to validate the variable name by calling LogicVar().
-func (v Variable) RecreateVariables(vars map[Variable]Variable) Expression {
-    var newVar Variable
+func (v VariableStruct) RecreateVariables(vars map[VariableStruct]VariableStruct) Expression {
+    var newVar VariableStruct
     var ok bool
     if newVar, ok = vars[v]; !ok {
         // Name has already been validated. No need to call LogicVar().
         variableId += 1
-        newVar = Variable{ name: v.name, id: variableId }
+        newVar = VariableStruct{ name: v.name, id: variableId }
         vars[v] = newVar
     }
     return Expression(newVar)
@@ -123,7 +123,7 @@ func (v Variable) RecreateVariables(vars map[Variable]Variable) Expression {
 // ReplaceVariables - replaces a bound variable with its binding.
 // This method is used for displaying final results.
 // Refer to comments in expression.go.
-func (v Variable) ReplaceVariables(ss SubstitutionSet) Expression {
+func (v VariableStruct) ReplaceVariables(ss SubstitutionSet) Expression {
     u, found := ss[v]
     if found {
         // Recursive
