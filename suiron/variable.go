@@ -102,10 +102,10 @@ func (v Variable) Unify(other Unifiable, ss SubstitutionSet) (SubstitutionSet, b
 } // Unify
 
 
-// RecreateVariables - In Prolog, and in this inference engine, the scope of
-// a logic variable is the rule or goal in which it is defined. When the
-// algorithm tries to solve a goal, it calls this method to ensure that the
-// variables are unique. See comments in expression.go.
+// RecreateVariables - The scope of a logic variable is the rule or goal in
+// which it is defined. When the algorithm tries to solve a goal, it calls
+// this method to ensure that the variables are unique.
+// See comments in expression.go.
 // Note: This method creates variables from previously validated variables,
 // so there is no need to validate the variable name by calling LogicVar().
 func (v Variable) RecreateVariables(vars map[Variable]Variable) Expression {
@@ -118,7 +118,7 @@ func (v Variable) RecreateVariables(vars map[Variable]Variable) Expression {
         vars[v] = newVar
     }
     return Expression(newVar)
-}
+} // RecreateVariables()
 
 // ReplaceVariables - replaces a bound variable with its binding.
 // This method is used for displaying final results.
