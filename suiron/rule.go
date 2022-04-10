@@ -95,7 +95,7 @@ func (r RuleStruct) GetBody() Goal { return r.body }
 // a logic variable is the rule or goal in which it is defined. When the
 // algorithm tries to solve a goal, it calls this method to ensure that the
 // variables are unique. See comments in expression.go.
-func (r RuleStruct) RecreateVariables(vars map[VariableStruct]VariableStruct) Expression {
+func (r RuleStruct) RecreateVariables(vars map[string]VariableStruct) Expression {
     newHead := r.head.RecreateVariables(vars).(Complex)
     var newBody Goal = nil
     if r.body != nil {

@@ -47,7 +47,7 @@ func (s BIPTemplateStruct) GetSolver(kb KnowledgeBase,
 
 // RecreateVariables - Refer to comments in expression.go.
 func (s BIPTemplateStruct) RecreateVariables(
-                               vars map[VariableStruct]VariableStruct) Expression {
+                               vars map[string]VariableStruct) Expression {
     bip := BuiltInPredicateStruct(s).RecreateVariables(vars)
     return Expression(BIPTemplateStruct(*bip))
 }

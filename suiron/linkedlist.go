@@ -394,11 +394,11 @@ func (ll LinkedListStruct) GetCount() int { return ll.count }
 // the Expression interface.
 //----------------------------------------------------------------
 
-// RecreateVariables - In Prolog, and in this inference engine, the scope of
-// a logic variable is the rule or goal in which it is defined. When the
-// algorithm tries to solve a goal, it calls this method to ensure that the
-// variables are unique. See comments in expression.go.
-func (ll LinkedListStruct) RecreateVariables(vars map[VariableStruct]VariableStruct) Expression {
+// RecreateVariables - The scope of a logic variable is the rule or goal in
+// which it is defined. When the algorithm tries to solve a goal, it calls
+// this method to ensure that the variables are unique.
+// See comments in expression.go.
+func (ll LinkedListStruct) RecreateVariables(vars map[string]VariableStruct) Expression {
     newTerms := []Unifiable{}
     thisList := &ll
     vbar  := thisList.tailVar

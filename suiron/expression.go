@@ -36,7 +36,7 @@ type Expression interface {
     // fetched, the variable $X might become '$X_22'. The second
     // time it might become '$X_23'.
     //
-    RecreateVariables(newVars map[VariableStruct]VariableStruct) Expression
+    RecreateVariables(newVars map[string]VariableStruct) Expression
 
     // ReplaceVariables() is called after a solution has been found.
     // It replaces logic variables with the constants which they are

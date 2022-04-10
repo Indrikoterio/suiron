@@ -17,7 +17,7 @@ import (
     //"fmt"
 )
 
-type SubstitutionSet map[VariableStruct]Unifiable
+type SubstitutionSet map[string]Unifiable
 
 // Copy() - Makes a copy of the substitution set.
 func (ss SubstitutionSet) Copy() SubstitutionSet {
@@ -31,7 +31,7 @@ func (ss SubstitutionSet) Copy() SubstitutionSet {
 // IsBound() - A logic variable is bound if there exists an entry
 // for it in the substitution set.
 func (ss SubstitutionSet) IsBound(v VariableStruct) bool {
-    _, found := ss[v]
+    _, found := ss[v.String()]
     return found
 }
 
@@ -39,7 +39,7 @@ func (ss SubstitutionSet) IsBound(v VariableStruct) bool {
 // GetBinding() - Returns the binding of a logic variable.
 // If there is no binding, return an error.
 func (ss SubstitutionSet) GetBinding(v VariableStruct) (Unifiable, error) {
-    unifiableTerm, found := ss[v]
+    unifiableTerm, found := ss[v.String()]
     if found { return unifiableTerm, nil }
     return unifiableTerm, errors.New("Not bound: " + v.String())
 }
@@ -49,7 +49,7 @@ func (ss SubstitutionSet) GetBinding(v VariableStruct) (Unifiable, error) {
 // bound to something other than a variable.
 func (ss SubstitutionSet) IsGroundVariable(v VariableStruct) bool {
     for {
-        if u, ok := ss[v]; ok {
+        if u, ok := ss[v.String()]; ok {
             if u.TermType() != VARIABLE { return true }
             v = u.(VariableStruct)
         } else { return false }
@@ -70,7 +70,7 @@ func (ss SubstitutionSet) GetGroundTerm(u Unifiable) (Unifiable, bool) {
     var ok bool
     if u.TermType() != VARIABLE { return u, true }
     for {
-        if u2, ok = ss[u.(VariableStruct)]; ok {
+        if u2, ok = ss[(u.(VariableStruct)).String()]; ok {
             if u2.TermType() != VARIABLE { return u2, true }
         } else { return u, false }
         u = u2
@@ -87,9 +87,8 @@ func (ss SubstitutionSet) String() string {
     keys      := make([]string, 0, len(ss))
     keyValues := map[string]string{}
     for k := range ss {
-        strK := k.String()
-        keys = append(keys, strK)
-        keyValues[strK] = ss[k].String()
+        keys = append(keys, k)
+        keyValues[k] = ss[k].String()
     }
     sort.Strings(keys)
     for _, k := range keys {
@@ -98,7 +97,6 @@ func (ss SubstitutionSet) String() string {
     sb.WriteString("--------------------\n")
     return sb.String()
 }
-
 
 // CastComplex - if the given Unifiable term is a Complex term,
 // cast it as Complex and return it. If the given term is a Variable,

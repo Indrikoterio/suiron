@@ -80,7 +80,7 @@ func (s LessThanOrEqualStruct) GetSolver(kb KnowledgeBase,
 
 // RecreateVariables - Refer to comments in expression.go.
 func (lte LessThanOrEqualStruct) RecreateVariables(
-                               vars map[VariableStruct]VariableStruct) Expression {
+                               vars map[string]VariableStruct) Expression {
     bip := BuiltInPredicateStruct(lte).RecreateVariables(vars)
     return Expression(LessThanOrEqualStruct(*bip))
 }

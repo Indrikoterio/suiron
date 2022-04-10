@@ -53,7 +53,7 @@ func bifEvaluate(arguments []Unifiable, ss SubstitutionSet) (Unifiable, bool) {
 
 // RecreateVariables - Refer to comments in expression.go.
 func (s BIFTemplateStruct) RecreateVariables(
-                               vars map[VariableStruct]VariableStruct) Expression {
+                               vars map[string]VariableStruct) Expression {
     bif := BuiltInPredicateStruct(s).RecreateVariables(vars)
     return Expression(BIFTemplateStruct(*bif))
 }

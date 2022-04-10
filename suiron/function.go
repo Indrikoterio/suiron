@@ -10,7 +10,7 @@ package suiron
 // Cleve Lendon
 
 type Function interface {
-    RecreateVariables(map[VariableStruct]VariableStruct) Expression
+    RecreateVariables(map[string]VariableStruct) Expression
     ReplaceVariables(SubstitutionSet) Expression
     String() string
 }

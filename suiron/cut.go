@@ -33,7 +33,7 @@ func (c CutOp) GetSolver(kb KnowledgeBase,
 
 // RecreateVariables
 // Refer to comments in expression.go.
-func (c CutOp) RecreateVariables(vars map[VariableStruct]VariableStruct) Expression {
+func (c CutOp) RecreateVariables(vars map[string]VariableStruct) Expression {
     return c
 }
 

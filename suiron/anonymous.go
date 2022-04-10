@@ -30,7 +30,7 @@ func (a Anonymous) Unify(other Unifiable, ss SubstitutionSet) (SubstitutionSet, 
 // inference engine fetches a rule from the knowledge base. For the
 // anonymous variable, RecreateVariables() simply returns itself.
 // This function satisfies the Expression interface.
-func (a Anonymous) RecreateVariables(vars map[VariableStruct]VariableStruct) Expression {
+func (a Anonymous) RecreateVariables(vars map[string]VariableStruct) Expression {
     return a
 }
 

@@ -40,7 +40,7 @@ func (a Atom) String() string { return string(a) }
 // inference engine fetches a rule from the knowledge base.
 // A constant is not a variable, so this function simply returns
 // the constant. This function satisfies the Expression interface.
-func (a Atom) RecreateVariables(m map[VariableStruct]VariableStruct) Expression {
+func (a Atom) RecreateVariables(m map[string]VariableStruct) Expression {
     return a;
 }
 
@@ -84,7 +84,7 @@ func (i Integer) String() string { return fmt.Sprintf("%d", i) }
 // inference engine fetches a rule from the knowledge base.
 // A constant is not a variable, so this function simply returns
 // the constant. This function satisfies the Expression interface.
-func (i Integer) RecreateVariables(m map[VariableStruct]VariableStruct) Expression {
+func (i Integer) RecreateVariables(m map[string]VariableStruct) Expression {
     return i;
 }
 
@@ -131,7 +131,7 @@ func (f Float) String() string { return fmt.Sprintf("%f", f) }
 // inference engine fetches a rule from the knowledge base.
 // A constant is not a variable, so this function simply returns
 // the constant. This function satisfies the Expression interface.
-func (f Float) RecreateVariables(m map[VariableStruct]VariableStruct) Expression {
+func (f Float) RecreateVariables(m map[string]VariableStruct) Expression {
     return f;
 }
 

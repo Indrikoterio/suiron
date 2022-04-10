@@ -71,6 +71,9 @@ func CopyVar(v VariableStruct) VariableStruct {
 // TermType - Returns an integer constant which identifies the type.
 func (v VariableStruct) TermType() int { return VARIABLE }
 
+// ID - Returns the ID number of the given variable.
+func (v VariableStruct) ID() int { return v.id }
+
 // Unify - Unifies this variable with another unifiable expression
 // (if this variable is not already bound). Please refer to unifiable.go.
 func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (SubstitutionSet, bool) {
@@ -91,13 +94,14 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
     // if the other expression is a function, call its unify method.
     if otherType == FUNCTION { return other.Unify(v, ss) }
 
-    u, found := ss[v]
+    u, found := ss[v.String()]
     if found {
         return u.Unify(other, ss)
     }
 
     newSS := ss.Copy()
-    newSS[v] = other
+
+    newSS[v.String()] = other
     return newSS, true
 
 } // Unify
@@ -109,14 +113,14 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
 // See comments in expression.go.
 // Note: This method creates variables from previously validated variables,
 // so there is no need to validate the variable name by calling LogicVar().
-func (v VariableStruct) RecreateVariables(vars map[VariableStruct]VariableStruct) Expression {
+func (v VariableStruct) RecreateVariables(vars map[string]VariableStruct) Expression {
     var newVar VariableStruct
     var ok bool
-    if newVar, ok = vars[v]; !ok {
+    if newVar, ok = vars[v.String()]; !ok {
         // Name has already been validated. No need to call LogicVar().
-        variableId += 1
+        variableId++
         newVar = VariableStruct{ name: v.name, id: variableId }
-        vars[v] = newVar
+        vars[v.String()] = newVar
     }
     return Expression(newVar)
 } // RecreateVariables()
@@ -125,7 +129,7 @@ func (v VariableStruct) RecreateVariables(vars map[VariableStruct]VariableStruct
 // This method is used for displaying final results.
 // Refer to comments in expression.go.
 func (v VariableStruct) ReplaceVariables(ss SubstitutionSet) Expression {
-    u, found := ss[v]
+    u, found := ss[v.String()]
     if found {
         // Recursive
         return u.ReplaceVariables(ss)
