@@ -50,7 +50,7 @@ func (n *TimeSolutionNodeStruct) NextSolution() (SubstitutionSet, bool) {
 
     for _, term := range n.goalToTime {
         if term.TermType() == VARIABLE {
-            v := term.(Variable)
+            v := term.(VariableStruct)
             if !n.ParentSolution.IsGroundVariable(v) {
                 fmt.Printf("Time: Variable %v is not grounded.\n", term.String())
             }

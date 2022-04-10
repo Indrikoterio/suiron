@@ -289,7 +289,7 @@ func (ll LinkedListStruct) Flatten(numOfTerms int, ss SubstitutionSet) ([]Unifia
         if ptr == nil { return outList, false } // fail
         term := ptr.term
         if ptr.tailVar {  // Is this node a tail variable?
-            varTerm, _ := term.(Variable)
+            varTerm, _ := term.(VariableStruct)
             list, ok := ss.CastLinkedList(varTerm)
             if ok {
                 ptr = &list
@@ -398,7 +398,7 @@ func (ll LinkedListStruct) GetCount() int { return ll.count }
 // a logic variable is the rule or goal in which it is defined. When the
 // algorithm tries to solve a goal, it calls this method to ensure that the
 // variables are unique. See comments in expression.go.
-func (ll LinkedListStruct) RecreateVariables(vars map[Variable]Variable) Expression {
+func (ll LinkedListStruct) RecreateVariables(vars map[VariableStruct]VariableStruct) Expression {
     newTerms := []Unifiable{}
     thisList := &ll
     vbar  := thisList.tailVar

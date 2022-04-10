@@ -74,9 +74,9 @@ func (ps PrintStruct) GetSolver(kb KnowledgeBase,
 
 // RecreateVariables - Refer to comments in expression.go.
 func (ps PrintStruct) RecreateVariables(
-                               vars map[Variable]Variable) Expression {
+                               vars map[VariableStruct]VariableStruct) Expression {
     bip := BuiltInPredicateStruct(ps).RecreateVariables(vars)
-    return Expression(PrintStruct(bip))
+    return Expression(PrintStruct(*bip))
 }
 
 // ReplaceVariables - Refer to comments in expression.go.
@@ -201,8 +201,8 @@ func splitFormatString(str string) []string {
 func getGround(term Unifiable, ss SubstitutionSet) Unifiable {
     tt := term.TermType()
     if tt == VARIABLE {
-        if ss.IsGroundVariable(term.(Variable)) {
-            gr, _ := ss.GetGroundTerm(term.(Variable))
+        if ss.IsGroundVariable(term.(VariableStruct)) {
+            gr, _ := ss.GetGroundTerm(term.(VariableStruct))
             return gr
         }
     }

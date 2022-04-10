@@ -33,10 +33,10 @@ type BuiltInPredicateStruct struct {
 // Params: Unifiable term
 //         list of previously recreated Variables
 // Return: tew Unifiable term
-func recreateOneVar(term Unifiable, vars map[Variable]Variable) Unifiable {
+func recreateOneVar(term Unifiable, vars map[VariableStruct]VariableStruct) Unifiable {
     tt := term.TermType()
     if tt == VARIABLE {
-        t, _ := term.(Variable)  // cast it
+        t, _ := term.(VariableStruct)  // cast it
         return t.RecreateVariables(vars).(Unifiable)
     } else if tt == LINKEDLIST {
         t, _ := term.(LinkedListStruct)  // cast it
@@ -53,7 +53,7 @@ func recreateOneVar(term Unifiable, vars map[Variable]Variable) Unifiable {
 // Params: slice of Unifiable terms
 //         map of previously recreated Variables
 // Return: slice of new terms
-func recreateVars(terms []Unifiable, vars map[Variable]Variable) []Unifiable {
+func recreateVars(terms []Unifiable, vars map[VariableStruct]VariableStruct) []Unifiable {
     newTerms := []Unifiable{}
     for _, term := range terms {
         v := recreateOneVar(term, vars)
@@ -67,13 +67,19 @@ func recreateVars(terms []Unifiable, vars map[Variable]Variable) []Unifiable {
 // function to ensure that the variables are unique.
 // See comments in expression.go.
 func (bips BuiltInPredicateStruct) RecreateVariables(
-                       vars map[Variable]Variable) BuiltInPredicateStruct {
+                       vars map[VariableStruct]VariableStruct) *BuiltInPredicateStruct {
     newArguments := recreateVars(bips.Arguments, vars)
+    ptrBIP := new(BuiltInPredicateStruct)
+    ptrBIP.Name = bips.Name
+    ptrBIP.Arguments = newArguments
+/*
     newBIP := BuiltInPredicateStruct{
                Name: bips.Name,
                Arguments: newArguments,
            }
     return newBIP
+*/
+    return ptrBIP
 }
 
 // ReplaceVariables - replaces a bound variable with its binding.
@@ -86,7 +92,7 @@ func (bips BuiltInPredicateStruct) ReplaceVariables(ss SubstitutionSet) Expressi
         if tt == ATOM || tt == INTEGER || tt == FLOAT || tt == COMPLEX {
             return arg
         } else if tt == VARIABLE {
-            theVar := arg.(Variable)
+            theVar := arg.(VariableStruct)
             if ss.IsBound(theVar) {
                 exp := theVar.ReplaceVariables(ss)
                 return exp

@@ -45,9 +45,9 @@ func (s CountStruct) GetSolver(kb KnowledgeBase,
 
 // RecreateVariables - Refer to comments in expression.go.
 func (s CountStruct) RecreateVariables(
-                               vars map[Variable]Variable) Expression {
+                               vars map[VariableStruct]VariableStruct) Expression {
     bip := BuiltInPredicateStruct(s).RecreateVariables(vars)
-    return Expression(CountStruct(bip))
+    return Expression(CountStruct(*bip))
 }
 
 // ReplaceVariables - Refer to comments in expression.go.
@@ -134,7 +134,7 @@ func countLL(arguments []Unifiable, ss SubstitutionSet) (SubstitutionSet, bool) 
     count := 0
     for ptr != nil {
         if ptr.tailVar {
-            v := ptr.term.(Variable)
+            v := ptr.term.(VariableStruct)
             groundTerm, ok := ss.GetGroundTerm(v)
             if !ok { return ss, false }
             termType := groundTerm.TermType()

@@ -72,9 +72,9 @@ func (s UnifyStruct) GetSolver(kb KnowledgeBase,
 
 // RecreateVariables - Refer to comments in expression.go.
 func (us UnifyStruct) RecreateVariables(
-                               vars map[Variable]Variable) Expression {
+                               vars map[VariableStruct]VariableStruct) Expression {
     bip := BuiltInPredicateStruct(us).RecreateVariables(vars)
-    return Expression(UnifyStruct(bip))
+    return Expression(UnifyStruct(*bip))
 }
 
 // ReplaceVariables - Refer to comments in expression.go.

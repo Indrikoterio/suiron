@@ -45,9 +45,9 @@ func Join(arguments ...Unifiable) JoinStruct {
 
 // RecreateVariables - Refer to comments in expression.go.
 func (js JoinStruct) RecreateVariables(
-                               vars map[Variable]Variable) Expression {
+                               vars map[VariableStruct]VariableStruct) Expression {
     bip := BuiltInPredicateStruct(js).RecreateVariables(vars)
-    return Expression(JoinStruct(bip))
+    return Expression(JoinStruct(*bip))
 }
 
 // ReplaceVariables - Refer to comments in expression.go.
