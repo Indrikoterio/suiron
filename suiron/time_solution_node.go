@@ -36,10 +36,6 @@ func MakeTimeSolutionNode(goal Goal, kb KnowledgeBase,
     return &node
 }
 
-//xxxxxxxxxxxxxxxxxxxxxxxxxx
-var Elapsed int64 = 0
-
-
 // NextSolution
 // If the search fails, the boolean value is false.
 func (n *TimeSolutionNodeStruct) NextSolution() (SubstitutionSet, bool) {
