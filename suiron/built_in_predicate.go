@@ -25,39 +25,50 @@ type BuiltInPredicateStruct struct {
 
 // recreateOneVar - recreates one variable.
 //
-// This method assists the method RecreateVariables(). If the argument is
-// a Variable, this method will substitute it with a new unique variable.
-// If not, it just returns the argument as is.
+// This function assists RecreateVariables(). If the given term is a Variable,
+// recreateOneVar() will return a new unique variable. If the term is a linked
+// list, recreateOneVar() will call its RecreateVariables() function, to recreate
+// all the elements of the linked list. Otherwise, it will return the term as is.
 //
-// Params: unifiable argument
-//         list of previously recreated variables
-// Return: out argument
-func recreateOneVar(argument Unifiable, vars map[Variable]Variable) Unifiable {
-    tt := argument.TermType()
+// Params: Unifiable term
+//         list of previously recreated Variables
+// Return: tew Unifiable term
+func recreateOneVar(term Unifiable, vars map[Variable]Variable) Unifiable {
+    tt := term.TermType()
     if tt == VARIABLE {
-        arg, _ := argument.(Variable)  // cast it
-        return arg.RecreateVariables(vars).(Unifiable)
+        t, _ := term.(Variable)  // cast it
+        return t.RecreateVariables(vars).(Unifiable)
     } else if tt == LINKEDLIST {
-        arg, _ := argument.(LinkedListStruct)  // cast it
-        return arg.RecreateVariables(vars).(Unifiable)
+        t, _ := term.(LinkedListStruct)  // cast it
+        return t.RecreateVariables(vars).(Unifiable)
     } else if tt == FUNCTION {
-        arg, _ := argument.(Function)  // cast it
-        return arg.RecreateVariables(vars).(Unifiable)
+        t, _ := term.(Function)  // cast it
+        return t.RecreateVariables(vars).(Unifiable)
     }
-    return argument
-}
+    return term
+} // recreateOneVar()
 
-// RecreateVariables - In Prolog, and in this inference engine, the scope of
-// a logic variable is the rule or goal in which it is defined. When the
-// algorithm tries to solve a goal, it calls this method to ensure that the
-// variables are unique. See comments in expression.go.
+
+// recreateVars - recreates all Variables in a slice of Unifiable terms.
+// Params: slice of Unifiable terms
+//         map of previously recreated Variables
+// Return: slice of new terms
+func recreateVars(terms []Unifiable, vars map[Variable]Variable) []Unifiable {
+    newTerms := []Unifiable{}
+    for _, term := range terms {
+        v := recreateOneVar(term, vars)
+        newTerms = append(newTerms, v)
+    }
+    return newTerms
+} // recreateVars()
+
+// RecreateVariables - The scope of a logic variable is the rule in which
+// it is defined. When the algorithm tries to solve a goal, it calls this
+// function to ensure that the variables are unique.
+// See comments in expression.go.
 func (bips BuiltInPredicateStruct) RecreateVariables(
                        vars map[Variable]Variable) BuiltInPredicateStruct {
-    newArguments := []Unifiable{}
-    for i := 0; i < len(bips.Arguments); i++ {
-        v := recreateOneVar(bips.Arguments[i], vars)
-        newArguments = append(newArguments, v)
-    }
+    newArguments := recreateVars(bips.Arguments, vars)
     newBIP := BuiltInPredicateStruct{
                Name: bips.Name,
                Arguments: newArguments,
