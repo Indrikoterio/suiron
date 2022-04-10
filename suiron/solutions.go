@@ -66,7 +66,6 @@ func Solve(goal Complex, kb KnowledgeBase, ss SubstitutionSet) (solution Complex
         }
     }
 
-    //fmt.Printf("Elapsed time: %v milliseconds\n", ElapsedTime() / 1_000_000)
     return solution, failure
 
 }  // Solve
