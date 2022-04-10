@@ -8,7 +8,7 @@ package suiron
 // NextSolution() will check to see if the child has a solution.
 // If it does, this solution (substitution set) is returned.
 //
-// Otherwise, nextSolution() fetches rules/facts from the knowledge
+// Otherwise, NextSolution() fetches rules/facts from the knowledge
 // base, and tries to unify the head of these rules and facts with
 // the goal. If a matching fact is found, the solution is returned.
 // (Note, a fact is a rule without a body.)
