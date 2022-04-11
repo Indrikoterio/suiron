@@ -9,7 +9,7 @@ import (
 )
 
 // Maximum execution time.
-var suironMaxTime   int64 = 1000 * 1_000_000  // 300 millisecond default
+var suironMaxTime   int64 = 300 * 1_000_000  // 300 millisecond default
 var suironStartTime time.Time
 var suironZeroTime time.Time = time.Time{}
 var suironHasTimedOut = false
