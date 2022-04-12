@@ -196,7 +196,7 @@ func main() {
         inList := sentenceToFacts(sentence, kb, pos)
         //DBKB(kb)
 
-        goal := Complex{parse, inList, X}
+        goal := MakeGoal(parse, inList, X)
 
         _, failure := Solve(goal, kb, SubstitutionSet{})
         if len(failure) != 0 { fmt.Println(failure) }
