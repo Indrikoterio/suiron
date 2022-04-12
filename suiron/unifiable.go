@@ -8,11 +8,11 @@ package suiron
 // records the bindings made while searching for a solution.
 //
 // For example, if the source program has: $X = water, then the unify
-// method for the variable $X will add { $X : 'water' } to the
-// substitution set.
+// method for the variable $X will add { $X.id : 'water' } to the
+// substitution set. (The substitution set in keyed by index number.)
 //
-// The method TermType() returns an integer which identifies the type
-// of term. This was defined because reflection is slow.
+// The method TermType() returns an integer which identifies the
+// type of term. This was defined because reflection is slow.
 //
 // Cleve Lendon
 
