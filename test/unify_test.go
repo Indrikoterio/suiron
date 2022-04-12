@@ -12,7 +12,7 @@ import (
 
 func TestUnify(t *testing.T) {
 
-    fmt.Println("TestUnify 1")
+    fmt.Println("TestUnify 1") //-------------
 
     // First test is:
     // test($X) := $X = pronoun.
@@ -30,7 +30,7 @@ func TestUnify(t *testing.T) {
     kb := KnowledgeBase{}
     kb.Add(r1)
 
-    goal := Complex{test, X}
+    goal := MakeGoal(test, X)
     solution, failure := Solve(goal, kb, SubstitutionSet{})
 
     if len(failure) != 0 {
@@ -67,7 +67,7 @@ func TestUnify(t *testing.T) {
     r2 := Rule(head2, body2)
     kb.Add(r2)
 
-    goal = Complex{test2, A, B, C}
+    goal = MakeGoal(test2, A, B, C)
     solution, failure = Solve(goal, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("\nTestUnify - Solve failed.")
@@ -83,7 +83,7 @@ func TestUnify(t *testing.T) {
     }
 
     // Test the parsing functionality for 
-    fmt.Println("TestUnify 2")
+    fmt.Println("TestUnify 2")  //-------------
 
     /*
         unify_goal($X, $Y, $Z) :- lawyer = lawyer,
@@ -92,7 +92,6 @@ func TestUnify(t *testing.T) {
     */
 
     lawyer := Atom("lawyer")
-
 
     c1, _ := ParseComplex("job(lawyer)")
     c2, _ := ParseComplex("job(teacher)")
@@ -115,7 +114,7 @@ func TestUnify(t *testing.T) {
     r1 = Rule(head, body3)
     kb.Add(r1)
 
-    goal, _ = ParseComplex("unify_goal($X, $Y, $Z)")
+    goal, _ = ParseGoal("unify_goal($X, $Y, $Z)")
     solutions, failure := SolveAll(goal, kb, SubstitutionSet{})
 
     // Expected solutions of unify_goal($X, $Y, $Z).
@@ -141,7 +140,7 @@ func TestUnify(t *testing.T) {
     }
 
     // Test the parsing functionality for 
-    fmt.Println("TestUnify 3")
+    fmt.Println("TestUnify 3")   //-------------
 
     /*
       second_goal($Y) :- $X = up, $Y = down, $X = $Y.
