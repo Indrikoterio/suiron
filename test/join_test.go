@@ -66,7 +66,7 @@ func TestJoin(t *testing.T) {
     ss := SubstitutionSet{}
 
     X, _ := LogicVar("$X")
-    goal := Complex{would_you_like, X}
+    goal := MakeGoal(would_you_like, X)
     Solve(goal, kb, ss)
 
     results, failure := Solve(goal, kb, ss)
