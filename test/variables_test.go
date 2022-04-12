@@ -12,14 +12,20 @@ import (
 
 func TestVariables(t *testing.T) {
 
+    // vars - Keeps track of previously recreated variables.
+    vars := make(map[string]VariableStruct)
+
     fmt.Println("TestVariables")
     W, _ := LogicVar("$W")
+    W = W.RecreateVariables(vars).(VariableStruct)
     X, _ := LogicVar("$X")
+    X = X.RecreateVariables(vars).(VariableStruct)
     Y, _ := LogicVar("$Y")
+    Y = Y.RecreateVariables(vars).(VariableStruct)
     Z, _ := LogicVar("$Z")
+    Z= Z.RecreateVariables(vars).(VariableStruct)
     age := Integer(43)
     pi  := Float(3.14159)
-    ss  := SubstitutionSet{}
 
     pronoun  := Atom("pronoun")
     me       := Atom("me")
@@ -31,10 +37,10 @@ func TestVariables(t *testing.T) {
     plurality, _ := LogicVar("$Plurality")
     case_, _     := LogicVar("$Case")
 
-    c1 := Complex{pronoun, me, first, sing, acc}
-    c2 := Complex{pronoun, me, person, plurality, case_}
+    c1 := MakeGoal(pronoun, me, first, sing, acc)
+    c2 := MakeGoal(pronoun, me, person, plurality, case_)
 
-    newSS, ok := X.Unify(X, ss)
+    newSS, ok := X.Unify(X, SubstitutionSet{})
     if !ok { t.Error("TestVariables - unification should succeed: $X = $X") }
 
     newSS, ok = X.Unify(Y, newSS)
@@ -59,21 +65,11 @@ func TestVariables(t *testing.T) {
     newSS, ok = c1.Unify(c2, newSS)
     if !ok { t.Error("TestVariables - unification should succeed: c1 = c2") }
 
-    expected := `
------ Bindings -----
-    $Case: accusative
-    $Person: first
-    $Plurality: singular
-    $W: 3.141590
-    $X: $Y
-    $Y: pronoun
-    $Z: 43
---------------------
-`
-    actual := newSS.String()
+    expected := "pronoun(me, first, singular, accusative)"
+    actual := c2.ReplaceVariables(newSS).(Complex).String()
 
     if actual != expected {
-        t.Error("TestVariables, error in substitution set.\n" + actual + expected)
+        t.Error("TestVariables - failed to unify complex terms.\n" +
+                actual + "\n" + expected)
     }
-
 }
