@@ -44,7 +44,7 @@ func TestCut(t *testing.T) {
     kb.Add(r1, r2, f1, r3, r4)
 
     //DBKB(kb)
-    goal := c3
+    goal := MakeGoal(Atom("test"), X)
 
     solutions, failure := SolveAll(goal, kb, ss)
 
@@ -122,7 +122,7 @@ func TestCut(t *testing.T) {
     fact6 := Fact(h4)
 
     kb.Add(rule1, rule2, rule3, fact6)
-    goal = Complex{priority_seating, John, X}
+    goal = MakeGoal(priority_seating, John, X)
 
     solutions, failure = SolveAll(goal, kb, ss)
 
