@@ -38,6 +38,9 @@ func recreateOneVar(term Unifiable, vars map[string]VariableStruct) Unifiable {
     if tt == VARIABLE {
         t, _ := term.(VariableStruct)  // cast it
         return t.RecreateVariables(vars).(Unifiable)
+    } else if tt == COMPLEX {
+        t, _ := term.(Complex)  // cast it
+        return t.RecreateVariables(vars).(Unifiable)
     } else if tt == LINKEDLIST {
         t, _ := term.(LinkedListStruct)  // cast it
         return t.RecreateVariables(vars).(Unifiable)
