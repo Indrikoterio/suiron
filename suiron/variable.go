@@ -78,20 +78,18 @@ func (v VariableStruct) ID() int { return v.id }
 // (if this variable is not already bound). Please refer to unifiable.go.
 func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (SubstitutionSet, bool) {
 
-    if v.id == 0 {
-        return ss, false
-    }
+    // LogicVar() creates variables with an ID of 0, but variables
+    // are recreated (given a new ID) when a rule is fetched from the
+    // knowledge base.
+    // If a variable has an ID of 0 here, something was done incorrectly.
+    // The following statement avoids endless loops, which occur when the
+    // substitution set has a variable with ID = 0 at location 0.
+    if v.id == 0 { return ss, false }
 
     otherType := other.TermType()
     if otherType == VARIABLE {
         // A variable unifies with itself.
-        if v.id == other.(VariableStruct).id {
-            if v.id == 0 {
-                if v.name == other.(VariableStruct).name { return ss, true }
-            } else {
-                return ss, true
-            }
-        }
+        if v.id == other.(VariableStruct).id { return ss, true }
     }
 
     // The unify method of a function evaluates the function, so
