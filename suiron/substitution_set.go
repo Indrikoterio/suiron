@@ -14,10 +14,10 @@ import (
     "errors"
     "strings"
     "sort"
-    //"fmt"
+    "fmt"
 )
 
-type SubstitutionSet map[string]Unifiable
+type SubstitutionSet map[int]Unifiable
 
 // Copy() - Makes a copy of the substitution set.
 func (ss SubstitutionSet) Copy() SubstitutionSet {
@@ -31,7 +31,7 @@ func (ss SubstitutionSet) Copy() SubstitutionSet {
 // IsBound() - A logic variable is bound if there exists an entry
 // for it in the substitution set.
 func (ss SubstitutionSet) IsBound(v VariableStruct) bool {
-    _, found := ss[v.String()]
+    _, found := ss[v.id]
     return found
 }
 
@@ -39,7 +39,7 @@ func (ss SubstitutionSet) IsBound(v VariableStruct) bool {
 // GetBinding() - Returns the binding of a logic variable.
 // If there is no binding, return an error.
 func (ss SubstitutionSet) GetBinding(v VariableStruct) (Unifiable, error) {
-    unifiableTerm, found := ss[v.String()]
+    unifiableTerm, found := ss[v.id]
     if found { return unifiableTerm, nil }
     return unifiableTerm, errors.New("Not bound: " + v.String())
 }
@@ -49,7 +49,7 @@ func (ss SubstitutionSet) GetBinding(v VariableStruct) (Unifiable, error) {
 // bound to something other than a variable.
 func (ss SubstitutionSet) IsGroundVariable(v VariableStruct) bool {
     for {
-        if u, ok := ss[v.String()]; ok {
+        if u, ok := ss[v.id]; ok {
             if u.TermType() != VARIABLE { return true }
             v = u.(VariableStruct)
         } else { return false }
@@ -70,7 +70,7 @@ func (ss SubstitutionSet) GetGroundTerm(u Unifiable) (Unifiable, bool) {
     var ok bool
     if u.TermType() != VARIABLE { return u, true }
     for {
-        if u2, ok = ss[(u.(VariableStruct)).String()]; ok {
+        if u2, ok = ss[(u.(VariableStruct)).id]; ok {
             if u2.TermType() != VARIABLE { return u2, true }
         } else { return u, false }
         u = u2
@@ -84,15 +84,16 @@ func (ss SubstitutionSet) GetGroundTerm(u Unifiable) (Unifiable, bool) {
 func (ss SubstitutionSet) String() string {
     var sb strings.Builder
     sb.WriteString("\n----- Bindings -----\n")
-    keys      := make([]string, 0, len(ss))
-    keyValues := map[string]string{}
+    keys      := make([]int, 0, len(ss))
+    keyValues := map[int]string{}
     for k := range ss {
         keys = append(keys, k)
         keyValues[k] = ss[k].String()
     }
-    sort.Strings(keys)
+    sort.Ints(keys)
     for _, k := range keys {
-        sb.WriteString("    " + k + ": " + keyValues[k] + "\n")
+        str := fmt.Sprintf("    %d: %v\n", k, keyValues[k])
+        sb.WriteString(str)
     }
     sb.WriteString("--------------------\n")
     return sb.String()
