@@ -17,13 +17,16 @@ func TestComplex(t *testing.T) {
     john  := Atom("John")
     house := Atom("house")
     car := Atom("car")
-    c1 := Complex{owns, john, house}  // owns(John, house)
-    c2 := Complex{owns, john, house}  // owns(John, house)
-    c3 := Complex{owns, john, car}    // owns(John, car)
+
+    // Use MakeGoal(), instead of Complex{}, to ensure
+    // that variables have unique ids.
+    c1 := MakeGoal(owns, john, house)  // owns(John, house)
+    c2 := MakeGoal(owns, john, house)  // owns(John, house)
+    c3 := MakeGoal(owns, john, car)    // owns(John, car)
 
     v, ok  := LogicVar("$X")
     if ok != nil { t.Error("LogicVar() - Invalid variable: $X") }
-    c4 := Complex{owns, john, v}
+    c4 := MakeGoal(owns, john, v)
 
     ss := SubstitutionSet{}
 
