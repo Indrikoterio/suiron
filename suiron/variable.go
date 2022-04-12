@@ -78,6 +78,10 @@ func (v VariableStruct) ID() int { return v.id }
 // (if this variable is not already bound). Please refer to unifiable.go.
 func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (SubstitutionSet, bool) {
 
+    if v.id == 0 {
+        return ss, false
+    }
+
     otherType := other.TermType()
     if otherType == VARIABLE {
         // A variable unifies with itself.
@@ -94,14 +98,14 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
     // if the other expression is a function, call its unify method.
     if otherType == FUNCTION { return other.Unify(v, ss) }
 
-    u, found := ss[v.String()]
+    u, found := ss[v.id]
     if found {
         return u.Unify(other, ss)
     }
 
     newSS := ss.Copy()
 
-    newSS[v.String()] = other
+    newSS[v.id] = other
     return newSS, true
 
 } // Unify
@@ -129,7 +133,7 @@ func (v VariableStruct) RecreateVariables(vars map[string]VariableStruct) Expres
 // This method is used for displaying final results.
 // Refer to comments in expression.go.
 func (v VariableStruct) ReplaceVariables(ss SubstitutionSet) Expression {
-    u, found := ss[v.String()]
+    u, found := ss[v.id]
     if found {
         // Recursive
         return u.ReplaceVariables(ss)
