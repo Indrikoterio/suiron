@@ -45,7 +45,7 @@ func TestAppend(t *testing.T) {
 
     kb := KnowledgeBase{}
     kb.Add(r1)
-    goal := head
+    goal := MakeGoal(test_append, Out)
 
     results, failure := SolveAll(goal, kb, ss)
     if failure != "" {
