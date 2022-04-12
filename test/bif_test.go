@@ -47,7 +47,7 @@ func TestBuiltInFunction(t *testing.T) {
 
     kb.Add(r1)  // Add rule to knowledgebase.
 
-    goal := Complex{test, Atom("london"), X}
+    goal := MakeGoal(test, Atom("london"), X)
     solution, failure := Solve(goal, kb, SubstitutionSet{})
 
     if len(failure) != 0 {
