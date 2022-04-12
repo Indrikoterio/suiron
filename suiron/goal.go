@@ -1,7 +1,7 @@
 package suiron
 
-// Goal - is the base interface of all goal objects. Complex terms and
-// operators such as And, Or, Unify etc. implement this interface.
+// Goal - is the base interface of all goal objects. Complex terms
+// and operators such as And and Or etc. implement this interface.
 //
 // The method GetSolver() provides a solution node.
 //
@@ -15,3 +15,43 @@ type Goal interface {
     GetSolver(kb KnowledgeBase, parentSolution SubstitutionSet,
               parentNode SolutionNode) SolutionNode
 }
+
+func MakeGoal(terms ...Unifiable) Complex {
+    newTerms := makeLogicVariablesUnique(terms...)
+    return Complex(newTerms)
+} // MakeGoal
+
+// ParseGoal - creates a goal (Complex term) from a text string.
+// Ensures that all logic variables have a unique ID.
+// Params: string representation of goal
+// Return: complex term (slice of Unifiables)
+//         error
+func ParseGoal(str string) (Complex, error) {
+    c, err := ParseComplex(str)
+    if err != nil { return c, err }
+    terms := []Unifiable(c) // get terms
+    newTerms := makeLogicVariablesUnique(terms...)
+    return Complex(newTerms), nil
+} // MakeGoal
+
+// makeLogicVariablesUnique - Long explanation.
+// A 'substitution' set keeps track of the bindings of logic variables.
+// In order to avoid the overhead of hashing, the substitution set is
+// indexed by the ID numbers of these variables. If two logic vars had
+// the same ID, this would cause the search for a solution to fail.
+// The function LogicVar() creates logic variables with a name and an
+// ID number, which is always 0. This is OK, because whenever a rule
+// is fetched from the knowledge base, it's variables are recreated,
+// by calling RecreateVariables().
+// However, goals are not fetched from the knowledge base. If a goal
+// is created, it is necessary to ensure that any logic variables it
+// contains do not have the same index of 0.
+func makeLogicVariablesUnique(terms ...Unifiable) []Unifiable {
+    newTerms := []Unifiable{}
+    vars := make(map[string]VariableStruct)
+    for _, term := range terms {
+        newTerm := term.RecreateVariables(vars).(Unifiable)
+        newTerms = append(newTerms, newTerm)
+    }
+    return newTerms
+} // makeLogicVariablesUnique
