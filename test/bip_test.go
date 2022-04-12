@@ -74,7 +74,7 @@ func TestBuiltInPredicate(t *testing.T) {
     // Show the knowledgebase.
     //DBKB(kb)
 
-    goal := Complex{bip_test, X, Y}
+    goal := MakeGoal(bip_test, X, Y)
     solution, failure := Solve(goal, kb, SubstitutionSet{})
 
     if len(failure) != 0 {
