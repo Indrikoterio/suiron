@@ -56,7 +56,7 @@ func TestReadRules(t *testing.T) {
         return
     }
 
-    goal, _ := ParseComplex("grandfather($X, Skule)")
+    goal, _ := ParseGoal("grandfather($X, Skule)")
     solution, failure := Solve(goal, kb, SubstitutionSet{})
 
     if len(failure) > 0 {
