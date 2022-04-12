@@ -19,6 +19,8 @@ func TestLinkedList(t *testing.T) {
     sales_manager := Atom("sales manager")
     scientist     := Atom("scientist")
 
+    vars := map[string]VariableStruct{}
+
     jobs1 := MakeLinkedList(false, doctor, carpenter, sales_manager)
     jobs2 := MakeLinkedList(false, scientist, jobs1)
 
@@ -169,21 +171,23 @@ func TestLinkedList(t *testing.T) {
     }
 
     jobs5 := MakeLinkedList(false, doctor, carpenter, sales_manager)
+
     _, ok = jobs1.Unify(jobs5, ss)
     if !ok {
         t.Error("Unify 2 LinkedLists. jobs1 and jobs5 should unify.")
     }
 
+    v1 = v1.RecreateVariables(vars).(VariableStruct)
     jobs6 := MakeLinkedList(true, doctor, carpenter, v1)
     newSS, _ := jobs5.Unify(jobs6, ss)
-    binding := newSS[v1.String()].String()
+    binding := newSS[v1.ID()].String()
     expected = "[sales manager]"
     if binding != expected {
         t.Error("Unify - $X should unify with " + expected)
     }
 
     newSS, _ = jobs5.Unify(v1, ss)
-    binding = newSS[v1.String()].String()
+    binding = newSS[v1.ID()].String()
     expected = "[doctor, carpenter, sales manager]"
     if binding != expected {
         t.Error("Unify - $X should unify with " + expected)
@@ -216,8 +220,10 @@ func TestLinkedList(t *testing.T) {
     kb := KnowledgeBase{}
     kb.Add(r1)
 
+    goal := MakeGoal(test_count, Out)
     ss = SubstitutionSet{}
-    solution, failure := Solve(head, kb, ss)
+
+    solution, failure := Solve(goal, kb, ss)
     if len(failure) != 0 {
         t.Error("TestLinkedList - Count - " + failure)
         return
