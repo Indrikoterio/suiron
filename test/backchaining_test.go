@@ -58,7 +58,7 @@ func TestBackChaining(t *testing.T) {
     // Register the above rules in the knowledgebase.
     kb.Add(r1, r2)
 
-    goal := Complex{ancestor, charles, Y}
+    goal := MakeGoal(ancestor, charles, Y)
 
     // Check the solutions of ancestor(Charles, $Y).
     expected := [4]string{"ancestor(Charles, Tony)",
