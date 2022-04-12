@@ -55,7 +55,7 @@ func TestAndOr(t *testing.T) {
     kb.Add(r1, r2, r3)
     //DBKB(kb)
 
-    goal, _ := ParseComplex("relative($X, Marcus)")
+    goal, _ := ParseGoal("relative($X, Marcus)")
 
     results, failure := SolveAll(goal, kb, SubstitutionSet{})
     if len(failure) != 0 {
