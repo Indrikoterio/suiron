@@ -30,6 +30,8 @@ func (ss SubstitutionSet) Copy() SubstitutionSet {
 
 // IsBound() - A logic variable is bound if there exists an entry
 // for it in the substitution set.
+// Params: logic variable
+// Return: true/false
 func (ss SubstitutionSet) IsBound(v VariableStruct) bool {
     _, found := ss[v.id]
     return found
@@ -38,6 +40,9 @@ func (ss SubstitutionSet) IsBound(v VariableStruct) bool {
 
 // GetBinding() - Returns the binding of a logic variable.
 // If there is no binding, return an error.
+// Params: logic variable
+// Return: bound term
+//         error
 func (ss SubstitutionSet) GetBinding(v VariableStruct) (Unifiable, error) {
     unifiableTerm, found := ss[v.id]
     if found { return unifiableTerm, nil }
@@ -47,6 +52,8 @@ func (ss SubstitutionSet) GetBinding(v VariableStruct) (Unifiable, error) {
 
 // IsGroundVariable - A variable is 'ground' if it is ultimately
 // bound to something other than a variable.
+// Params: logic variable
+// Return: true/false
 func (ss SubstitutionSet) IsGroundVariable(v VariableStruct) bool {
     for {
         if u, ok := ss[v.id]; ok {
