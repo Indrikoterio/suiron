@@ -36,7 +36,11 @@ func TestSolve(t *testing.T) {
     kb.Add(f1, f2, f3)
 
     x, _ := LogicVar("$X")
-    goal := Complex{hobby, tim, x}  // Goal is: hobby(Tim, $X)
+
+    // Do not use Complex{} to create a goal, because variables
+    // must have unique IDs. MakeGoal calls recreateVariables.
+    // Bad> goal := Complex{hobby, tim, x}
+    goal := MakeGoal(hobby, tim, x)  // Goal is: hobby(Tim, $X)
 
     expected := "hobby(Tim, dance)"
     actual, failure := Solve(goal, kb, ss)
@@ -52,7 +56,11 @@ func TestSolve(t *testing.T) {
     }
 
     y, _ := LogicVar("$Y")
-    goal = Complex{hobby, x, y}
+
+    // Do not use Complex{} to create a goal, because variables
+    // must have unique IDs. MakeGoal calls recreateVariables.
+    // Bad> goal := goal = Complex{hobby, x, y}
+    goal = MakeGoal(hobby, x, y)
 
     results, failure := SolveAll(goal, kb, ss)
     if len(failure) != 0 {
@@ -95,7 +103,10 @@ func TestSolve(t *testing.T) {
     r1 := Rule(c4, TooLong())
     kb.Add(r1)
 
-    _, failure = Solve(c4, kb, ss)
+    // Here it's OK to use c4 as a goal, without calling
+    // MakeGoal(), because c4 does not contain variables.
+    goal = c4
+    _, failure = Solve(goal, kb, ss)
     if len(failure) == 0 {
         t.Error("TestTimeOut - this test should time out.")
         return
@@ -110,6 +121,8 @@ func TestSolve(t *testing.T) {
     r2 := Rule(cEndless, cEndless) // Rule is: endless($X) :- endless($X).
     kb.Add(r2)
 
+    // Here it's OK to use Complex{} as a goal, without calling
+    // MakeGoal(), because the goal does not contain variables.
     goal = Complex{endless, Atom("loop")} // Goal is: endless(loop)
     _, failure = Solve(goal, kb, SubstitutionSet{})
     //fmt.Printf("----------- %v\n", failure)
@@ -117,7 +130,5 @@ func TestSolve(t *testing.T) {
         t.Error("TestTimeOut - this test should time out.")
         return
     }
-
-    //for _, s := range results { fmt.Println(s) }
 
 }  // TestSolve
