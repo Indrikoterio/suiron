@@ -20,6 +20,7 @@ import (
 type SubstitutionSet map[int]Unifiable
 
 // Copy() - Makes a copy of the substitution set.
+// Return: copy of substitution set.
 func (ss SubstitutionSet) Copy() SubstitutionSet {
     newSS := make(SubstitutionSet, 1500)
     for k, v := range ss {
