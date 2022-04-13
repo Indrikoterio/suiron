@@ -120,11 +120,12 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
 func (v VariableStruct) RecreateVariables(vars map[string]VariableStruct) Expression {
     var newVar VariableStruct
     var ok bool
-    if newVar, ok = vars[v.String()]; !ok {
+    strVar := v.String()
+    if newVar, ok = vars[strVar]; !ok {
         // Name has already been validated. No need to call LogicVar().
         variableId++
         newVar = VariableStruct{ name: v.name, id: variableId }
-        vars[v.String()] = newVar
+        vars[strVar] = newVar
     }
     return Expression(newVar)
 } // RecreateVariables()
