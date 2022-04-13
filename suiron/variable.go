@@ -115,6 +115,8 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
 // See comments in expression.go.
 // Note: This method creates variables from previously validated variables,
 // so there is no need to validate the variable name by calling LogicVar().
+// Params: map of previously recreated variables
+// Return: new variable (as Expression)
 func (v VariableStruct) RecreateVariables(vars map[string]VariableStruct) Expression {
     var newVar VariableStruct
     var ok bool
