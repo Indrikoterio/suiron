@@ -24,18 +24,20 @@ func TestComplex(t *testing.T) {
     c2 := MakeGoal(owns, john, house)  // owns(John, house)
     c3 := MakeGoal(owns, john, car)    // owns(John, car)
 
-    v, ok  := LogicVar("$X")
+    X, ok  := LogicVar("$X")
     if ok != nil { t.Error("LogicVar() - Invalid variable: $X") }
-    c4 := MakeGoal(owns, john, v)
+    c4 := MakeGoal(owns, john, X)
 
     ss := SubstitutionSet{}
 
     newSS, success := c1.Unify(c2, ss)
     if !success { t.Error("c1 should unify with c2") }
+DBG(newSS)
 
     newSS, success = c1.Unify(c3, newSS)
     if success { t.Error("c1 should not unify with c3") }
     if len(newSS) > 0 { t.Error("Should not change substitution set.") }
+DBG(newSS)
 
     newSS, success = c1.Unify(c4, newSS)
     if !success { t.Error("c1 should unify with c4") }
