@@ -35,7 +35,7 @@ func ParseGoal(str string) (Complex, error) {
 } // MakeGoal
 
 // makeLogicVariablesUnique - Long explanation.
-// A 'substitution' set keeps track of the bindings of logic variables.
+// A substitution set keeps track of the bindings of logic variables.
 // In order to avoid the overhead of hashing, the substitution set is
 // indexed by the ID numbers of these variables. If two logic vars had
 // the same ID, this would cause the search for a solution to fail.
@@ -45,7 +45,7 @@ func ParseGoal(str string) (Complex, error) {
 // by calling RecreateVariables().
 // However, goals are not fetched from the knowledge base. If a goal
 // is created, it is necessary to ensure that any logic variables it
-// contains do not have the same index of 0.
+// contains do not have an index of 0.
 func makeLogicVariablesUnique(terms ...Unifiable) []Unifiable {
     newTerms := []Unifiable{}
     vars := make(map[string]VariableStruct)
