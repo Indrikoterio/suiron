@@ -32,12 +32,10 @@ func TestComplex(t *testing.T) {
 
     newSS, success := c1.Unify(c2, ss)
     if !success { t.Error("c1 should unify with c2") }
-DBG(newSS)
 
     newSS, success = c1.Unify(c3, newSS)
     if success { t.Error("c1 should not unify with c3") }
     if len(newSS) > 0 { t.Error("Should not change substitution set.") }
-DBG(newSS)
 
     newSS, success = c1.Unify(c4, newSS)
     if !success { t.Error("c1 should unify with c4") }
