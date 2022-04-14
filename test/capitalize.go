@@ -59,8 +59,7 @@ func bifCapitalize(arguments []Unifiable, ss SubstitutionSet) (Unifiable, bool) 
 //----------------------------------------------------------------
 
 // RecreateVariables - Refer to comments in expression.go.
-func (s CapitalizeStruct) RecreateVariables(
-                               vars map[string]VariableStruct) Expression {
+func (s CapitalizeStruct) RecreateVariables(vars VarMap) Expression {
     bif := BuiltInPredicateStruct(s).RecreateVariables(vars)
     return Expression(CapitalizeStruct(*bif))
 }
