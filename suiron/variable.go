@@ -96,14 +96,17 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
     // The unify method of a function evaluates the function, so
     // if the other expression is a function, call its unify method.
     if otherType == FUNCTION { return other.Unify(v, ss) }
-
-    u, found := ss[v.id]
-    if found {
+ 
+    var u *Unifiable
+    if v.id < len(ss) && ss[v.id] != nil {
+        u = ss[v.id]
         return (*u).Unify(other, ss)
     }
 
-    newSS := make(SubstitutionSet, len(ss) + 1)
-    for k, v := range ss { newSS[k] = v }
+    length := len(ss)
+    if v.id >= length { length = v.id + 1 }
+    newSS := make(SubstitutionSet, length)
+    copy(newSS, ss)
 
     newSS[v.id] = &other
     return newSS, true
@@ -136,9 +139,9 @@ func (v VariableStruct) RecreateVariables(vars VarMap) Expression {
 // This method is used for displaying final results.
 // Refer to comments in expression.go.
 func (v VariableStruct) ReplaceVariables(ss SubstitutionSet) Expression {
-    u, found := ss[v.id]
-    if found {
-        // Recursive
+    var u *Unifiable
+    if v.id < len(ss) && ss[v.id] != nil {
+        u = ss[v.id]
         return (*u).ReplaceVariables(ss)
     } else {
         return Expression(v)

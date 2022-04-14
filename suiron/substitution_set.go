@@ -17,15 +17,16 @@ import (
     "fmt"
 )
 
-type SubstitutionSet map[int]*Unifiable
+type SubstitutionSet []*Unifiable
 
 // IsBound() - A logic variable is bound if there exists an entry
 // for it in the substitution set.
 // Params: logic variable
 // Return: true/false
 func (ss SubstitutionSet) IsBound(v VariableStruct) bool {
-    _, found := ss[v.id]
-    return found
+    if v.id >= len(ss) { return false }
+    uni := ss[v.id]
+    return uni != nil
 }
 
 
@@ -35,9 +36,14 @@ func (ss SubstitutionSet) IsBound(v VariableStruct) bool {
 // Return: bound term
 //         error
 func (ss SubstitutionSet) GetBinding(v VariableStruct) (*Unifiable, error) {
-    unifiableTerm, found := ss[v.id]
-    if found { return unifiableTerm, nil }
-    return unifiableTerm, errors.New("Not bound: " + v.String())
+    if v.id >= len(ss) {
+        return nil, errors.New("Not bound: " + v.String())
+    }
+    term := ss[v.id]
+    if term == nil {
+        return nil, errors.New("Not bound: " + v.String())
+    }
+    return term, nil
 }
 
 
@@ -47,7 +53,9 @@ func (ss SubstitutionSet) GetBinding(v VariableStruct) (*Unifiable, error) {
 // Return: true/false
 func (ss SubstitutionSet) IsGroundVariable(v VariableStruct) bool {
     for {
-        if u, ok := ss[v.id]; ok {
+        if v.id >= len(ss) { return false }
+        u := ss[v.id]
+        if u != nil {
             if (*u).TermType() != VARIABLE { return true }
             v = (*u).(VariableStruct)
         } else { return false }
@@ -65,10 +73,12 @@ func (ss SubstitutionSet) IsGroundVariable(v VariableStruct) bool {
 //         success/failure flag
 func (ss SubstitutionSet) GetGroundTerm(u Unifiable) (Unifiable, bool) {
     var u2 *Unifiable
-    var ok bool
     if u.TermType() != VARIABLE { return u, true }
     for {
-        if u2, ok = ss[(u.(VariableStruct)).id]; ok {
+        id := (u.(VariableStruct)).id
+        if id >= len(ss) { return u, false }
+        u2 = ss[id]
+        if u2 != nil {
             if (*u2).TermType() != VARIABLE { return *u2, true }
         } else { return u, false }
         u = *u2
