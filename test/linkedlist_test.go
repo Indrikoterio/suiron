@@ -180,14 +180,14 @@ func TestLinkedList(t *testing.T) {
     v1 = v1.RecreateVariables(vars).(VariableStruct)
     jobs6 := MakeLinkedList(true, doctor, carpenter, v1)
     newSS, _ := jobs5.Unify(jobs6, ss)
-    binding := newSS[v1.ID()].String()
+    binding := (*newSS[v1.ID()]).String()
     expected = "[sales manager]"
     if binding != expected {
         t.Error("Unify - $X should unify with " + expected)
     }
 
     newSS, _ = jobs5.Unify(v1, ss)
-    binding = newSS[v1.ID()].String()
+    binding = (*newSS[v1.ID()]).String()
     expected = "[doctor, carpenter, sales manager]"
     if binding != expected {
         t.Error("Unify - $X should unify with " + expected)
