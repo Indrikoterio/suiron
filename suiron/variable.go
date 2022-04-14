@@ -99,12 +99,12 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
 
     u, found := ss[v.id]
     if found {
-        return u.Unify(other, ss)
+        return (*u).Unify(other, ss)
     }
 
     newSS := ss.Copy()
 
-    newSS[v.id] = other
+    newSS[v.id] = &other
     return newSS, true
 
 } // Unify
@@ -138,7 +138,7 @@ func (v VariableStruct) ReplaceVariables(ss SubstitutionSet) Expression {
     u, found := ss[v.id]
     if found {
         // Recursive
-        return u.ReplaceVariables(ss)
+        return (*u).ReplaceVariables(ss)
     } else {
         return Expression(v)
     }
