@@ -19,7 +19,7 @@ func TestLinkedList(t *testing.T) {
     sales_manager := Atom("sales manager")
     scientist     := Atom("scientist")
 
-    vars := map[string]VariableStruct{}
+    vars := VarMap{}
 
     jobs1 := MakeLinkedList(false, doctor, carpenter, sales_manager)
     jobs2 := MakeLinkedList(false, scientist, jobs1)
