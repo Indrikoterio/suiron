@@ -9,6 +9,11 @@ package suiron
 //
 // Cleve Lendon
 
+import "unsafe"
+
+//#include <string.h>
+import "C"
+
 import (
     "strings"
     "unicode"
@@ -98,15 +103,26 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
     if otherType == FUNCTION { return other.Unify(v, ss) }
  
     var u *Unifiable
-    if v.id < len(ss) && ss[v.id] != nil {
+    lengthSrc := len(ss)
+    if v.id < lengthSrc && ss[v.id] != nil {
         u = ss[v.id]
         return (*u).Unify(other, ss)
     }
 
-    length := len(ss)
-    if v.id >= length { length = v.id + 1 }
-    newSS := make(SubstitutionSet, length)
-    copy(newSS, ss)
+    lengthDst := lengthSrc
+    if v.id >= lengthDst { lengthDst = v.id + 1 }
+    newSS := make(SubstitutionSet, lengthDst)
+
+    //copy(newSS, ss)
+    //copy(unsafe.Slice((**Unifiable)(unsafe.Pointer(&newSS[0])), lengthSrc), ss)
+
+    // As fast as possible.
+    ptrSize := (int)(unsafe.Sizeof(&ss))
+    if lengthSrc > 0 {
+        C.memcpy(unsafe.Pointer(&newSS[0]),
+                 unsafe.Pointer(&ss[0]),
+                 C.size_t(lengthSrc * ptrSize))
+    }
 
     newSS[v.id] = &other
     return newSS, true
