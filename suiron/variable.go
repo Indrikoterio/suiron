@@ -16,8 +16,8 @@ import (
 )
 
 type VariableStruct struct {
-    name   string
     id     int
+    name   string
 }
 
 // String - return this term as a string.
@@ -87,6 +87,7 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
     if v.id == 0 { return ss, false }
 
     otherType := other.TermType()
+
     if otherType == VARIABLE {
         // A variable unifies with itself.
         if v.id == other.(VariableStruct).id { return ss, true }
