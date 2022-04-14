@@ -50,8 +50,7 @@ func (ts TimeStruct) GetSolver(kb KnowledgeBase,
 //----------------------------------------------------------------
 
 // RecreateVariables - Refer to comments in expression.go.
-func (ts TimeStruct) RecreateVariables(
-                               vars map[string]VariableStruct) Expression {
+func (ts TimeStruct) RecreateVariables(vars VarMap) Expression {
     bip := BuiltInPredicateStruct(ts).RecreateVariables(vars)
     return Expression(TimeStruct(*bip))
 }

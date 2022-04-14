@@ -37,7 +37,7 @@ func (o OrOp) GetSolver(kb KnowledgeBase,
 // RecreateVariables - Operators must implement RecreateVariables(),
 // in order to satisfy the Expression and Goal interfaces.
 // Refer to comments in expression.go.
-func (o OrOp) RecreateVariables(vars map[string]VariableStruct) Expression {
+func (o OrOp) RecreateVariables(vars VarMap) Expression {
     return OrOp(RecreateVariablesForOperators(o, vars))
 }
 

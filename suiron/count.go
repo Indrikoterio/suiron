@@ -44,8 +44,7 @@ func (s CountStruct) GetSolver(kb KnowledgeBase,
 //----------------------------------------------------------------
 
 // RecreateVariables - Refer to comments in expression.go.
-func (s CountStruct) RecreateVariables(
-                               vars map[string]VariableStruct) Expression {
+func (s CountStruct) RecreateVariables(vars VarMap) Expression {
     bip := BuiltInPredicateStruct(s).RecreateVariables(vars)
     return Expression(CountStruct(*bip))
 }

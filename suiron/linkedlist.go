@@ -398,7 +398,7 @@ func (ll LinkedListStruct) GetCount() int { return ll.count }
 // which it is defined. When the algorithm tries to solve a goal, it calls
 // this method to ensure that the variables are unique.
 // See comments in expression.go.
-func (ll LinkedListStruct) RecreateVariables(vars map[string]VariableStruct) Expression {
+func (ll LinkedListStruct) RecreateVariables(vars VarMap) Expression {
     newTerms := []Unifiable{}
     thisList := &ll
     vbar  := thisList.tailVar

@@ -33,7 +33,7 @@ type BuiltInPredicateStruct struct {
 // Params: Unifiable term
 //         list of previously recreated Variables
 // Return: tew Unifiable term
-func recreateOneVar(term Unifiable, vars map[string]VariableStruct) Unifiable {
+func recreateOneVar(term Unifiable, vars VarMap) Unifiable {
     tt := term.TermType()
     if tt == VARIABLE {
         t, _ := term.(VariableStruct)  // cast it
@@ -56,7 +56,7 @@ func recreateOneVar(term Unifiable, vars map[string]VariableStruct) Unifiable {
 // Params: slice of Unifiable terms
 //         map of previously recreated Variables
 // Return: slice of new terms
-func recreateVars(terms []Unifiable, vars map[string]VariableStruct) []Unifiable {
+func recreateVars(terms []Unifiable, vars VarMap) []Unifiable {
     newTerms := []Unifiable{}
     for _, term := range terms {
         v := recreateOneVar(term, vars)
@@ -69,19 +69,11 @@ func recreateVars(terms []Unifiable, vars map[string]VariableStruct) []Unifiable
 // it is defined. When the algorithm tries to solve a goal, it calls this
 // function to ensure that the variables are unique.
 // See comments in expression.go.
-func (bips BuiltInPredicateStruct) RecreateVariables(
-                       vars map[string]VariableStruct) *BuiltInPredicateStruct {
+func (bips BuiltInPredicateStruct) RecreateVariables(vars VarMap) *BuiltInPredicateStruct {
     newArguments := recreateVars(bips.Arguments, vars)
     ptrBIP := new(BuiltInPredicateStruct)
     ptrBIP.Name = bips.Name
     ptrBIP.Arguments = newArguments
-/*
-    newBIP := BuiltInPredicateStruct{
-               Name: bips.Name,
-               Arguments: newArguments,
-           }
-    return newBIP
-*/
     return ptrBIP
 }
 

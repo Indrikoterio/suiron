@@ -34,8 +34,7 @@ func (nls NewLineStruct) GetSolver(kb KnowledgeBase,
 }
 
 // RecreateVariables - Refer to comments in expression.go.
-func (nls NewLineStruct) RecreateVariables(
-                            vars map[string]VariableStruct) Expression {
+func (nls NewLineStruct) RecreateVariables(vars VarMap) Expression {
     return nls
 }
 

@@ -73,8 +73,7 @@ func (ps PrintStruct) GetSolver(kb KnowledgeBase,
 //----------------------------------------------------------------
 
 // RecreateVariables - Refer to comments in expression.go.
-func (ps PrintStruct) RecreateVariables(
-                               vars map[string]VariableStruct) Expression {
+func (ps PrintStruct) RecreateVariables(vars VarMap) Expression {
     bip := BuiltInPredicateStruct(ps).RecreateVariables(vars)
     return Expression(PrintStruct(*bip))
 }

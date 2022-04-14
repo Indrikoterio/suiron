@@ -51,7 +51,7 @@ func (kb KnowledgeBase) GetRule(goal Goal, i int) RuleStruct {
         panic(msg)
     }
     rule := list[i]
-    rule2 := rule.RecreateVariables(make(map[string]VariableStruct))
+    rule2 := rule.RecreateVariables(make(VarMap))
     return rule2.(RuleStruct)
 }
 

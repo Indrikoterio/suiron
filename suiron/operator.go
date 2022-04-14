@@ -43,7 +43,7 @@ func (op Operator) getTailOperands() Operator {
 // RecreateVariables - The scope of a logic variable is the rule in which
 // it is defined. This method satisfies the Expression and Goal interfaces.
 // Refer to comments in expression.go.
-func RecreateVariablesForOperators(op []Goal, vars map[string]VariableStruct) []Goal {
+func RecreateVariablesForOperators(op []Goal, vars VarMap) []Goal {
     newGoals := []Goal{}
     for i := 0; i < len(op); i++ {
         goal := op[i]

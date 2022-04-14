@@ -71,8 +71,7 @@ func (s UnifyStruct) GetSolver(kb KnowledgeBase,
 //----------------------------------------------------------------
 
 // RecreateVariables - Refer to comments in expression.go.
-func (us UnifyStruct) RecreateVariables(
-                               vars map[string]VariableStruct) Expression {
+func (us UnifyStruct) RecreateVariables(vars VarMap) Expression {
     bip := BuiltInPredicateStruct(us).RecreateVariables(vars)
     return Expression(UnifyStruct(*bip))
 }

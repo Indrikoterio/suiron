@@ -48,7 +48,7 @@ func ParseGoal(str string) (Complex, error) {
 // contains do not have an index of 0.
 func makeLogicVariablesUnique(terms ...Unifiable) []Unifiable {
     newTerms := []Unifiable{}
-    vars := make(map[string]VariableStruct)
+    vars := make(VarMap)
     for _, term := range terms {
         newTerm := term.RecreateVariables(vars).(Unifiable)
         newTerms = append(newTerms, newTerm)

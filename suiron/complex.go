@@ -171,7 +171,7 @@ func (c Complex) GetSolver(kb KnowledgeBase,
 // a logic variable is the rule or goal in which it is defined. When the
 // algorithm tries to solve a goal, it calls this method to ensure that the
 // variables are unique. See comments in expression.go.
-func (c Complex) RecreateVariables(vars map[string]VariableStruct) Expression {
+func (c Complex) RecreateVariables(vars VarMap) Expression {
     newTerms := []Unifiable{}
     for i := 0; i < len(c); i++ {
         term := []Unifiable(c)[i]

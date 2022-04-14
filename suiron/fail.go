@@ -30,7 +30,7 @@ func (f FailOp) GetSolver(kb KnowledgeBase,
 
 // RecreateVariables
 // Refer to comments in expression.go.
-func (c FailOp) RecreateVariables(vars map[string]VariableStruct) Expression {
+func (c FailOp) RecreateVariables(vars VarMap) Expression {
     return c
 }
 

@@ -11,6 +11,10 @@ package suiron
 //
 // Cleve Lendon
 
+// VarMap defines a map which is used for RecreateVariables,
+// to keep track of previously recreated variables.
+type VarMap map[string]VariableStruct
+
 type Expression interface {
 
     // RecreateVariables - creates unique variables every time the
@@ -36,7 +40,7 @@ type Expression interface {
     // fetched, the variable $X might become '$X_22'. The second
     // time it might become '$X_23'.
     //
-    RecreateVariables(newVars map[string]VariableStruct) Expression
+    RecreateVariables(newVars VarMap) Expression
 
     // ReplaceVariables() is called after a solution has been found.
     // It replaces logic variables with the constants which they are

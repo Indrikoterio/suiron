@@ -33,7 +33,7 @@ func (a AndOp) GetSolver(kb KnowledgeBase,
 // RecreateVariables - Operators must implement RecreateVariables(),
 // in order to satisfy the Expression and Goal interfaces.
 // Refer to comments in expression.go.
-func (a AndOp) RecreateVariables(vars map[string]VariableStruct) Expression {
+func (a AndOp) RecreateVariables(vars VarMap) Expression {
     return AndOp(RecreateVariablesForOperators(a, vars))
 }
 

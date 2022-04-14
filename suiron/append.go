@@ -51,8 +51,7 @@ func (as AppendStruct) GetSolver(kb KnowledgeBase,
 //----------------------------------------------------------------
 
 // RecreateVariables - Refer to comments in expression.go.
-func (as AppendStruct) RecreateVariables(
-                               vars map[string]VariableStruct) Expression {
+func (as AppendStruct) RecreateVariables(vars VarMap) Expression {
     bip := BuiltInPredicateStruct(as).RecreateVariables(vars)
     return Expression(AppendStruct(*bip))
 }

@@ -118,7 +118,7 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
 // so there is no need to validate the variable name by calling LogicVar().
 // Params: map of previously recreated variables
 // Return: new variable (as Expression)
-func (v VariableStruct) RecreateVariables(vars map[string]VariableStruct) Expression {
+func (v VariableStruct) RecreateVariables(vars VarMap) Expression {
     var newVar VariableStruct
     var ok bool
     strVar := v.String()
