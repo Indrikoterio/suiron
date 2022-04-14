@@ -39,7 +39,7 @@ func TestComplex(t *testing.T) {
 
     newSS, success = c1.Unify(c4, newSS)
     if !success { t.Error("c1 should unify with c4") }
-    if len(newSS) != 1 { t.Error("Substitution set should contain one substitution.") }
+    if len(newSS) != 2 { t.Error("Substitution set should contain one substitution.") }
 
     str := c3.String()
     if str != "owns(John, car)" {
