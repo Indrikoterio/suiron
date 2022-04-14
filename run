@@ -1,4 +1,5 @@
 clear
+export GODEBUG=cgocheck=0
 cd test
 echo ""
 echo "--------Run tests.--------"
