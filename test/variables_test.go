@@ -13,7 +13,7 @@ import (
 func TestVariables(t *testing.T) {
 
     // vars - Keeps track of previously recreated variables.
-    vars := make(map[string]VariableStruct)
+    vars := VarMap{}
 
     fmt.Println("TestVariables")
     W, _ := LogicVar("$W")
