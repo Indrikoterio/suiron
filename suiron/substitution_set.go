@@ -17,7 +17,7 @@ import (
     "fmt"
 )
 
-type SubstitutionSet map[int]Unifiable
+type SubstitutionSet map[int]*Unifiable
 
 // Copy() - Makes a copy of the substitution set.
 // Return: copy of substitution set.
@@ -44,7 +44,7 @@ func (ss SubstitutionSet) IsBound(v VariableStruct) bool {
 // Params: logic variable
 // Return: bound term
 //         error
-func (ss SubstitutionSet) GetBinding(v VariableStruct) (Unifiable, error) {
+func (ss SubstitutionSet) GetBinding(v VariableStruct) (*Unifiable, error) {
     unifiableTerm, found := ss[v.id]
     if found { return unifiableTerm, nil }
     return unifiableTerm, errors.New("Not bound: " + v.String())
@@ -58,8 +58,8 @@ func (ss SubstitutionSet) GetBinding(v VariableStruct) (Unifiable, error) {
 func (ss SubstitutionSet) IsGroundVariable(v VariableStruct) bool {
     for {
         if u, ok := ss[v.id]; ok {
-            if u.TermType() != VARIABLE { return true }
-            v = u.(VariableStruct)
+            if (*u).TermType() != VARIABLE { return true }
+            v = (*u).(VariableStruct)
         } else { return false }
     }
     return false
@@ -74,16 +74,16 @@ func (ss SubstitutionSet) IsGroundVariable(v VariableStruct) bool {
 // Return: ground term
 //         success/failure flag
 func (ss SubstitutionSet) GetGroundTerm(u Unifiable) (Unifiable, bool) {
-    var u2 Unifiable
+    var u2 *Unifiable
     var ok bool
     if u.TermType() != VARIABLE { return u, true }
     for {
         if u2, ok = ss[(u.(VariableStruct)).id]; ok {
-            if u2.TermType() != VARIABLE { return u2, true }
+            if (*u2).TermType() != VARIABLE { return *u2, true }
         } else { return u, false }
-        u = u2
+        u = *u2
     }
-    return u2, false
+    return *u2, false
 } // GetGroundTerm
 
 
@@ -96,7 +96,7 @@ func (ss SubstitutionSet) String() string {
     keyValues := map[int]string{}
     for k := range ss {
         keys = append(keys, k)
-        keyValues[k] = ss[k].String()
+        keyValues[k] = (*ss[k]).String()
     }
     sort.Ints(keys)
     for _, k := range keys {
