@@ -19,16 +19,6 @@ import (
 
 type SubstitutionSet map[int]*Unifiable
 
-// Copy() - Makes a copy of the substitution set.
-// Return: copy of substitution set.
-func (ss SubstitutionSet) Copy() SubstitutionSet {
-    newSS := make(SubstitutionSet, len(ss))
-    for k, v := range ss {
-        newSS[k] = v
-    }
-    return newSS
-}
-
 // IsBound() - A logic variable is bound if there exists an entry
 // for it in the substitution set.
 // Params: logic variable

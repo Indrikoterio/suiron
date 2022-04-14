@@ -102,7 +102,8 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
         return (*u).Unify(other, ss)
     }
 
-    newSS := ss.Copy()
+    newSS := make(SubstitutionSet, len(ss))
+    for k, v := range ss { newSS[k] = v }
 
     newSS[v.id] = &other
     return newSS, true
