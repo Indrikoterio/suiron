@@ -27,7 +27,7 @@ func main() {
     err = LoadKBFromFile(kb, "qsort.txt")
     if err != nil { fmt.Println(err.Error()) }
 
-    goal, _ := ParseComplex("measure")
+    goal, _ := ParseGoal("measure")
 
     solution, _ := Solve(goal, kb, SubstitutionSet{})
     fmt.Println(solution)
