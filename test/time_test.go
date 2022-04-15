@@ -23,7 +23,7 @@ func TestTime(t *testing.T) {
         return
     }
 
-    goal, _ := ParseComplex("measure")
+    goal, _ := ParseGoal("measure")
 
     _, failure := Solve(goal, kb, SubstitutionSet{})
     if len(failure) > 0 {
