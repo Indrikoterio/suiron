@@ -17,8 +17,16 @@ type Goal interface {
 }
 
 func MakeGoal(terms ...Unifiable) Complex {
+
+    // The main bottleneck in Suiron is the time it takes
+    // to copy the substitution set. The substitution set
+    // is as large as the highest variable ID. Therefore
+    // variableId should be set to 0 for every query.
+    variableId = 0
+
     newTerms := makeLogicVariablesUnique(terms...)
     return Complex(newTerms)
+
 } // MakeGoal
 
 // ParseGoal - creates a goal (Complex term) from a text string.
@@ -27,6 +35,13 @@ func MakeGoal(terms ...Unifiable) Complex {
 // Return: complex term (slice of Unifiables)
 //         error
 func ParseGoal(str string) (Complex, error) {
+
+    // The main bottleneck in Suiron is the time it takes
+    // to copy the substitution set. The substitution set
+    // is as large as the highest variable ID. Therefore
+    // variableId should be set to 0 for every query.
+    variableId = 0
+
     c, err := ParseComplex(str)
     if err != nil { return c, err }
     terms := []Unifiable(c) // get terms
