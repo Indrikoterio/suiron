@@ -67,7 +67,6 @@ func TestJoin(t *testing.T) {
 
     X, _ := LogicVar("$X")
     goal := MakeGoal(would_you_like, X)
-    Solve(goal, kb, ss)
 
     results, failure := Solve(goal, kb, ss)
     if failure != "" {
