@@ -38,6 +38,7 @@ func LogicVar(str string) (VariableStruct, error) {
         err := makeVariableError("variable must start with $ and letter", name)
         return VariableStruct{ name: name, id: 0 }, err
     }
+
     first  := r[0]
     second := r[1]
     if first != '$' {
@@ -48,6 +49,7 @@ func LogicVar(str string) (VariableStruct, error) {
         err := makeVariableError("second character must be a letter", name)
         return VariableStruct{ name: name, id: 0 }, err
     }
+
     return VariableStruct{ name: name, id: 0 }, nil
 }
 
