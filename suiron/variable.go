@@ -63,16 +63,6 @@ func makeVariableError(msg string, str string) error {
     return fmt.Errorf("LogicVar() - %v: >%v<\n", msg, str)
 }
 
-// CopyVar - creates a copy of the given VariableStruct.
-// The new variable has the same name as the copied variable,
-// but the ID is different.
-// There is no need to check validity, because the original
-// has already been validated.
-func CopyVar(v VariableStruct) VariableStruct {
-    variableId += 1
-    return VariableStruct{ name: v.name, id: variableId }
-}
-
 // TermType - Returns an integer constant which identifies the type.
 func (v VariableStruct) TermType() int { return VARIABLE }
 
@@ -104,6 +94,7 @@ func (v VariableStruct) Unify(other Unifiable, ss SubstitutionSet) (Substitution
  
     var u *Unifiable
     lengthSrc := len(ss)
+
     if v.id < lengthSrc && ss[v.id] != nil {
         u = ss[v.id]
         return (*u).Unify(other, ss)
