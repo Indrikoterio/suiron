@@ -18,13 +18,14 @@ func TestComplex(t *testing.T) {
     house := Atom("house")
     car := Atom("car")
 
+    X, ok  := LogicVar("$X")
+
     // Use MakeGoal(), instead of Complex{}, to ensure
     // that variables have unique ids.
     c1 := MakeGoal(owns, john, house)  // owns(John, house)
     c2 := MakeGoal(owns, john, house)  // owns(John, house)
     c3 := MakeGoal(owns, john, car)    // owns(John, car)
 
-    X, ok  := LogicVar("$X")
     if ok != nil { t.Error("LogicVar() - Invalid variable: $X") }
     c4 := MakeGoal(owns, john, X)
 
@@ -37,9 +38,15 @@ func TestComplex(t *testing.T) {
     if success { t.Error("c1 should not unify with c3") }
     if len(newSS) > 0 { t.Error("Should not change substitution set.") }
 
-    newSS, success = c1.Unify(c4, newSS)
+    newSS, success = c1.Unify(c4, ss)
     if !success { t.Error("c1 should unify with c4") }
-    if len(newSS) != 2 { t.Error("Substitution set should contain one substitution.") }
+
+    // X should be bound to house.
+    newX := c4.GetTerm(2).(VariableStruct)
+    unifiable, _ := newSS.GetBinding(newX)
+    if (*unifiable).String() != "house" {
+        t.Error("X should be bound to 'house'.")
+    }
 
     str := c3.String()
     if str != "owns(John, car)" {
