@@ -49,7 +49,7 @@ func TestFail(t *testing.T) {
     r2 := Rule(head, body2)
     kb.Add(r2)
 
-    goal := Complex{test}
+    goal := MakeGoal(test)
     _, failure := SolveAll(goal, kb, ss)
     if failure == "" {
         t.Error("TestFail - " + failure)
