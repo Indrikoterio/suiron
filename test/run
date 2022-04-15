@@ -1,1 +1,2 @@
+export GODEBUG=cgocheck=0
 go test
