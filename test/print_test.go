@@ -42,7 +42,7 @@ func TestPrint(t *testing.T) {
 
     kb.Add(r1)
 
-    goal := Complex{print_test}
+    goal := MakeGoal(print_test)
     Solve(goal, kb, ss)
 
     fmt.Println("TestPrint 2:")
@@ -58,7 +58,7 @@ func TestPrint(t *testing.T) {
     r2 := Rule(c5, c6)
     kb.Add(r2)
 
-    goal = Complex{print_test2}
+    goal = MakeGoal(print_test2)
     Solve(goal, kb, ss)
 
 } // TestPrint
