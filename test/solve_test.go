@@ -35,12 +35,13 @@ func TestSolve(t *testing.T) {
 
     kb.Add(f1, f2, f3)
 
-    x, _ := LogicVar("$X")
+    X, _ := LogicVar("$X")
 
     // Do not use Complex{} to create a goal, because variables
-    // must have unique IDs. MakeGoal calls recreateVariables.
-    // Bad> goal := Complex{hobby, tim, x}
-    goal := MakeGoal(hobby, tim, x)  // Goal is: hobby(Tim, $X)
+    // must have unique IDs. MakeGoal() ensures that variables
+    // are assigned unique IDs.
+    // Don't do it> goal := Complex{hobby, tim, x}
+    goal := MakeGoal(hobby, tim, X)  // Goal is: hobby(Tim, $X)
 
     expected := "hobby(Tim, dance)"
     actual, failure := Solve(goal, kb, ss)
@@ -55,12 +56,13 @@ func TestSolve(t *testing.T) {
                 "\n                 Was: " + s)
     }
 
-    y, _ := LogicVar("$Y")
+    Y, _ := LogicVar("$Y")
 
     // Do not use Complex{} to create a goal, because variables
-    // must have unique IDs. MakeGoal calls recreateVariables.
-    // Bad> goal := goal = Complex{hobby, x, y}
-    goal = MakeGoal(hobby, x, y)
+    // must have unique IDs. MakeGoal() ensures that variables
+    // are assigned unique IDs.
+    // Don't do it> goal := goal = Complex{hobby, X, Y}
+    goal = MakeGoal(hobby, X, Y)
 
     results, failure := SolveAll(goal, kb, ss)
     if len(failure) != 0 {
@@ -103,9 +105,10 @@ func TestSolve(t *testing.T) {
     r1 := Rule(c4, TooLong())
     kb.Add(r1)
 
-    // Here it's OK to use c4 as a goal, without calling
-    // MakeGoal(), because c4 does not contain variables.
-    goal = c4
+    // Even though c4 does not contain variables, it's better to
+    // create a goal with MakeGoal(), because MakeGoal() sets the
+    // variableId to 0.
+    goal = MakeGoal(Atom("Time out test."))
     _, failure = Solve(goal, kb, ss)
     if len(failure) == 0 {
         t.Error("TestTimeOut - this test should time out.")
@@ -117,13 +120,11 @@ func TestSolve(t *testing.T) {
     // endless($X) := endless($X)
 
     endless := Atom("endless")
-    cEndless := Complex{endless, x}  // Term is:  endless($X)
+    cEndless := Complex{endless, X}  // Term is:  endless($X)
     r2 := Rule(cEndless, cEndless) // Rule is: endless($X) :- endless($X).
     kb.Add(r2)
 
-    // Here it's OK to use Complex{} as a goal, without calling
-    // MakeGoal(), because the goal does not contain variables.
-    goal = Complex{endless, Atom("loop")} // Goal is: endless(loop)
+    goal = MakeGoal(endless, Atom("loop")) // Goal is: endless(loop)
     _, failure = Solve(goal, kb, SubstitutionSet{})
     //fmt.Printf("----------- %v\n", failure)
     if len(failure) == 0 {
