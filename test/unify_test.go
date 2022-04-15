@@ -86,7 +86,7 @@ func TestUnify(t *testing.T) {
     fmt.Println("TestUnify 2")  //-------------
 
     /*
-        unify_goal($X, $Y, $Z) :- lawyer = lawyer,
+        unify_test($X, $Y, $Z) :- lawyer = lawyer,
                                   job(programmer, $Z) = job($Y, janitor),
                                   $W = $X, job($W).
     */
@@ -108,20 +108,20 @@ func TestUnify(t *testing.T) {
     u2, _ := ParseUnify("job(programmer, $Z) = job($Y, janitor)")
     u3, _ := ParseUnify("$W = $X")
 
-    head, _ = ParseComplex("unify_goal($X, $Y, $Z)")
+    head, _ = ParseComplex("unify_test($X, $Y, $Z)")
     c, _ := ParseComplex("job($W)")
     body3 := And(u1, u2, u3, c)
     r1 = Rule(head, body3)
     kb.Add(r1)
 
-    goal, _ = ParseGoal("unify_goal($X, $Y, $Z)")
+    goal, _ = ParseGoal("unify_test($X, $Y, $Z)")
     solutions, failure := SolveAll(goal, kb, SubstitutionSet{})
 
-    // Expected solutions of unify_goal($X, $Y, $Z).
-    expected2 := [4]string{"unify_goal(lawyer, programmer, janitor)",
-                           "unify_goal(teacher, programmer, janitor)",
-                           "unify_goal(programmer, programmer, janitor)",
-                           "unify_goal(janitor, programmer, janitor)"}
+    // Expected solutions of unify_test($X, $Y, $Z).
+    expected2 := [4]string{"unify_test(lawyer, programmer, janitor)",
+                           "unify_test(teacher, programmer, janitor)",
+                           "unify_test(programmer, programmer, janitor)",
+                           "unify_test(janitor, programmer, janitor)"}
 
     if len(solutions) != 4 {
         t.Error("TestUnify - Parse - Expecting 4 solutions.")
@@ -143,19 +143,19 @@ func TestUnify(t *testing.T) {
     fmt.Println("TestUnify 3")   //-------------
 
     /*
-      second_goal($Y) :- $X = up, $Y = down, $X = $Y.
+      second_test($Y) :- $X = up, $Y = down, $X = $Y.
       This goal must fail.
      */
 
-    u1, _ = ParseUnify("X = up")
-    u2, _ = ParseUnify("Y = down")
-    u3, _ = ParseUnify("X = Y")
-    head, _ = ParseComplex("second_goal($Y)")
+    u1, _ = ParseUnify("$X = up")
+    u2, _ = ParseUnify("$Y = down")
+    u3, _ = ParseUnify("$X = $Y")
+    head, _ = ParseComplex("second_test($Y)")
     body4 := And(u1, u2, u3)
     r2 = Rule(head, body4)
     kb.Add(r2)
 
-    goal = head
+    goal, _ = ParseGoal("second_test($Y)")
     _, failure = SolveAll(goal, kb, SubstitutionSet{})
 
     if failure != "No" {
