@@ -48,7 +48,6 @@ func specialIndexOf(runestring []rune, find []rune) int {
     return -1
 } // specialIndexOf
 
-
 // foundAtIndex - returns true if the runes in 'match' are
 // found within the runestring at the given index.
 // Params: runestring
@@ -63,6 +62,63 @@ func foundAtIndex(runestring []rune, index int, match []rune) bool {
     }
     return true
 } // foundAtIndex
+
+// identifyInfix - Used for parsing. Determines whether the given
+// string contains an infix. If it does, returns the type and the
+// index.
+//    $X < 6
+// ...contains the LESS_THAN infix, index 3.
+//
+// Params: string to parse
+// Return: identifier (int)
+//         index
+//
+func identifyInfix(runestring []rune) (int, int) {
+
+    length := len(runestring)
+
+    for i := 0; i < length; i++ {
+        c1 := runestring[i]
+        if c1 == '"' {
+            for j := i + 1; j < length; j++ {
+                c2 := runestring[j]
+                if c2 == '"' {
+                    i = j
+                    break
+                }
+            }
+        } else if c1 == '(' {
+            for j := i + 1; j < length; j++ {
+                c2 := runestring[j]
+                if c2 == ')' {
+                    i = j
+                    break
+                }
+            }
+        } else {
+            // Can't be last character.
+            if i == (length - 1) { break }
+            if c1 == '<' {
+                c2 := runestring[i+1]
+                if c2 == '=' { return LESS_THAN_OR_EQUAL, i }
+                return LESS_THAN, i
+            }
+            if c1 == '>' {
+                c2 := runestring[i+1]
+                if c2 == '=' { return GREATER_THAN_OR_EQUAL, i }
+                return GREATER_THAN, i
+            }
+            if c1 == '=' {
+                c2 := runestring[i+1]
+                if c2 == '=' { return EQUAL, i }
+                return UNIFY, i
+            }
+        }
+    } // for
+
+    return NONE, -1  // failed to find infix
+
+} // identifyInfix
 
 
 // splitComplexTerm - splits a string representation of a complex
@@ -180,13 +236,35 @@ func ParseSubgoal(subgoal string) (Goal, error) {
     }
 
     //--------------------------------------
-    // Handle infixes: = > <  >= <=
+    // Handle infixes: = > < >= <= == =
 
-    pred1, ok := ParseLessThanOrEqual(s)
-    if ok { return pred1, nil }
-
-    pred2, ok := ParseUnify(s)
-    if ok { return pred2, nil}
+    infix, index := identifyInfix(r)
+    if infix != NONE {
+        if infix == UNIFY {
+            return pUnify(r, index), nil
+        }
+        if infix == LESS_THAN {
+            p, _ := ParseLessThan(s)
+            return p, nil
+        }
+        if infix == LESS_THAN_OR_EQUAL {
+            p, _ := ParseLessThanOrEqual(s)
+            return p, nil
+        }
+        if infix == GREATER_THAN {
+            p, _ := ParseGreaterThan(s)
+            return p, nil
+        }
+        if infix == GREATER_THAN_OR_EQUAL {
+            p, _ := ParseGreaterThanOrEqual(s)
+            return p, nil
+        }
+        if infix == EQUAL {
+            p, _ := ParseEqual(s)
+            return p, nil
+        }
+        panic("identifyInfix() - Missing an infix?")
+    }
 
     // Check for parentheses.
     leftIndex, rightIndex, err := indicesOfParentheses(r)
