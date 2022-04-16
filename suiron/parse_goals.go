@@ -10,59 +10,6 @@ import (
     "fmt"
 )
 
-// specialIndexOf - searches for a string of runes within
-// a larger string of runes, and returns the index if found,
-// but not if the runes are found between quotes or parentheses.
-// For example, if the source string has:
-//    print("Is x > 7?")
-// ...then searching for '>' should return -1.
-//
-// Params: larger string of runes
-//         runes to find
-// Return: index if found, or -1
-//
-func specialIndexOf(runestring []rune, find []rune) int {
-    length := len(runestring)
-    for i := 0; i < length; i++ {
-        c1 := runestring[i]
-        if c1 == '"' {
-            for j := i + 1; j < length; j++ {
-                c2 := runestring[j]
-                if c2 == '"' {
-                    i = j
-                    break
-                }
-            }
-        } else if c1 == '(' {
-            for j := i + 1; j < length; j++ {
-                c2 := runestring[j]
-                if c2 == ')' {
-                    i = j
-                    break
-                }
-            }
-        } else {
-            if foundAtIndex(runestring, i, find) { return i }
-        }
-    } // for
-    return -1
-} // specialIndexOf
-
-// foundAtIndex - returns true if the runes in 'match' are
-// found within the runestring at the given index.
-// Params: runestring
-//         index into runestring
-//         runes to match
-// Return: true or false
-func foundAtIndex(runestring []rune, index int, match []rune) bool {
-    length := len(match)
-    if index + length > len(runestring) { return false }
-    for i := 0; i < length; i++ {
-        if runestring[index + i] != match[i] { return false }
-    }
-    return true
-} // foundAtIndex
-
 // identifyInfix - Used for parsing. Determines whether the given
 // string contains an infix. If it does, returns the type and the
 // index.
