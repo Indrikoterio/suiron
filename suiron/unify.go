@@ -47,15 +47,24 @@ func ParseUnify(str string) (UnifyStruct, bool) {
     runes := []rune(str)
     index := specialIndexOf(runes, []rune{'='})
     if index == -1 { return UnifyStruct{}, false }  // Not a Unify.
+    return pUnify(runes, index), true
+}
+
+// pUnify - This function supports ParseUnify. It splits a representation
+// of the unify operator ($X = verb) into two arguments. If the arguments
+// cannot be parsed, the function throws a panic.
+// Params: runestring
+//         index of infix (=)
+// Return: unify predicate
+func pUnify(runes []rune, index int) UnifyStruct {
     arg1 := runes[0: index]
     arg2 := runes[index + 1:]
     term1, err := parseTerm(string(arg1))
     if err != nil { panic(err.Error()) }
     term2, err := parseTerm(string(arg2))
     if err != nil { panic(err.Error()) }
-    return Unify(term1, term2), true
+    return Unify(term1, term2)
 }
-
 
 // GetSolver - gets a solution node for this predicate.
 // This function satisfies the Goal interface.
