@@ -12,30 +12,6 @@ package suiron
 
 import "fmt"
 
-// parseComparison - is used to parse a comparison strings,
-// for example, "$X <= 18". The function returns two terms,
-// and a boolean flag to indicate whether the parse succeeded
-// or failed. It is up to the calling function to create the
-// comparison predicate.
-// Params: string representation, eg.: $X <= 18
-//         operator, eg.: <=
-// Return:
-//     comparison predicate
-//     success/failure flag
-func parseComparison(str string, operator string) (Unifiable, Unifiable, bool) {
-    runes := []rune(str)
-    op    := []rune(operator)
-    index := specialIndexOf(runes, op)
-    if index == -1 { return nil, nil, false }
-    arg1 := runes[0: index]
-    arg2 := runes[index + 2:]
-    term1, err := parseTerm(string(arg1))
-    if err != nil { panic(err.Error()) }
-    term2, err := parseTerm(string(arg2))
-    if err != nil { panic(err.Error()) }
-    return term1, term2, true
-} // parseComparison
-
 const errNotGround = "Cannot compare. Variable %v is not grounded."
 const errNotNumber = "Cannot compare. Not a number: %v"
 
