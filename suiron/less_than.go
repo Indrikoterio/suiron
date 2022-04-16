@@ -43,11 +43,12 @@ func LessThan(arguments ...Unifiable) LessThanStruct {
 //     less-than predicate
 //     success/failure flag
 func ParseLessThan(str string) (LessThanStruct, bool) {
-    term1, term2, ok := parseComparison(str, "<")
-    if !ok { return LessThanStruct{}, false }
+    runes := []rune(str)
+    infix, index := identifyInfix(runes)
+    if infix != LESS_THAN { return LessThanStruct{}, false }
+    term1, term2 := separateTwoTerms(runes, index, 2)
     return LessThan(term1, term2), true
 } // ParseLessThan
-
 
 // GetSolver - gets a solution node for this predicate.
 // This function satisfies the Goal interface.
