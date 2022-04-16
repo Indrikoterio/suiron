@@ -43,8 +43,10 @@ func GreaterThan(arguments ...Unifiable) GreaterThanStruct {
 //     greater-than predicate
 //     success/failure flag
 func ParseGreaterThan(str string) (GreaterThanStruct, bool) {
-    term1, term2, ok := parseComparison(str, ">")
-    if !ok { return GreaterThanStruct{}, false }
+    runes := []rune(str)
+    infix, index := identifyInfix(runes)
+    if infix != GREATER_THAN { return GreaterThanStruct{}, false }
+    term1, term2 := separateTwoTerms(runes, index, 2)
     return GreaterThan(term1, term2), true
 } // ParseGreaterThan
 
