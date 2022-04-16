@@ -12,22 +12,15 @@ package suiron
 //
 // If either side of the comparison is ungrounded, the goal will fail.
 //
-// If one of the numbers is an Integer and the other is a Float,
-// the Integer will be converted to a Float for the comparison.
+// If one of the numbers is an Integer and the other is a Float, the
+// Integer will be converted to a Float for the comparison.
 // (It remains an Integer.)
 //
 // Cleve Lendon
 
-import (
-    //"time"
-    "fmt"
-)
-
 type LessThanOrEqualStruct BuiltInPredicateStruct
 
-const lteRequire2  = "LessThanOrEqual - requires 2 numeric arguments."
-const lteNotGround = "LessThanOrEqual - variable %v is not grounded."
-const lteNotNumber = "LessThanOrEqual - not a number: %v"
+const lteRequire2 = "LessThanOrEqual - requires 2 numeric arguments."
 
 // LessThanOrEqual - creates a comparison predicate, LessThanOrEqualStruct,
 // which holds the predicate's name and arguments. LessThanOrEqual requires
@@ -52,17 +45,10 @@ func LessThanOrEqual(arguments ...Unifiable) LessThanOrEqualStruct {
 //     less-than-or-equal predicate
 //     success/failure flag
 func ParseLessThanOrEqual(str string) (LessThanOrEqualStruct, bool) {
-    runes := []rune(str)
-    index := specialIndexOf(runes, []rune{'<', '='})
-    if index == -1 { return LessThanOrEqualStruct{}, false }  // Not Less Than or Equal.
-    arg1 := runes[0: index]
-    arg2 := runes[index + 2:]
-    term1, err := parseTerm(string(arg1))
-    if err != nil { panic(err.Error()) }
-    term2, err := parseTerm(string(arg2))
-    if err != nil { panic(err.Error()) }
+    term1, term2, ok := parseComparison(str, "<=")
+    if !ok { return LessThanOrEqualStruct{}, false }
     return LessThanOrEqual(term1, term2), true
-}
+} // ParseLessThanOrEqual
 
 
 // GetSolver - gets a solution node for this predicate.
@@ -90,12 +76,11 @@ func (lte LessThanOrEqualStruct) ReplaceVariables(ss SubstitutionSet) Expression
 }  // ReplaceVariables
 
 
-// String - creates a string representation.
-// Returns:  "arg1 = arg2"
+// String - creates a string representation of this comparison.
+// For example: $X <= 8.
+// Returns: string representation
 func (lte LessThanOrEqualStruct) String() string {
-    term1 := lte.Arguments[0].String()
-    term2 := lte.Arguments[1].String()
-    return term1 + " <= " + term2
+    return comparisonString(lte.Arguments, " <= ")
 }
 
 //----------------------------------------------------------------
@@ -143,60 +128,15 @@ func (sn *LessThanOrEqualSolutionNodeStruct) NextSolution() (SubstitutionSet, bo
     sn.moreSolutions = false  // Only one solution.
 
     goal  := sn.Goal.(LessThanOrEqualStruct)
-    term1 := goal.Arguments[0]
-    term2 := goal.Arguments[1]
+    term1, type1, term2, type2 := getTermsToCompare(goal.Arguments, sn.ParentSolution)
 
-    ground1, ok := sn.ParentSolution.GetGroundTerm(term1)
-    if !ok {
-        msg := fmt.Sprintf(lteNotGround, term1)
-        panic(msg)
-    }
-
-    ground2, ok := sn.ParentSolution.GetGroundTerm(term2)
-    if !ok {
-        msg := fmt.Sprintf(lteNotGround, term2)
-        panic(msg)
-    }
-
-    termType1 := ground1.TermType()
-    termType2 := ground2.TermType()
-
-    if termType1 != FLOAT && termType1 != INTEGER {
-        msg := fmt.Sprintf(lteNotNumber, ground1)
-        panic(msg)
-    }
-
-    if termType2 != FLOAT && termType2 != INTEGER {
-        msg := fmt.Sprintf(lteNotNumber, ground2)
-        panic(msg)
-    }
-
-    if termType1 == INTEGER && termType2 == INTEGER {
-        number1 := ground1.(Integer)
-        number2 := ground2.(Integer)
+    if type1 == INTEGER && type2 == INTEGER {
+        number1 := term1.(Integer)
+        number2 := term2.(Integer)
         if number1 <= number2 { return sn.ParentSolution, true }
-        return sn.ParentSolution, false
-    }
-
-    if termType1 == FLOAT && termType2 == FLOAT {
-        number1 := ground1.(Float)
-        number2 := ground2.(Float)
+    } else {
+        number1, number2 := twoFloats(term1, type1, term2, type2)
         if number1 <= number2 { return sn.ParentSolution, true }
-        return sn.ParentSolution, false
-    }
-
-    if termType1 == FLOAT && termType2 == INTEGER {
-        number1 := float64(ground1.(Float))
-        number2 := float64(ground2.(Integer))
-        if number1 <= number2 { return sn.ParentSolution, true }
-        return sn.ParentSolution, false
-    }
-
-    if termType1 == INTEGER && termType2 == FLOAT {
-        number1 := float64(ground1.(Integer))
-        number2 := float64(ground2.(Float))
-        if number1 <= number2 { return sn.ParentSolution, true }
-        return sn.ParentSolution, false
     }
 
     return sn.ParentSolution, false
