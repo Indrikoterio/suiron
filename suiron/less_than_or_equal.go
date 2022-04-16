@@ -43,8 +43,10 @@ func LessThanOrEqual(arguments ...Unifiable) LessThanOrEqualStruct {
 //     less-than-or-equal predicate
 //     success/failure flag
 func ParseLessThanOrEqual(str string) (LessThanOrEqualStruct, bool) {
-    term1, term2, ok := parseComparison(str, "<=")
-    if !ok { return LessThanOrEqualStruct{}, false }
+    runes := []rune(str)
+    infix, index := identifyInfix(runes)
+    if infix != LESS_THAN_OR_EQUAL { return LessThanOrEqualStruct{}, false }
+    term1, term2 := separateTwoTerms(runes, index, 2)
     return LessThanOrEqual(term1, term2), true
 } // ParseLessThanOrEqual
 
