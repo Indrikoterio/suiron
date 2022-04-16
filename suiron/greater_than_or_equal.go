@@ -43,8 +43,10 @@ func GreaterThanOrEqual(arguments ...Unifiable) GreaterThanOrEqualStruct {
 //     greater-than-or-equal predicate
 //     success/failure flag
 func ParseGreaterThanOrEqual(str string) (GreaterThanOrEqualStruct, bool) {
-    term1, term2, ok := parseComparison(str, ">=")
-    if !ok { return GreaterThanOrEqualStruct{}, false }
+    runes := []rune(str)
+    infix, index := identifyInfix(runes)
+    if infix != GREATER_THAN_OR_EQUAL { return GreaterThanOrEqualStruct{}, false }
+    term1, term2 := separateTwoTerms(runes, index, 2)
     return GreaterThanOrEqual(term1, term2), true
 } // ParseGreaterThanOrEqual
 
