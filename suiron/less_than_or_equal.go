@@ -20,8 +20,6 @@ package suiron
 
 type LessThanOrEqualStruct BuiltInPredicateStruct
 
-const lteRequire2 = "LessThanOrEqual - requires 2 numeric arguments."
-
 // LessThanOrEqual - creates a comparison predicate, LessThanOrEqualStruct,
 // which holds the predicate's name and arguments. LessThanOrEqual requires
 // 2 arguments, which can be Integers or Floats.
