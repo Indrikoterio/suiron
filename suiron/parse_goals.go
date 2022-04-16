@@ -120,6 +120,23 @@ func identifyInfix(runestring []rune) (int, int) {
 
 } // identifyInfix
 
+// separateTwoTerms - This function is used to parse built-in predicates,
+// which are represented with an infix, such as "$X = verb" or "$X <= 47".
+// It separates the two terms. If there is an error in parsing a term,
+// the function throws a panic.
+// Params: string to parse (runes)
+//         index of infix
+//         size of infix
+// Return: term1, term2
+func separateTwoTerms(runes []rune, index int, size int) (Unifiable, Unifiable) {
+   arg1 := runes[0: index]
+   arg2 := runes[index + size:]
+   term1, err := parseTerm(string(arg1))
+   if err != nil { panic(err.Error()) }
+   term2, err := parseTerm(string(arg2))
+   if err != nil { panic(err.Error()) }
+   return term1, term2
+} // separateTwoTerms
 
 // splitComplexTerm - splits a string representation of a complex
 // term into its functor and terms. For example, if the complex
@@ -241,27 +258,28 @@ func ParseSubgoal(subgoal string) (Goal, error) {
     infix, index := identifyInfix(r)
     if infix != NONE {
         if infix == UNIFY {
-            return pUnify(r, index), nil
+            term1, term2 := separateTwoTerms(r, index, 1)
+            return Unify(term1, term2), nil
         }
         if infix == LESS_THAN {
-            p, _ := ParseLessThan(s)
-            return p, nil
+            term1, term2 := separateTwoTerms(r, index, 2)
+            return LessThan(term1, term2), nil
         }
         if infix == LESS_THAN_OR_EQUAL {
-            p, _ := ParseLessThanOrEqual(s)
-            return p, nil
+            term1, term2 := separateTwoTerms(r, index, 2)
+            return LessThanOrEqual(term1, term2), nil
         }
         if infix == GREATER_THAN {
-            p, _ := ParseGreaterThan(s)
-            return p, nil
+            term1, term2 := separateTwoTerms(r, index, 2)
+            return GreaterThan(term1, term2), nil
         }
         if infix == GREATER_THAN_OR_EQUAL {
-            p, _ := ParseGreaterThanOrEqual(s)
-            return p, nil
+            term1, term2 := separateTwoTerms(r, index, 2)
+            return GreaterThanOrEqual(term1, term2), nil
         }
         if infix == EQUAL {
-            p, _ := ParseEqual(s)
-            return p, nil
+            term1, term2 := separateTwoTerms(r, index, 2)
+            return Equal(term1, term2), nil
         }
         panic("identifyInfix() - Missing an infix?")
     }
