@@ -136,7 +136,6 @@ func TestComparison(t *testing.T) {
 
     for i, r := range solutions {
         s := r.GetTerm(1).String()
-        fmt.Printf("xxxxxxxxx %v\n", s)
         if s != expected[i] {
             t.Error("\nTestComparison - expected: " + expected[i] +
                     "\n                      Was: " + s)
