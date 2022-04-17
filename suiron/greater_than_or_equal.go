@@ -130,6 +130,13 @@ func (sn *GreaterThanOrEqualSolutionNodeStruct) NextSolution() (SubstitutionSet,
     goal  := sn.Goal.(GreaterThanOrEqualStruct)
     term1, type1, term2, type2 := getTermsToCompare(goal.Arguments, sn.ParentSolution)
 
+    if type1 == ATOM || type2 == ATOM {
+        result := compareAtoms(term1, type1, term2, type2)
+        // If greater than or equal.
+        if result != -1 { return sn.ParentSolution, true }
+        return sn.ParentSolution, false
+    }
+
     if type1 == INTEGER && type2 == INTEGER {
         number1 := term1.(Integer)
         number2 := term2.(Integer)
