@@ -47,7 +47,7 @@ func ParseUnify(str string) (UnifyStruct, bool) {
     runes := []rune(str)
     infix, index := identifyInfix(runes)
     if infix != UNIFY { return UnifyStruct{}, false }  // Not a Unify.
-    term1, term2 := separateTwoTerms(runes, index, 1)
+    term1, term2 := getLeftAndRight(runes, index, 1)
     return Unify(term1, term2), true
 }
 

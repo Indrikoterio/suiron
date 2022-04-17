@@ -45,7 +45,7 @@ func ParseEqual(str string) (EqualStruct, bool) {
     runes := []rune(str)
     infix, index := identifyInfix(runes)
     if infix != EQUAL { return EqualStruct{}, false }
-    term1, term2 := separateTwoTerms(runes, index, 2)
+    term1, term2 := getLeftAndRight(runes, index, 2)
     return Equal(term1, term2), true
 } // ParseEqual
 

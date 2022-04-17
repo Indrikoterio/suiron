@@ -46,7 +46,7 @@ func ParseLessThan(str string) (LessThanStruct, bool) {
     runes := []rune(str)
     infix, index := identifyInfix(runes)
     if infix != LESS_THAN { return LessThanStruct{}, false }
-    term1, term2 := separateTwoTerms(runes, index, 2)
+    term1, term2 := getLeftAndRight(runes, index, 2)
     return LessThan(term1, term2), true
 } // ParseLessThan
 

@@ -46,7 +46,7 @@ func ParseGreaterThanOrEqual(str string) (GreaterThanOrEqualStruct, bool) {
     runes := []rune(str)
     infix, index := identifyInfix(runes)
     if infix != GREATER_THAN_OR_EQUAL { return GreaterThanOrEqualStruct{}, false }
-    term1, term2 := separateTwoTerms(runes, index, 2)
+    term1, term2 := getLeftAndRight(runes, index, 2)
     return GreaterThanOrEqual(term1, term2), true
 } // ParseGreaterThanOrEqual
 

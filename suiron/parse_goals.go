@@ -1,7 +1,13 @@
 package suiron
 
-// parsegoals
+// parse_goals
 //
+// This file contains functions which are used to parse goals:
+//
+//    identifyInfix(runestring []rune) (int, int)
+//    getLeftAndRight(runes []rune, index int, size int) (Unifiable, Unifiable)
+//    splitComplexTerm(comp []rune, index1 int, index2 int) (string, string)
+//    ParseSubgoal(subgoal string) (Goal, error)
 //
 // Cleve Lendon
 
@@ -10,13 +16,12 @@ import (
     "fmt"
 )
 
-// identifyInfix - Used for parsing. Determines whether the given
-// string contains an infix. If it does, returns the type and the
-// index.
+// identifyInfix - Determines whether the given string contains an infix.
+// If it does, returns the type and the index. For example,
 //    $X < 6
 // ...contains the LESS_THAN infix, index 3.
 //
-// Params: string to parse
+// Params: string to parse (runes)
 // Return: identifier (int)
 //         index
 //
@@ -67,7 +72,7 @@ func identifyInfix(runestring []rune) (int, int) {
 
 } // identifyInfix
 
-// separateTwoTerms - This function is used to parse built-in predicates,
+// getLeftAndRight - This function is used to parse built-in predicates,
 // which are represented with an infix, such as "$X = verb" or "$X <= 47".
 // It separates the two terms. If there is an error in parsing a term,
 // the function throws a panic.
@@ -75,7 +80,7 @@ func identifyInfix(runestring []rune) (int, int) {
 //         index of infix
 //         size of infix
 // Return: term1, term2
-func separateTwoTerms(runes []rune, index int, size int) (Unifiable, Unifiable) {
+func getLeftAndRight(runes []rune, index int, size int) (Unifiable, Unifiable) {
    arg1 := runes[0: index]
    arg2 := runes[index + size:]
    term1, err := parseTerm(string(arg1))
@@ -83,11 +88,10 @@ func separateTwoTerms(runes []rune, index int, size int) (Unifiable, Unifiable) 
    term2, err := parseTerm(string(arg2))
    if err != nil { panic(err.Error()) }
    return term1, term2
-} // separateTwoTerms
+} // getLeftAndRight
 
-// splitComplexTerm - splits a string representation of a complex
-// term into its functor and terms. For example, if the complex
-// term is:
+// splitComplexTerm - splits a string representation (runes) of a complex
+// term into its functor and terms. For example, if the complex term is:
 //
 //    "father(Philip, Alize)"
 //
@@ -154,12 +158,10 @@ func indicesOfParentheses(chars []rune) (int, int, error) {
 
 // ParseSubgoal
 //
-// This function accepts a string which represents a subgoal, and
-// creates its corresponding Goal object. It parses complex terms,
-// the Unify operator (=), the Cut (!), and others.
+// This function parses all subgoals. It returns a goal object, and an error.
 //
-// The Not and Time operators are dealt with first, because they
-// enclose subgoals. Eg.
+// The Not and Time operators are dealt with first, because they enclose subgoals.
+// Eg.
 //
 //    not($X = $Y)
 //    time(qsort)
@@ -205,27 +207,27 @@ func ParseSubgoal(subgoal string) (Goal, error) {
     infix, index := identifyInfix(r)
     if infix != NONE {
         if infix == UNIFY {
-            term1, term2 := separateTwoTerms(r, index, 1)
+            term1, term2 := getLeftAndRight(r, index, 1)
             return Unify(term1, term2), nil
         }
         if infix == LESS_THAN {
-            term1, term2 := separateTwoTerms(r, index, 2)
+            term1, term2 := getLeftAndRight(r, index, 2)
             return LessThan(term1, term2), nil
         }
         if infix == LESS_THAN_OR_EQUAL {
-            term1, term2 := separateTwoTerms(r, index, 2)
+            term1, term2 := getLeftAndRight(r, index, 2)
             return LessThanOrEqual(term1, term2), nil
         }
         if infix == GREATER_THAN {
-            term1, term2 := separateTwoTerms(r, index, 2)
+            term1, term2 := getLeftAndRight(r, index, 2)
             return GreaterThan(term1, term2), nil
         }
         if infix == GREATER_THAN_OR_EQUAL {
-            term1, term2 := separateTwoTerms(r, index, 2)
+            term1, term2 := getLeftAndRight(r, index, 2)
             return GreaterThanOrEqual(term1, term2), nil
         }
         if infix == EQUAL {
-            term1, term2 := separateTwoTerms(r, index, 2)
+            term1, term2 := getLeftAndRight(r, index, 2)
             return Equal(term1, term2), nil
         }
         panic("identifyInfix() - Missing an infix?")
