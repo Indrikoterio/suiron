@@ -256,6 +256,7 @@ func groupAndTokens(token TokenStruct) TokenStruct {
             andList = []TokenStruct{}
         } else if theType == GROUP {
             t := groupAndTokens(token)
+            t  = groupOrTokens(token)
             andList = append(andList, t)
         }
 
@@ -289,14 +290,12 @@ func groupOrTokens(token TokenStruct) TokenStruct {
 
         theType := token.theType
 
-        if theType == SUBGOAL || theType == AND {
+        if theType == SUBGOAL || theType == AND || theType == GROUP {
             orList = append(orList, token)
         } else if theType == SEMICOLON {
             // Nothing to do.
-        } else if theType == GROUP {
-            t := groupOrTokens(token)
-            orList = append(orList, t)
         }
+
     } // for
 
     size := len(orList)
