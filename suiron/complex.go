@@ -103,7 +103,7 @@ func parseFunctorTerms(functor string, terms string) (Complex, error) {
 // msg - error message
 // str - string which caused the error
 func complexError(msg string, str string) error {
-    return fmt.Errorf("ParseComplex - %v: >%v<\n", msg, str)
+    return fmt.Errorf("ParseComplex - %v: >%v<", msg, str)
 }
 
 // Arity - Returns the arity of a complex term.
