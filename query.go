@@ -86,15 +86,20 @@ func main() {
             fmt.Println(err.Error())
             continue
         }
-        results, failure := SolveAll(goal, kb, SubstitutionSet{})
-        if len(failure) != 0 {
-            fmt.Println(failure)
-        } else {
-           for _, result := range results {
-               fmt.Print(result)
-               _, _ = reader.ReadString('\n')
-           }
-           fmt.Println("No")
+
+        // Get the root solution node.
+        root := goal.GetSolver(kb, SubstitutionSet{}, nil)
+
+        for {
+            solution, found := root.NextSolution()
+            if !found {
+                fmt.Println("No")
+                break
+            }
+            // Replace variables with their bound constants.
+            result := FormatSolution(goal, solution)
+            fmt.Print(result)
+            _, _ = reader.ReadString('\n')
         }
     } // for
 
