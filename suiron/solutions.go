@@ -7,6 +7,7 @@ package suiron
 // Cleve Lendon
 
 import (
+    "strings"
     "fmt"
 )
 
@@ -135,3 +136,29 @@ func SolveAll(goal Complex, kb KnowledgeBase, ss SubstitutionSet) (solutions []C
     return solutions, failure
 
 }  // SolveAll
+
+// FormatSolution - formats a string to display the variable bindings
+// of a solution. For example, if the query were: grandfather(Godwin, $X),
+// then the function would return: $X = Harold
+// Params:
+//    query
+//    bindings (substitution set)
+// Return:
+//    solution in string format
+func FormatSolution(query Complex, bindings SubstitutionSet) string {
+    if bindings != nil {
+        var sb strings.Builder
+        result := query.ReplaceVariables(bindings).(Complex)
+        for n, term := range query {
+            tt := term.TermType()
+            if tt == VARIABLE {
+                v := term.(VariableStruct)
+                if n > 1 { sb.WriteString(", ") }
+                s := fmt.Sprintf("%v = %v", v.name, result[n])
+                sb.WriteString(s)
+            }
+        }
+        return sb.String()
+    }
+    return "No"
+} // FormatSolution
