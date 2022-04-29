@@ -149,13 +149,15 @@ func FormatSolution(query Complex, bindings SubstitutionSet) string {
     if bindings != nil {
         var sb strings.Builder
         result := query.ReplaceVariables(bindings).(Complex)
+        first := true  // first variable
         for n, term := range query {
             tt := term.TermType()
             if tt == VARIABLE {
                 v := term.(VariableStruct)
-                if n > 1 { sb.WriteString(", ") }
+                if !first { sb.WriteString(", ") }
                 s := fmt.Sprintf("%v = %v", v.name, result[n])
                 sb.WriteString(s)
+                first = false
             }
         }
         return sb.String()
