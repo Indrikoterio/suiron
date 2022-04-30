@@ -1,17 +1,17 @@
 # Suiron - A Golang Inference Engine.
 
-Suiron is an inference engine written in Go. The rule syntax is very similar to Prolog, but there are some differences.
+Suiron is an inference engine written in Go. The rule declaration syntax is very similar to Prolog, but there are some differences.
 
-This brief README does not present detailed explanation of how inference engines work, so a basic understanding of Prolog is required.
+This brief README does not present a detailed explanation of how inference engines work, so a basic understanding of Prolog is required. Documentation will be expanded in time.
 
 ## Briefly
 
 Suiron analyzes facts and rules which are recorded in a knowledge base. These facts and rules can be loaded from a text file, or created dynamically within a Go application program.
 
-In the code sample below, the fact 'mother(June, Theodore).', meaning 'June is the mother of Theodore', is defined in a Go source program, by calling the function ParseComplex().
+In the code sample below, the fact 'mother(June, Theodore).', meaning 'June is the mother of Theodore', is defined in a Go source program by calling the function ParseComplex().
 
 ```
-    term := ParseComplex("mother(June, Theodore).")
+    fact := ParseComplex("mother(June, Theodore).")
 ```
 
 In a text-format file, the above fact would be written:
@@ -20,40 +20,59 @@ In a text-format file, the above fact would be written:
 mother(June, Theodore).
 ```
 
-In Prolog, words which begin with a lower case letter (eg. mother) are atoms, and words which begin with an upper case letter are variables. In Suiron, atoms can be upper case or lower case. Thus 'June' and 'Theodore' are atoms. Suiron's atoms are implemented as strings. They can even contain spaces.
+Please refer to [suiron/complex.go](suiron/complex.go).
+
+In Prolog, words which begin with a lower case letter (eg. mother) are atoms, and words which begin with an upper case letter are variables. In Suiron, atoms can be upper case or lower case. Thus 'June' and 'Theodore' are atoms. Suiron's atoms are implemented as string constants. They can even contain spaces.
 
 ```
 mother(June, The Beaver).
 ```
 
-In addition to atoms, Suiron supports integers and floating point numbers, which are implemented as int64 and float64.
+Suiron also supports integer and floating point numbers, which are implemented as int64 and float64. They are parsed by Go's strconv package:
+
+```
+    f, err := strconv.ParseFloat(str, 64)
+    i, err := strconv.ParseInt(str, 10, 64)
+```
+
+Please refer to [suiron/constants.go](suiron/constants.go).
 
 Suiron's variables are defined by putting a dollar sign in front of the variable name, for example, $Child. In the Go code sample below, 'child' is a logic variable.
 
 ```
-mother   := Atom("parent")
+mother   := Atom("mother")
 June     := Atom("June")
 child, _ := LogicVar("$Child")
 goal     := MakeGoal(mother, June, child)
 ```
 
-LogicVar() returns two values, the logic variable and a parsing error, if there is an error. In a source file of facts and rules, the goal above would be written:
+Please refer to [suiron/variable.go](suiron/variable.go) and [suiron/goal.go](suiron/goal.go).
+
+LogicVar() returns two values, a Suiron logic variable and a parsing error, if there is an error. In a source file of facts and rules, the goal above would be written:
 
 ```
 mother(June, $Child).
 ```
 
-The <i>anonymous variable</i> must also begin with a dollar sign: $\_ . A simple underscore '\_' is treated as an atom. Example of anonymous variable:
+The <i>anonymous variable</i> must also begin with a dollar sign: $\_ . A simple underscore '\_' is treated as an atom. Below is an example a rule which contains an anonymous variable:
 
 ```
 voter($P) :- $P = person($_, $Age), $Age >= 18.
 ```
 
-Of course, Suiron supports lists, which work the same way as Prolog lists:
+Of course, Suiron supports linked lists, which work the same way as Prolog lists. A linked list can be defined dynamically:
 
 ```
-... $In = [$H | $T], ...
+    list := MakeLinkedList(true, a, b, c, Tail)
 ```
+
+or loaded from a text file:
+
+```
+   ..., list = [a, b, c | $Tail], ...
+```
+
+Please refer to [suiron/linkedlist.go](suiron/variable.go).
 
 ## Requirements
 
@@ -79,10 +98,9 @@ The repository has three folders:
 
 The code for the inference engine itself is in the subfolder /suiron.
 
-The test subfolder contains Go programs which test the basic functionality of Suiron. In a terminal window, enter ./run to run all the tests.
+The subfolder /test contains Go programs which test the basic functionality of Suiron.
 
-The subfolder demo contains a simple demo program which parses English sentences. It can also
-be run by entering ./run in a terminal window.
+The subfolder /demo contains a simple demo program which parses English sentences.
 
 ## Usage
 
