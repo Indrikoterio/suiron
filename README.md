@@ -1,4 +1,4 @@
-# Suiron - A Golang Inference Engine.
+# Suiron - A Golang Inference Engine
 
 Suiron is an inference engine written in Go. The rule declaration syntax is very similar to Prolog, but there are some differences.
 
@@ -20,7 +20,7 @@ In a text-format file, the above fact would be written:
 mother(June, Theodore).
 ```
 
-Please refer to [suiron/complex.go](suiron/complex.go).
+Please refer to [complex.go](suiron/complex.go).
 
 In Prolog, words which begin with a lower case letter (eg. mother) are atoms, and words which begin with an upper case letter are variables. In Suiron, atoms can be upper case or lower case. Thus 'June' and 'Theodore' are atoms. Suiron's atoms are implemented as string constants. They can even contain spaces.
 
@@ -35,9 +35,11 @@ Suiron also supports integer and floating point numbers, which are implemented a
     i, err := strconv.ParseInt(str, 10, 64)
 ```
 
-Please refer to [suiron/constants.go](suiron/constants.go).
+If a Float and an Integer are compared, the Integer will be converted to a Float for the comparison.
 
-Suiron's variables are defined by putting a dollar sign in front of the variable name, for example, $Child. In the Go code sample below, 'child' is a logic variable.
+Please refer to [constants.go](suiron/constants.go).
+
+Suiron's variables are defined by putting a dollar sign in front of the variable name, for example, $Child. In the Go code sample below, 'child' is a variable. (That is, a Suiron logic variable, not a Go variable.)
 
 ```
 mother   := Atom("mother")
@@ -46,15 +48,15 @@ child, _ := LogicVar("$Child")
 goal     := MakeGoal(mother, June, child)
 ```
 
-Please refer to [suiron/variable.go](suiron/variable.go) and [suiron/goal.go](suiron/goal.go).
+Please refer to [variable.go](suiron/variable.go) and [goal.go](suiron/goal.go).
 
-LogicVar() returns two values, a Suiron logic variable and a parsing error, if there is an error. In a source file of facts and rules, the goal above would be written:
+LogicVar() returns two values, a Suiron variable and a parsing error, if there is an error. In a source file of facts and rules, the goal above would be written:
 
 ```
 mother(June, $Child).
 ```
 
-The <i>anonymous variable</i> must also begin with a dollar sign: $\_ . A simple underscore '\_' is treated as an atom. Below is an example a rule which contains an anonymous variable:
+The [anonymous](suiron/anonymous.go) variable must also begin with a dollar sign: $\_ . A simple underscore '\_' is treated as an atom. Below is an example a rule which contains an anonymous variable:
 
 ```
 voter($P) :- $P = person($_, $Age), $Age >= 18.
@@ -72,7 +74,7 @@ or loaded from a text file:
    ..., list = [a, b, c | $Tail], ...
 ```
 
-Please refer to [suiron/linkedlist.go](suiron/variable.go).
+Please refer to [linkedlist.go](suiron/linkedlist.go).
 
 ## Requirements
 
@@ -104,7 +106,7 @@ The subfolder /demo contains a simple demo program which parses English sentence
 
 ## Usage
 
-In the top folder is a program called query.go, which loads facts and rules from a file, and allows the user to query the knowledge base. Query can be run in a terminal window as follows:
+In the top folder is a program called [query.go](query.go), which loads facts and rules from a file, and allows the user to query the knowledge base. Query can be run in a terminal window as follows:
 
 ```
 go run query.go test/kings.txt
@@ -128,7 +130,7 @@ import (
 
 in your source file.
 
-The program [demo/parse_demo.go](demo/parse_demo.go) demonstrates how to set up a knowledge base and make queries. If you intend to incorporate Suiron into your own project, this is a good reference. There are detailed comments in the header.
+The program [parse_demo.go](demo/parse_demo.go) demonstrates how to set up a knowledge base and make queries. If you intend to incorporate Suiron into your own project, this is a good reference. There are detailed comments in the header.
 
 To run parse_demo, move to the demo folder and execute the batch file 'run'.
 
@@ -158,7 +160,7 @@ To run the tests, open a terminal window, go to the test folder, and execute 'ru
  ./run
 ```
 
-If you need write your own built-in predicates and functions (in Go), refer to [test/hyphenate.go](test/hyphenate.go) and [test/capitalize.go](test/capitalize.go) to see how this is done.
+If you need write your own built-in predicates and functions (in Go), refer to [hyphenate.go](test/hyphenate.go) and [capitalize.go](test/capitalize.go) to see how this is done.
 
 ## Developer
 
