@@ -96,7 +96,6 @@ func main() {
                 fmt.Println("No")
                 break
             }
-            // Replace variables with their bound constants.
             result := FormatSolution(goal, solution)
             fmt.Print(result)
             _, _ = reader.ReadString('\n')
