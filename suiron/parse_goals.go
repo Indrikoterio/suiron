@@ -265,6 +265,12 @@ func ParseSubgoal(subgoal string) (Goal, error) {
         return Time(goal), nil
     }
 
+    if strFunctor == "functor" {
+        args, err := parseArguments(strArgs)
+        if err != nil { return nil, err }
+        return Functor(args...), nil
+    }
+
     // Create a complex term.
     return parseFunctorTerms(strFunctor, strArgs)
 
