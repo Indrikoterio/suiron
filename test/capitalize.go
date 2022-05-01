@@ -8,7 +8,7 @@ package main
 // to an Atom, and capitalizes it. (tokyo becomes Tokyo.)
 //
 // Note: Unlike a predicate, which returns a substitution
-// set, a function returns a Uunifiable term. Therefore,
+// set, a function returns a unifiable term. Therefore,
 // it must be used with unification. Eg.
 //
 //    ..., $CapName = capitalize($Name),...
