@@ -110,20 +110,25 @@ func complexError(msg string, str string) error {
 // address(Tokyo, Shinjuku, Takadanobaba) has an arity of 3.
 func (c Complex) Arity() int { return len(c) - 1 }
 
-// Key - Creates a key (functor/arity).
+// Key - Creates a key (functor/arity) for indexing the knowledge base.
 // Eg. loves(Chandler, Monica) --> loves/2
+// Return:  key as string
 func (c Complex) Key() string {
     return fmt.Sprintf("%v/%d", c[0].(Unifiable), len(c) - 1)
 }
 
 // GetFunctor - The functor is the first term: [functor, term1, term2, term3]
+// Return: functor as Atom
 func (c Complex) GetFunctor() Atom { return c[0].(Atom) }
 
 // GetTerm - Returns the indexed term. Term 0 is the functor.
 // No error checking.
+// Params: index
+// Return: term as unifiable
 func (c Complex) GetTerm(index int) Unifiable { return c[index].(Unifiable) }
 
 // TermType - Returns an integer constant which identifies the type.
+// Return: COMPLEX
 func (c Complex) TermType() int { return COMPLEX }
 
 // Unify - Unifies this complex term with another unifiable expression.
