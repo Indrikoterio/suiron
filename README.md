@@ -160,7 +160,9 @@ To run the tests, open a terminal window, go to the test folder, and execute 'ru
  ./run
 ```
 
-If you need write your own built-in predicates and functions (in Go), refer to [hyphenate.go](test/hyphenate.go) and [capitalize.go](test/capitalize.go) to see how this is done.
+Suiron allows you to write your own built-in predicates and functions. The files [bip_template.go](suiron/bip_template.go) and [bif_template.go](suiron/bif_template.go) can be used as templates. Please read the comments in the headers of these files.
+
+The files [hyphenate.go](test/hyphenate.go) and [capitalize.go](test/capitalize.go) in the test directory can also be used for reference.
 
 ## Developer
 
