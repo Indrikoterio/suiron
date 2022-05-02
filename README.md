@@ -6,29 +6,57 @@ This brief README does not present a detailed explanation of how inference engin
 
 ## Briefly
 
-Suiron analyzes facts and rules which are recorded in a knowledge base. These facts and rules can be loaded from a text file, or created dynamically within a Go application program.
+An inference engines analyzes facts and rules which are stored in a knowledge base. Suiron has a parser which loads these facts and rules from a text-format source file.
 
-In the code sample below, the fact 'mother(June, Theodore).', meaning 'June is the mother of Theodore', is defined in a Go source program by calling the function ParseComplex().
-
-```
-    fact := ParseComplex("mother(June, Theodore).")
-```
-
-In a text-format file, the above fact would be written:
+Below is an example of a fact, which means "June is the mother of Theodore":
 
 ```
 mother(June, Theodore).
 ```
 
-Please refer to [complex.go](suiron/complex.go).
-
-In Prolog, words which begin with a lower case letter (eg. mother) are atoms, and words which begin with an upper case letter are variables. In Suiron, atoms can be upper case or lower case. Thus 'June' and 'Theodore' are atoms. Suiron's atoms are implemented as string constants. They can even contain spaces.
+Here we see the main difference between Suiron and Prolog. In Prolog, lower case words are 'atoms' (that is, string constants) and upper case words are variables. In Suiron, atoms can be lower case or upper case. Thus 'mother', 'June' and 'Theodore' are all atoms. Suiron's atoms can even contain spaces.
 
 ```
 mother(June, The Beaver).
 ```
 
-Suiron also supports integer and floating point numbers, which are implemented as int64 and float64. They are parsed by Go's strconv package:
+Suiron's variables are defined by putting a dollar sign in front of the variable name, for example, $Child. A query to determine June's children would be written:
+
+```
+mother(June, $Child).
+```
+
+Please refer to [variable.go](suiron/variable.go).
+
+The [anonymous](suiron/anonymous.go) variable must also begin with a dollar sign: $\_ . A simple underscore '\_' is treated as an atom. Below is an example a rule which contains an anonymous variable:
+
+```
+voter($P) :- $P = person($_, $Age), $Age >= 18.
+```
+
+<hr><br>
+
+Facts and rules can also be created dynamically within a Go application program. The fact
+mother(June, Theodore) could be created by calling the function ParseComplex().
+
+```
+    fact := ParseComplex("mother(June, Theodore).")
+```
+
+Please refer to [complex.go](suiron/complex.go).
+
+The query mother(June, $Child) could be created in Go as follows:
+
+```
+mother   := Atom("mother")
+June     := Atom("June")
+child, _ := LogicVar("$Child")
+query    := MakeGoal(mother, June, child)
+```
+
+Please refer to [variable.go](suiron/variable.go) and [goal.go](suiron/goal.go) for more details.
+
+Suiron also supports integer and floating point numbers, which are implemented as int64 and float64. These are parsed by Go's strconv package:
 
 ```
     f, err := strconv.ParseFloat(str, 64)
@@ -39,39 +67,17 @@ If a Float and an Integer are compared, the Integer will be converted to a Float
 
 Please refer to [constants.go](suiron/constants.go).
 
-Suiron's variables are defined by putting a dollar sign in front of the variable name, for example, $Child. In the Go code sample below, 'child' is a variable. (That is, a Suiron logic variable, not a Go variable.)
+Of course, Suiron supports linked lists, which work the same way as Prolog lists. A linked list can be loaded from a file:
 
 ```
-mother   := Atom("mother")
-June     := Atom("June")
-child, _ := LogicVar("$Child")
-goal     := MakeGoal(mother, June, child)
+   ..., [a, b, c, d] = [$Head | $Tail], ...
 ```
 
-Please refer to [variable.go](suiron/variable.go) and [goal.go](suiron/goal.go).
-
-LogicVar() returns two values, a Suiron variable and a parsing error, if there is an error. In a source file of facts and rules, the goal above would be written:
+or created dynamically:
 
 ```
-mother(June, $Child).
-```
-
-The [anonymous](suiron/anonymous.go) variable must also begin with a dollar sign: $\_ . A simple underscore '\_' is treated as an atom. Below is an example a rule which contains an anonymous variable:
-
-```
-voter($P) :- $P = person($_, $Age), $Age >= 18.
-```
-
-Of course, Suiron supports linked lists, which work the same way as Prolog lists. A linked list can be defined dynamically:
-
-```
-    list := MakeLinkedList(true, a, b, c, Tail)
-```
-
-or loaded from a text file:
-
-```
-   ..., list = [a, b, c | $Tail], ...
+    X := ParseLinkedList("[a, b, c, d]")
+    Y := MakeLinkedList(true, $Head, $Tail)
 ```
 
 Please refer to [linkedlist.go](suiron/linkedlist.go).
