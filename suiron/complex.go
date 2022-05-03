@@ -68,7 +68,9 @@ func ParseComplex(str string) (Complex, error) {
     if err != nil { return Complex{}, err }
 
     if left == -1 { // If left is -1, right must also be -1.
-        return parseFunctorTerms(s, "")
+        // Complex term without arguments.
+        f := Atom(s)
+        return Complex{f}, nil
     }
 
     functor := strings.TrimSpace(s[0: left])
