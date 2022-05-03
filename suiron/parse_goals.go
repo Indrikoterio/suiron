@@ -189,7 +189,6 @@ func ParseSubgoal(subgoal string) (Goal, error) {
 //                s2 := s[4: length - 1]
 //                return Not(subgoal(s2))
             }
-            // If the string starts with time(
         }
     } // if length > 5
 
@@ -247,31 +246,24 @@ func ParseSubgoal(subgoal string) (Goal, error) {
 
     // Check for built-in predicates.
 
-    if strFunctor == "append" {
-        args, err := parseArguments(strArgs)
-        if err != nil { return nil, err }
-        return Append(args...), nil
-    }
-
-    if strFunctor == "print" {
-        args, err := parseArguments(strArgs)
-        if err != nil { return nil, err }
-        return Print(args...), nil
-    }
-
     if strFunctor == "time" {
         goal, err := ParseComplex(strArgs)
         if err != nil { return goal, err }
         return Time(goal), nil
     }
 
-    if strFunctor == "functor" {
-        args, err := parseArguments(strArgs)
-        if err != nil { return nil, err }
-        return Functor(args...), nil
-    }
+    args, err := parseArguments(strArgs)
+    if err != nil { return nil, err }
+
+    if strFunctor == "append"  { return Append(args...), nil }
+    if strFunctor == "print"   { return Print(args...), nil }
+    if strFunctor == "functor" { return Functor(args...), nil }
+    if strFunctor == "include" { return Include(args...), nil }
+    if strFunctor == "exclude" { return Exclude(args...), nil }
 
     // Create a complex term.
-    return parseFunctorTerms(strFunctor, strArgs)
+    f := Atom(strFunctor)
+    unifiables := append([]Unifiable{f}, args...)
+    return Complex(unifiables), nil
 
 } // ParseSubgoal
