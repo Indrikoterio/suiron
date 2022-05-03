@@ -145,7 +145,7 @@ To run parse_demo, move to the demo folder and execute the batch file 'run'.
  ./run
 ```
 
-Suiron doesn't have a lot of built-in predicates, but it does have: [append.go](suiron/append.go), [functor.go](suiron/functor.go), [print.go](suiron/print.go), [new_line.go](suiron/new_line.go), include, exclude, greater_than (etc.)
+Suiron doesn't have a lot of built-in predicates, but it does have: [append.go](suiron/append.go), [functor.go](suiron/functor.go), [print.go](suiron/print.go), [new_line.go](suiron/new_line.go), [include.go](suiron/include.go), [exclude.go](suiron/exclude.go), greater_than (etc.)
 
 
 ...and some arithmetic functions:
