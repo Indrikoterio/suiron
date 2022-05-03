@@ -59,11 +59,11 @@ func Functor(arguments ...Unifiable) FunctorStruct {
 }
 
 // GetSolver - gets solution node for Functor predicate.
-func (as FunctorStruct) GetSolver(kb KnowledgeBase,
+func (fs FunctorStruct) GetSolver(kb KnowledgeBase,
                                   parentSolution SubstitutionSet,
                                   parentNode SolutionNode) SolutionNode {
 
-    return makeFunctorSolutionNode(as, kb, parentSolution, parentNode)
+    return makeFunctorSolutionNode(fs, kb, parentSolution, parentNode)
 }
 
 //----------------------------------------------------------------
