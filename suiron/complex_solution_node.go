@@ -51,7 +51,6 @@ func MakeComplexSolutionNode(g Complex, kb KnowledgeBase,
     return &node
 }
 
-
 // NexSolution - initiates or continues the search for a solution.
 // If the search succeeds, the boolean return value is true, and
 // the substitution set is updated.
@@ -81,7 +80,8 @@ func (n *ComplexSolutionNodeStruct) NextSolution() (SubstitutionSet, bool) {
             if ok { return childSolution, true }
         }
     }
-    return nil, false;
+    return nil, false
+
 } // NexSolution()
 
 // HasNextRule - returns true if the knowledge base contains untried
@@ -116,5 +116,3 @@ func (n *ComplexSolutionNodeStruct) GetParentNode() SolutionNode {
 func (n *ComplexSolutionNodeStruct) GetChild() SolutionNode {
     return n.child
 }
-
-
