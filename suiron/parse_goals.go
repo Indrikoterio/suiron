@@ -181,16 +181,13 @@ func ParseSubgoal(subgoal string) (Goal, error) {
         return nil, err
     }
 
-    if length > 5 {
-        last := r[length - 1]
-        if last == ')' {
-            // If the string starts with not(
-            if strings.HasPrefix(s, "not(") {
-//                s2 := s[4: length - 1]
-//                return Not(subgoal(s2))
-            }
-        }
-    } // if length > 5
+    // Check for the 'not' operator.
+    if strings.HasPrefix(s, "not(") {
+        s2 := s[4: length - 1]
+        operand, err := ParseSubgoal(s2)
+        if err != nil { return nil, err }
+        return Not(operand), nil
+    }
 
     if s == "!" {  // cut
         return Cut(), nil
@@ -260,7 +257,6 @@ func ParseSubgoal(subgoal string) (Goal, error) {
     if strFunctor == "functor" { return Functor(args...), nil }
     if strFunctor == "include" { return Include(args...), nil }
     if strFunctor == "exclude" { return Exclude(args...), nil }
-    if strFunctor == "not"     { return Not(args...), nil }
 
     // Create a complex term.
     f := Atom(strFunctor)
