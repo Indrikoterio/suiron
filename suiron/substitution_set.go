@@ -13,7 +13,6 @@ package suiron
 import (
     "errors"
     "strings"
-    "sort"
     "fmt"
 )
 
@@ -90,17 +89,20 @@ func (ss SubstitutionSet) GetGroundTerm(u Unifiable) (Unifiable, bool) {
 // String - creates a string representation of the substitution set,
 // for debugging purposes.
 func (ss SubstitutionSet) String() string {
+
+    var str string
     var sb strings.Builder
+
     sb.WriteString("\n----- Bindings -----\n")
-    keys      := make([]int, 0, len(ss))
-    keyValues := map[int]string{}
-    for k := range ss {
-        keys = append(keys, k)
-        keyValues[k] = (*ss[k]).String()
-    }
-    sort.Ints(keys)
-    for _, k := range keys {
-        str := fmt.Sprintf("    %d: %v\n", k, keyValues[k])
+
+    length := len(ss)
+    for i := 0; i < length; i++ {
+        ptr := ss[i]
+        if ptr == nil {
+            str = fmt.Sprintf("    %d: --\n", i)
+        } else {
+            str = fmt.Sprintf("    %d: %v\n", i, *(ss[i]))
+        }
         sb.WriteString(str)
     }
     sb.WriteString("--------------------\n")
