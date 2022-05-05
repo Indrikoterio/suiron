@@ -181,7 +181,8 @@ func ParseSubgoal(subgoal string) (Goal, error) {
         return nil, err
     }
 
-    // Check for the 'not' operator.
+    // not() looks like a built-in predicate
+    // but it's actually an operator.
     if strings.HasPrefix(s, "not(") {
         s2 := s[4: length - 1]
         operand, err := ParseSubgoal(s2)
