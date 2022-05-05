@@ -290,6 +290,8 @@ func makeTerm(str string,
 
         // Try complex terms, eg.:  job(programmer)
         } else if first != "(" && last == ")" {
+            // Check for built-in functions.
+            if strings.HasPrefix(s, "add(") { return ParseFunction(s) }
             c, err := ParseComplex(s)
             return c, err
         }
