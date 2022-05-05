@@ -35,6 +35,7 @@ import (
 type Complex []Unifiable
 
 // ParseComplex - parses a string to produce a complex term.
+//
 // Example of usage:
 //     c := ParseComplex("symptom(covid, fever)")
 // Important: Backslash is used to escape characters, such as the comma.
@@ -42,6 +43,10 @@ type Complex []Unifiable
 //     c := ParseComplex("punctuation(comma, \\,)")
 // The backslash is doubled, because the Go compiler also interprets
 // the backslash.
+//
+// Params: string representation
+// Return: complex term
+//         error
 func ParseComplex(str string) (Complex, error) {
 
     s := strings.TrimSpace(str)
