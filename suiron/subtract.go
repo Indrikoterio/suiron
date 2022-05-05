@@ -14,7 +14,7 @@ import (
 
 type SubtractStruct BuiltInPredicateStruct
 
-// Subtract - creates an SubtractStruct, which holds the function's
+// Subtract - creates a SubtractStruct, which holds the function's
 // name and arguments. Subtract requires at least 2 arguments.
 // Params: arguments (Unifiable)
 // Return: SubtractStruct
@@ -36,8 +36,8 @@ func Subtract(arguments ...Unifiable) SubtractStruct {
 //     list of arguments
 //     substitution set
 // Returns:
-//    new unifiable
-//    success/failure flag
+//     new unifiable
+//     success/failure flag
 //
 func bifSubtract(arguments []Unifiable, ss SubstitutionSet) (Unifiable, bool) {
 
