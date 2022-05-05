@@ -160,4 +160,77 @@ func TestArithmetic(t *testing.T) {
        t.Error(str)
     }
 
+    //------------------------------------
+    // Sixth test. - multiplication.
+    // test6($X) :- $X = multiply(4, 2).
+
+    r, _ = ParseRule("test6($X) :- $X = multiply(4, 2).")
+    kb.Add(r)
+    goal, _ = ParseGoal("test6($X)")
+
+    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    if len(failure) != 0 {
+        t.Error("TestArithmetic 6 - " + failure)
+        return
+    }
+
+    expected6 := Integer(8)
+    actual6 := solution.GetTerm(1).(Integer)
+
+    if actual6 != expected6 {
+       str := fmt.Sprintf("\nTestArithmetic 6 - expected: %d" +
+                          "\n                        Was: %d", expected6, actual6)
+       t.Error(str)
+    }
+
+    //------------------------------------
+    // Seventh test. - multiplication.
+    // test7($X) :- $X = multiply(3.14159, 2).
+
+    r, _ = ParseRule("test7($X) :- $X = multiply(3.14159, 2).")
+    kb.Add(r)
+    goal, _ = ParseGoal("test7($X)")
+
+    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    if len(failure) != 0 {
+        t.Error("TestArithmetic 7 - " + failure)
+        return
+    }
+
+    expected7 := Float(3.14159 * 2)
+    actual7 := solution.GetTerm(1).(Float)
+
+    diff = expected7 - actual7
+
+    if diff > 0.0000000000000005 {
+       str := fmt.Sprintf("\nTestArithmetic 7 - expected: %f" +
+                          "\n                        Was: %f", expected7, actual7)
+       t.Error(str)
+    }
+
+    //------------------------------------
+    // Eighth test. - divide.
+    // test8($X) :- $X = divide(4, 2).
+
+    r, _ = ParseRule("test8($X) :- $X = divide(4, 2).")
+    kb.Add(r)
+    goal, _ = ParseGoal("test8($X)")
+
+    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    if len(failure) != 0 {
+        t.Error("TestArithmetic 8 - " + failure)
+        return
+    }
+
+    expected8 := Float(2)
+    actual8 := solution.GetTerm(1).(Float)
+
+    diff = expected8 - actual8
+
+    if diff > 0.0000000000000005 {
+       str := fmt.Sprintf("\nTestArithmetic 8 - expected: %f" +
+                          "\n                        Was: %f", expected8, actual8)
+       t.Error(str)
+    }
+
 } // TestArithmetic
