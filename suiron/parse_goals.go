@@ -302,6 +302,8 @@ func ParseFunction(str string) (Function, error) {
 
     if functor == "add" { return Add(unifiables...), nil }
     if functor == "subtract" { return Subtract(unifiables...), nil }
+    if functor == "multiply" { return Multiply(unifiables...), nil }
+    if functor == "divide"   { return Divide(unifiables...), nil }
 
     err = fmt.Errorf("ParseFunction - Unknown function: %v", functor)
     return nil, err
