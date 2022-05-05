@@ -293,6 +293,8 @@ func makeTerm(str string,
             // Check for built-in functions.
             if strings.HasPrefix(s, "add(") { return ParseFunction(s) }
             if strings.HasPrefix(s, "subtract(") { return ParseFunction(s) }
+            if strings.HasPrefix(s, "multiply(") { return ParseFunction(s) }
+            if strings.HasPrefix(s, "divide(")   { return ParseFunction(s) }
             c, err := ParseComplex(s)
             return c, err
         }
