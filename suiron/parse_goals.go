@@ -265,3 +265,46 @@ func ParseSubgoal(subgoal string) (Goal, error) {
     return Complex(unifiables), nil
 
 } // ParseSubgoal
+
+
+// ParseFunction - parses a string to produce a built-in Suiron function.
+// ParseFunction is similar to ParseComplex in complex.go.
+// Perhaps some consolidation could be done in future.
+//
+// Example of usage:
+//     c := ParseFunction("add(7, 9, 4)")
+//
+// Params: string representation
+// Return: built-in suiron function
+//         error
+//
+func ParseFunction(str string) (Function, error) {
+
+    s := strings.TrimSpace(str)
+    length := len(s)
+
+    if length > 1000 {
+        err := fmt.Errorf("ParseFunction - String is too long: %v", s)
+        return nil, err
+    }
+
+    // Get indices.
+    left, right, err := indicesOfParentheses([]rune(s))
+    if err != nil { return nil, err }
+
+    functor := strings.TrimSpace(s[0: left])
+    args    := strings.TrimSpace(s[left + 1: right])
+
+    t, err := parseArguments(args)
+    if err != nil { return nil, err }
+
+    unifiables := append([]Unifiable{}, t...)
+
+    if functor == "add" {
+        return Add(unifiables...), nil
+    }
+
+    err = fmt.Errorf("ParseFunction - Unknown function: %v", functor)
+    return nil, err
+
+} // ParseFunction
