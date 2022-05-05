@@ -300,9 +300,8 @@ func ParseFunction(str string) (Function, error) {
 
     unifiables := append([]Unifiable{}, t...)
 
-    if functor == "add" {
-        return Add(unifiables...), nil
-    }
+    if functor == "add" { return Add(unifiables...), nil }
+    if functor == "subtract" { return Subtract(unifiables...), nil }
 
     err = fmt.Errorf("ParseFunction - Unknown function: %v", functor)
     return nil, err
