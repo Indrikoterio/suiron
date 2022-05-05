@@ -49,15 +49,15 @@ func TestArithmetic(t *testing.T) {
 
     solution, failure := Solve(goal, kb, SubstitutionSet{})
     if len(failure) != 0 {
-        t.Error("TestArithmetic - " + failure)
+        t.Error("TestArithmetic 1 - " + failure)
         return
     }
 
     expected := Integer(10)
     actual := solution.GetTerm(1).(Integer)
     if actual != expected {
-        str := fmt.Sprintf("\nTestArithmetic - expected: %d" +
-                "\n                      Was: %d", expected, actual)
+        str := fmt.Sprintf("\nTestArithmetic 1 - expected: %d" +
+                           "\n                        Was: %d", expected, actual)
         t.Error(str)
     }
 
@@ -75,15 +75,15 @@ func TestArithmetic(t *testing.T) {
 
     solution, failure = Solve(goal, kb, SubstitutionSet{})
     if len(failure) != 0 {
-        t.Error("TestArithmetic - " + failure)
+        t.Error("TestArithmetic 2 - " + failure)
         return
     }
 
     expected2 := Float(5.14159)
     actual2 := solution.GetTerm(1).(Float)
     if actual2 != expected2 {
-        str := fmt.Sprintf("\nTestArithmetic - expected: %f" +
-                "\n                      Was: %f", expected2, actual2)
+        str := fmt.Sprintf("\nTestArithmetic 2 - expected: %f" +
+                           "\n                        Was: %f", expected2, actual2)
         t.Error(str)
     }
 
@@ -98,15 +98,41 @@ func TestArithmetic(t *testing.T) {
 
     solution, failure = Solve(goal, kb, SubstitutionSet{})
     if len(failure) != 0 {
-        t.Error("TestArithmetic - " + failure)
+        t.Error("TestArithmetic 3 - " + failure)
         return
     }
 
     expected3 := Float(10.922)
     actual3 := solution.GetTerm(1).(Float)
     if actual3 != expected3 {
-        str := fmt.Sprintf("\nTestArithmetic - expected: %f" +
-                           "\n                      Was: %f", expected3, actual3)
+        str := fmt.Sprintf("\nTestArithmetic 3 - expected: %f" +
+                           "\n                        Was: %f", expected3, actual3)
+        t.Error(str)
+    }
+
+    //------------------------------------
+    // Fourth test. - subtraction.
+    // test4($X) :- $X = subtract(5, 3, 2).
+
+    test4 := Atom("test4")
+    head  = Complex{test4, X}
+    body  = Unify(X, Subtract(i5, i3, i2))
+    r     = Rule(head, body)
+    kb.Add(r)
+    
+    goal = MakeGoal(test4, X)
+
+    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    if len(failure) != 0 {
+        t.Error("TestArithmetic 4 - " + failure)
+        return
+    }
+
+    expected = Integer(0)
+    actual = solution.GetTerm(1).(Integer)
+    if actual != expected {
+        str := fmt.Sprintf("\nTestArithmetic 4 - expected: %d" +
+                           "\n                        Was: %d", expected, actual)
         t.Error(str)
     }
 
