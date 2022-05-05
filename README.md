@@ -162,11 +162,7 @@ To run parse_demo, move to the demo folder and execute the batch file 'run'.
 Suiron doesn't have a lot of built-in predicates, but it does have: [append.go](suiron/append.go), [functor.go](suiron/functor.go), [print.go](suiron/print.go), [new_line.go](suiron/new_line.go), [include.go](suiron/include.go), [exclude.go](suiron/exclude.go), greater_than (etc.)
 
 
-...and some arithmetic functions:
-
-```
-add, subtract, multply, divide
-```
+...and some arithmetic functions: [add.go](suiron/add.go), [subtract.go](suiron/subtract.go), [multiply.go](suiron/multiply.go), [divide.go](suiron/divide.go)
 
 Please refer to the test programs for examples of how to use these.
 
