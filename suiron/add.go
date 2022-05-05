@@ -35,8 +35,8 @@ func Add(arguments ...Unifiable) AddStruct {
 //     list of arguments
 //     substitution set
 // Returns:
-//    new unifiable
-//    success/failure flag
+//     new unifiable
+//     success/failure flag
 //
 func bifAdd(arguments []Unifiable, ss SubstitutionSet) (Unifiable, bool) {
 
