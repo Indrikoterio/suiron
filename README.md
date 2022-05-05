@@ -116,6 +116,20 @@ In the top folder is a program called [query.go](query.go), which loads facts an
 
 ```
 go run query.go test/kings.txt
+```
+
+The user will be prompted for a query with this prompt: ?-
+
+The query below will print out all father/child relationships.
+
+```
+?- father($F, $C).
+```
+
+After typing enter, the program will print out solutions, one after each press of Enter, until there are no more solutions, as indicated by 'No'.
+
+```
+go run query.go test/kings.txt
 ?- father($F, $C).
 $F = Godwin, $C = Harold II
 $F = Godwin, $C = Tostig
