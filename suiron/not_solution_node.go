@@ -43,10 +43,16 @@ func makeNotSolutionNode(n NotOp, kb KnowledgeBase,
 func (n *NotSolutionNodeStruct) NextSolution() (SubstitutionSet, bool) {
 
     if n.NoBackTracking { return nil, false }
+    if n.ParentSolution == nil { return nil, false }
 
     _, found := n.operandSolutionNode.NextSolution()
-    if found { return nil, false }
-    return n.ParentSolution, true
+    if found {
+        return nil, false
+    } else {
+        solution := n.ParentSolution
+        n.ParentSolution = nil
+        return solution, true
+    }
 }
 
 // HasNextRule - returns true if the knowledge base contains untried
