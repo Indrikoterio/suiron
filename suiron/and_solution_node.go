@@ -15,7 +15,7 @@ type AndSolutionNodeStruct struct {
     operatorTail AndOp
 }
 
-func MakeAndSolutionNode(a AndOp, kb KnowledgeBase,
+func makeAndSolutionNode(a AndOp, kb KnowledgeBase,
                          parentSolution SubstitutionSet,
                          parentNode SolutionNode) SolutionNode {
 

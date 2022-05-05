@@ -30,7 +30,7 @@ func (o OrOp) String() string {
 func (o OrOp) GetSolver(kb KnowledgeBase,
                       parentSolution SubstitutionSet,
                       parentNode SolutionNode) SolutionNode {
-    return MakeOrSolutionNode(o, kb, parentSolution, parentNode)
+    return makeOrSolutionNode(o, kb, parentSolution, parentNode)
 }
 
 

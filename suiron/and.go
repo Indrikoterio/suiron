@@ -21,7 +21,7 @@ func And(operands ...Goal) AndOp {
 func (a AndOp) GetSolver(kb KnowledgeBase,
                        parentSolution SubstitutionSet,
                        parentNode SolutionNode) SolutionNode {
-    node := MakeAndSolutionNode(a, kb, parentSolution, parentNode)
+    node := makeAndSolutionNode(a, kb, parentSolution, parentNode)
     return node
 }
 

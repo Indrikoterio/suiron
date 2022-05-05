@@ -16,7 +16,7 @@ type OrSolutionNodeStruct struct {
     parentSolution SubstitutionSet
 }
 
-func MakeOrSolutionNode(o OrOp, kb KnowledgeBase,
+func makeOrSolutionNode(o OrOp, kb KnowledgeBase,
                         parentSolution SubstitutionSet,
                         parentNode SolutionNode) SolutionNode {
 
