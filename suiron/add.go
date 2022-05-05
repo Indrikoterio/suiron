@@ -43,10 +43,11 @@ func bifAdd(arguments []Unifiable, ss SubstitutionSet) (Unifiable, bool) {
     ground := []Unifiable{}  // Array of ground terms.
     hasFloat := false
 
+    // Get ground terms.
     for _, arg := range arguments {
         c, ok := ss.GetGroundTerm(arg)
         if !ok {
-            s := fmt.Sprintf("Add - Unbound argument: %v", arg)
+            s := fmt.Sprintf("Add - Argument is not ground: %v", arg)
             panic(s)
         }
         ground = append(ground, c)
