@@ -136,4 +136,28 @@ func TestArithmetic(t *testing.T) {
         t.Error(str)
     }
 
+    //------------------------------------
+    // Fifth test. - subtraction.
+    // test5($X) :- $X = subtract(7.5, 2).
+
+    r, _ = ParseRule("test5($X) :- $X = subtract(5.68, 3).")
+    kb.Add(r)
+    goal, _ = ParseGoal("test5($X)")
+
+    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    if len(failure) != 0 {
+        t.Error("TestArithmetic 5 - " + failure)
+        return
+    }
+
+    expected5 := Float(2.68)
+    actual5 := solution.GetTerm(1).(Float)
+    diff := expected5 - actual5
+
+    if diff > 0.0000000000000005 {
+       str := fmt.Sprintf("\nTestArithmetic 5 - expected: %f" +
+                          "\n                        Was: %f", expected5, actual5)
+       t.Error(str)
+    }
+
 } // TestArithmetic
