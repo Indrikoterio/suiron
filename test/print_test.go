@@ -12,6 +12,7 @@ import (
 
 func TestPrint(t *testing.T) {
 
+    //----------------------------------------------------
     fmt.Println("TestPrint 1:")
     fmt.Println("Persian, king, [Cyrus, Cambysis, Darius]")
 
@@ -45,6 +46,7 @@ func TestPrint(t *testing.T) {
     goal := MakeGoal(print_test)
     Solve(goal, kb, ss)
 
+    //----------------------------------------------------
     fmt.Println("TestPrint 2:")
     fmt.Println("Hello World, my name is Cleve.")
 
