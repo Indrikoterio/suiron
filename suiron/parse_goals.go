@@ -258,6 +258,7 @@ func ParseSubgoal(subgoal string) (Goal, error) {
     if strFunctor == "functor" { return Functor(args...), nil }
     if strFunctor == "include" { return Include(args...), nil }
     if strFunctor == "exclude" { return Exclude(args...), nil }
+    if strFunctor == "print_list" { return PrintList(args...), nil }
 
     // Create a complex term.
     f := Atom(strFunctor)
