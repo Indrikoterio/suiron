@@ -19,6 +19,7 @@ package main
 import (
     . "github.com/indrikoterio/suiron/suiron"
     "testing"
+    "math"
     "fmt"
 )
 
@@ -154,7 +155,7 @@ func TestArithmetic(t *testing.T) {
     actual5 := solution.GetTerm(1).(Float)
     diff := expected5 - actual5
 
-    if diff > 0.0000000000000005 {
+    if math.Abs(float64(diff)) > 0.0000000000000005 {
        str := fmt.Sprintf("\nTestArithmetic 5 - expected: %f" +
                           "\n                        Was: %f", expected5, actual5)
        t.Error(str)
@@ -202,7 +203,7 @@ func TestArithmetic(t *testing.T) {
 
     diff = expected7 - actual7
 
-    if diff > 0.0000000000000005 {
+    if math.Abs(float64(diff)) > 0.0000000000000005 {
        str := fmt.Sprintf("\nTestArithmetic 7 - expected: %f" +
                           "\n                        Was: %f", expected7, actual7)
        t.Error(str)
@@ -227,9 +228,59 @@ func TestArithmetic(t *testing.T) {
 
     diff = expected8 - actual8
 
-    if diff > 0.0000000000000005 {
+    if math.Abs(float64(diff)) > 0.0000000000000005 {
        str := fmt.Sprintf("\nTestArithmetic 8 - expected: %f" +
                           "\n                        Was: %f", expected8, actual8)
+       t.Error(str)
+    }
+
+    //------------------------------------
+    // Ninth test. - a formula.
+    // test9($X) :- $X = divide(4, 2).
+    //
+    // f(x, y) = ((x + y) - 6) * 3.4 / 3.4
+    //
+    // f(3, 7)  = 4
+    // f(3, -7) = -10
+    //
+    // The rule is:
+    //
+    // calculate($X, $Y, $Out) :- $A = add($X, $Y),
+    //                            $B = subtract($A, 6),
+    //                            $C = multiply($B, 3.4),
+    //                            $Out = divide($C, 3.4).
+
+    Y, _   := LogicVar("$Y")
+    A, _   := LogicVar("$A")
+    B, _   := LogicVar("$B")
+    C, _   := LogicVar("$C")
+    Out, _ := LogicVar("$Out")
+
+    head, _ = ParseComplex("calculate($X, $Y, $Out)")
+    u1 := Unify(A, Add(X, Y))
+    u2 := Unify(B, Subtract(A, Integer(6)))
+    u3 := Unify(C, Multiply(B, Float(3.4)))
+    u4 := Unify(Out, Divide(C, Float(3.4)))
+
+    r = Rule(head, And(u1, u2, u3, u4))
+    kb.Add(r)
+
+    calc, _ := ParseGoal("calculate(3.0, 7.0, $Out)")
+
+    solution, failure = Solve(calc, kb, SubstitutionSet{})
+    if len(failure) != 0 {
+        t.Error("TestArithmetic 9 - " + failure)
+        return
+    }
+
+    expected9 := Float(4)
+    actual9 := solution.GetTerm(3).(Float)
+
+    diff = expected9 - actual9
+
+    if math.Abs(float64(diff)) > 0.0000000000000005 {
+       str := fmt.Sprintf("\nTestArithmetic 9 - expected: %f" +
+                          "\n                        Was: %f", expected9, actual9)
        t.Error(str)
     }
 
