@@ -22,15 +22,15 @@ package suiron
 // Variable $Y binds to b.
 // Variable $Z binds to [c, d, e].
 //
-// There two are functions to create a LinkedList from within Go source
-// code: MakeLinkedList() or ParseLinkedList().
+// There are two are functions to create a LinkedList from within Go
+// source code: MakeLinkedList() or ParseLinkedList().
 //
 // MakeLinkedList() takes a boolean and a variable number of arguments.
 // The boolean indicates that the last argument is a tail variable,
 // when true. Examples:
 //
-//   list := MakeLinkedList(false, a, b, c)
-//   list := MakeLinkedList(true, a, b, c, X)  // X is a tail Variable
+//   list := MakeLinkedList(false, a, b, c)    // [a, b, c]
+//   list := MakeLinkedList(true, a, b, c, X)  // [a, b, c | $X]
 //
 // ParseLinkedList() parses a string to produce a LinkedList:
 //
