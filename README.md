@@ -28,7 +28,7 @@ mother(June, $Child).
 
 Please refer to [variable.go](suiron/variable.go).
 
-The [anonymous](suiron/anonymous.go) variable must also begin with a dollar sign: $\_ . A simple underscore '\_' is treated as an atom. Below is an example a rule which contains an anonymous variable:
+The [anonymous](suiron/anonymous.go) variable must also begin with a dollar sign: $\_ . A simple underscore '\_' is treated as an atom. Below is an example of a rule which contains an anonymous variable:
 
 ```
 voter($P) :- $P = person($_, $Age), $Age >= 18.
