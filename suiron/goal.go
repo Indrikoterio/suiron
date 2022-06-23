@@ -56,7 +56,7 @@ func ParseGoal(str string) (Complex, error) {
 // the same ID, this would cause the search for a solution to fail.
 // The function LogicVar() creates logic variables with a name and an
 // ID number, which is always 0. This is OK, because whenever a rule
-// is fetched from the knowledge base, it's variables are recreated,
+// is fetched from the knowledge base, its variables are recreated,
 // by calling RecreateVariables().
 // However, goals are not fetched from the knowledge base. If a goal
 // is created, it is necessary to ensure that any logic variables it
