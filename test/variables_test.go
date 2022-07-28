@@ -23,7 +23,7 @@ func TestVariables(t *testing.T) {
     Y, _ := LogicVar("$Y")
     Y = Y.RecreateVariables(vars).(VariableStruct)
     Z, _ := LogicVar("$Z")
-    Z= Z.RecreateVariables(vars).(VariableStruct)
+    Z = Z.RecreateVariables(vars).(VariableStruct)
     age := Integer(43)
     pi  := Float(3.14159)
 
