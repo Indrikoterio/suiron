@@ -16,8 +16,8 @@ import (
 )
 
 type VariableStruct struct {
-    id     int
-    name   string
+    id    int
+    name  string
 }
 
 // String - return this term as a string.
@@ -32,6 +32,7 @@ var variableId int
 // The variable must begin with a dollar sign and a letter. Eg. $X
 // If it does not, a error is produced.
 func LogicVar(str string) (VariableStruct, error) {
+
     name := strings.TrimSpace(str)
     r := []rune(name)
     if len(r) < 2 {
