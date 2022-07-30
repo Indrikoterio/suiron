@@ -162,7 +162,7 @@ func parseArguments(str string) ([]Unifiable, error) {
                 squareDepth--
             } else if ch == '(' {
                 argument = append(argument, ch)
-                roundDepth++;
+                roundDepth++
             } else if ch == ')' {
                 argument = append(argument, ch)
                 roundDepth--
@@ -189,8 +189,7 @@ func parseArguments(str string) ([]Unifiable, error) {
                 } else if ch == '\\' {  // escape character, must include next character
                     if i < length - 1 {
                         i += 1
-                        nextCh := r[i]
-                        argument = append(argument, nextCh)
+                        argument = append(argument, r[i])
                     } else {  // must be at end of argument string
                         argument = append(argument, ch)
                     }
