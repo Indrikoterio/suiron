@@ -283,7 +283,7 @@ func makeTerm(str string,
                 err := parseTermError("Invalid term. Unmatched quote mark.", str)
                 return Atom(str), err
             }
-        } else if first == "[" && last == "]"{
+        } else if first == "[" && last == "]" {
             term, err := ParseLinkedList(s)
             return term, err
 
