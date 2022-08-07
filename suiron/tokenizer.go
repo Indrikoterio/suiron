@@ -367,7 +367,7 @@ func tokenTreeToGoal(token TokenStruct) Goal {
 }  // tokenTreeToGoal()
 
 
-// showTokens - Diplays a flat list of tokens for debugging purposes.
+// showTokens - Displays a flat list of tokens for debugging purposes.
 // Params: slice of tokens
 func showTokens(tokens []TokenStruct) {
     first := true
