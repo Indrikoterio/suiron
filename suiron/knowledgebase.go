@@ -37,7 +37,7 @@ func (kb KnowledgeBase) Add(rules ...RuleStruct) {
 // GetRule - fetches a rule (or fact) from the knowledge base.
 // Rules are indexed by functor/arity (eg. sister/2) and by index number.
 // The variables of the retrieved rule must be made unique, by calling
-// createVariables().
+// recreateVariables().
 func (kb KnowledgeBase) GetRule(goal Goal, i int) RuleStruct {
     key := goal.(Complex).Key()
     list, ok := kb[key]
