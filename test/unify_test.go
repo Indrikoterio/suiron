@@ -15,7 +15,7 @@ func TestUnify(t *testing.T) {
     fmt.Println("TestUnify 1") //-------------
 
     // First test is:
-    // test($X) := $X = pronoun.
+    // test($X) :- $X = pronoun.
     // Goal is test($X)
 
     X, _    := LogicVar("$X")
