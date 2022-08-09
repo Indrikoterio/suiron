@@ -209,7 +209,7 @@ func groupTokens(tokens []TokenStruct, index int) TokenStruct {
             t := groupTokens(tokens, index)
             newTokens = append(newTokens, t)
             // Skip past tokens already processed.
-            index += t.size() + 1  // +1 for right parenthesis
+            index += t.numberOfChildren() + 1  // +1 for right parenthesis
         } else if theType == RPAREN {
             // Add all remaining tokens to the list.
             return TokenBranch(GROUP, newTokens)
@@ -355,7 +355,7 @@ func tokenTreeToGoal(token TokenStruct) Goal {
     }
 
     if token.theType == GROUP {
-        if token.size() != 1 {
+        if token.numberOfChildren() != 1 {
             panic("generateGoal - Group should have 1 child token.")
         }
         childToken := token.children[0]
