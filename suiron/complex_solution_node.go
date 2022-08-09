@@ -6,16 +6,20 @@ package suiron
 //
 // This node has a child node, which is the next subgoal. The method
 // NextSolution() will check to see if the child has a solution.
-// If it does, this solution (substitution set) is returned.
+// If it does, the solution (substitution set) is returned, with
+// the success flag set to true.
 //
 // Otherwise, NextSolution() fetches rules/facts from the knowledge
 // base, and tries to unify the head of these rules and facts with
-// the goal. If a matching fact is found, the solution is returned.
+// the goal. If a matching fact is found, the solution is returned,
+// with the success flag set to true.
+//
 // (Note, a fact is a rule without a body.)
 //
 // Otherwise, the body node of the rule becomes the child node, and
 // the algorithm tries to find a solution (substitution set) for the
-// child. It will return the child solution or for failure.
+// child. It will return the child solution with the success flag
+// set to true, or set to false for failure.
 //
 // Cleve Lendon
 
@@ -51,10 +55,10 @@ func MakeComplexSolutionNode(g Complex, kb KnowledgeBase,
     return &node
 }
 
-// NexSolution - initiates or continues the search for a solution.
-// If the search succeeds, the boolean return value is true, and
-// the substitution set is updated.
-// If the search fails, the boolean value is false.
+// NextSolution - initiates or continues the search for a solution.
+// If the search succeeds, the method returns the updated substitution
+// set, and sets the success flag to true.
+// If the search fails, the success flag is set to false.
 func (n *ComplexSolutionNodeStruct) NextSolution() (SubstitutionSet, bool) {
 
     if n.NoBackTracking { return nil, false }
