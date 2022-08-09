@@ -2,14 +2,20 @@ package suiron
 
 // Unify - defines the unification predicate, which attempts to unify
 // (bind) two terms. If the terms can be unified, the predicate succeeds.
-// In a Suiron source file, unification can be defined as follows:
+// In a Suiron source file, unification can be defined by an equals sign,
+// as in Prolog:
 //
-//    unify($X, pronoun)
-// or
-//    $X = pronoun
+//   $X = pronoun
 //
-// In the examples above, unification will succeed if $X is unbound.
-// Otherwise not.
+// In a Go source file, the unification predicate can be defined
+// as follows:
+//
+//   X := LogicVar("$X")
+//   pronoun := Atom("pronoun")
+//   uniPred := unify(X, pronoun)
+//
+// In the examples above, unification will succeed if $X is unbound
+// or already bound to 'pronoun'.
 //
 // Note: Sometimes this is referred to as the unification operator, but
 // it's actually a predicate.
