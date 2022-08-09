@@ -32,7 +32,7 @@ type BuiltInPredicateStruct struct {
 //
 // Params: Unifiable term
 //         list of previously recreated Variables
-// Return: tew Unifiable term
+// Return: new Unifiable term
 func recreateOneVar(term Unifiable, vars VarMap) Unifiable {
     tt := term.TermType()
     if tt == VARIABLE {
