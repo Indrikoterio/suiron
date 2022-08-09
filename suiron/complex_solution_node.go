@@ -86,7 +86,7 @@ func (n *ComplexSolutionNodeStruct) NextSolution() (SubstitutionSet, bool) {
     }
     return nil, false
 
-} // NexSolution()
+} // NextSolution()
 
 // HasNextRule - returns true if the knowledge base contains untried
 // rules for this node's goal. False otherwise.
