@@ -105,7 +105,7 @@ func (n *ComplexSolutionNodeStruct) NextRule() RuleStruct {
     return rule
 }
 
-// SetNoBackTracking - rset the NoBackTracking flag.
+// SetNoBackTracking - set the NoBackTracking flag.
 // This flag is used to implement Cuts.
 func (n *ComplexSolutionNodeStruct) SetNoBackTracking() {
     n.NoBackTracking = true
