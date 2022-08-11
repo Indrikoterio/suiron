@@ -99,6 +99,7 @@ func (us UnifyStruct) String() string {
 //    makeUnifySolutionNode()
 //    NextSolution()
 //    SetNoBackTracking()
+//    GetParentNode()
 //----------------------------------------------------------------
 
 // A solution node holds the current state of the search for a solution.
