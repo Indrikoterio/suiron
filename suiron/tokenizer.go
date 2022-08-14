@@ -44,7 +44,7 @@ func invalidBetweenTerms(ch rune) bool {
 // Param:  string of tokens
 // Return: goal
 //
-func generateGoal(str string) Goal {
+func generateGoal(str string) (Goal, error) {
     tokens, err := Tokenize(str)
     if err != nil {
         panic(err.Error)
@@ -314,44 +314,49 @@ func groupOrTokens(token TokenStruct) TokenStruct {
 // tokenTreeToGoal - produces a goal from the given token tree.
 // Params: base of token tree
 // Return: goal
-func tokenTreeToGoal(token TokenStruct) Goal {
+//         error
+func tokenTreeToGoal(token TokenStruct) (Goal, error) {
 
     var children []TokenStruct
     var operands []Goal
 
     if token.theType == SUBGOAL {
-        g, _ := ParseSubgoal(token.token)
-        return g
+        g, err := ParseSubgoal(token.token)
+        return g, err
     }
 
     if token.theType == AND {
         operands = []Goal{}
         children = token.children
+        var err error
+        var g Goal
         for _, child := range children {
             if child.theType == SUBGOAL {
-               g, _ := ParseSubgoal(child.token)
+               g, err = ParseSubgoal(child.token)
                operands = append(operands, g)
             } else if child.theType == GROUP {
-               g := tokenTreeToGoal(child)
+               g, err = tokenTreeToGoal(child)
                operands = append(operands, g)
             }
         }
-        return And(operands...)
+        return And(operands...), err
     }
 
     if token.theType == OR {
         operands = []Goal{}
         children = token.children
+        var err error
+        var g Goal
         for _, child := range children {
             if child.theType == SUBGOAL {
-               g, _ := ParseSubgoal(child.token)
+               g, err = ParseSubgoal(child.token)
                operands = append(operands, g)
             } else if child.theType == GROUP {
-               g := tokenTreeToGoal(child)
+               g, err = tokenTreeToGoal(child)
                operands = append(operands, g)
             }
         }
-        return Or(operands...)
+        return Or(operands...), err
     }
 
     if token.theType == GROUP {
@@ -362,7 +367,7 @@ func tokenTreeToGoal(token TokenStruct) Goal {
         return tokenTreeToGoal(childToken)
     }
 
-    return nil
+    return nil, fmt.Errorf("tokenTreeToGoal - Unknown token.")
 
 }  // tokenTreeToGoal()
 
