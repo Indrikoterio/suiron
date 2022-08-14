@@ -67,8 +67,8 @@ func ParseRule(str string) (RuleStruct, error) {
             return RuleStruct{}, err
         }
         
-        body := generateGoal(strBody)
-        return RuleStruct{head.(Complex), body}, nil
+        body, err := generateGoal(strBody)
+        return RuleStruct{head.(Complex), body}, err
 
     } else { // Must be a fact (no body).
         head, err := ParseComplex(s)
