@@ -1,6 +1,6 @@
 package main
 
-// Tests the And and Or operators of the inference engine.
+// Tests linked lists.
 // Cleve Lendon
 
 import (
