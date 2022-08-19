@@ -1,6 +1,10 @@
 package main
 
+// TestSolve
+//
 // Tests methods which search for solutions.
+// Specifically, Solve() and SolveAll().
+//
 // Cleve Lendon
 
 import (
