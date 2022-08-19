@@ -1,8 +1,7 @@
 package main
 
-// TooLong - this predicate sleeps, to simulate a calculation which
-// takes too long to execute. It is used to test the "Time out" feature
-// of SolveAll(), in solutions.go. The test is in solutions_test.go.
+// TooLong - this predicate sleeps, in order to test the "Time Out"
+// feature of Solve(), in solutions.go. The test is in solve_test.go.
 //
 // Cleve Lendon
 
