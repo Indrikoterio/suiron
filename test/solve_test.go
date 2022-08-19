@@ -46,7 +46,7 @@ func TestSolve(t *testing.T) {
     expected := "hobby(Tim, dance)"
     actual, failure := Solve(goal, kb, ss)
     if len(failure) != 0 {
-        t.Error("TestSolveAll - " + failure)
+        t.Error("TestSolve - " + failure)
         return
     }
 
@@ -117,7 +117,7 @@ func TestSolve(t *testing.T) {
 
     fmt.Println("TestTimeOut 2")
     // Second timeout test. Escape from endless loop.
-    // endless($X) := endless($X)
+    // endless($X) :- endless($X)
 
     endless := Atom("endless")
     cEndless := Complex{endless, X}  // Term is:  endless($X)
