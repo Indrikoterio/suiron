@@ -127,7 +127,7 @@ func (n *CountSolutionNodeStruct) GetParentNode() SolutionNode {
 func countLL(arguments []Unifiable, ss SubstitutionSet) (SubstitutionSet, bool) {
 
     linkedList, ok := ss.CastLinkedList(arguments[0])
-    if !ok { return ss, ok }
+    if !ok { return ss, false }
 
     ptr := &linkedList
     count := 0
