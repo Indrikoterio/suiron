@@ -43,7 +43,7 @@ func makeAndSolutionNode(a AndOp, kb KnowledgeBase,
     return &node
 }
 
-// NexSolution - recursively calls NextSolution on all subgoals.
+// NextSolution - recursively calls NextSolution on all subgoals.
 // If the search succeeds, the boolean return value is true, and
 // the substitution set is updated.
 // If the search fails, the boolean value is false.
