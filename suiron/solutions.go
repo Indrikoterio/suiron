@@ -73,14 +73,14 @@ func Solve(goal Complex, kb KnowledgeBase, ss SubstitutionSet) (solution Complex
 
 
 // SolveAll - finds all solutions for the given goal.
-// The solutions are returned as a list (slice) of strings.
+// The solutions are returned as a list of complex terms.
 // A second return value indicates the reason for failure,
 // as follows:
 //    "" (success)
 //    "No" (no solution)
 //    "Other reason"
 // Params:  goal
-//          knowledgebase
+//          knowledge base
 //          substitution set (previous bindings)
 // Returns: solutions, failure
 //
