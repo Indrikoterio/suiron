@@ -11,7 +11,7 @@ package main
 //
 // The rule is:
 //
-// calculate($X, $Y, $Out) :- $A = add($X, $Y), $B = substract($A, 6),
+// calculate($X, $Y, $Out) :- $A = add($X, $Y), $B = subtract($A, 6),
 //                            $C = multiply($B, 3.4), $Out = divide($C, 3.4).
 //
 // Cleve Lendon
