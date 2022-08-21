@@ -29,8 +29,9 @@ func Subtract(arguments ...Unifiable) SubtractStruct {
 }
 
 //----------------------------------------------------------------
-// bifSubtract - Subtracts all arguments together.
-// All arguments must be bound.
+// bifSubtract - Subtracts arguments from the first argument.
+// Arguments must be bound to Integers or Floats.
+// bif = built in function.
 //
 // Params:
 //     list of arguments
