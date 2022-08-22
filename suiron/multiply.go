@@ -29,7 +29,7 @@ func Multiply(arguments ...Unifiable) MultiplyStruct {
 }
 
 //----------------------------------------------------------------
-// bifMultiply - Multiplys all arguments together.
+// bifMultiply - Multiplies all arguments together.
 // All arguments must be bound.
 //
 // Params:
