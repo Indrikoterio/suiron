@@ -1,7 +1,7 @@
 package main
 
 // Tests the And and Or operators of the inference engine.
-// Cleve Lendon
+// Cleve Lendon 2022
 
 import (
     . "github.com/indrikoterio/suiron/suiron"
