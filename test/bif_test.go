@@ -19,7 +19,9 @@ package main
 //
 //   test(london, $X).
 //
-// Cleve Lendon
+// $X should bind to 'London'.
+//
+// Cleve Lendon 2022
 
 import (
     . "github.com/indrikoterio/suiron/suiron"
