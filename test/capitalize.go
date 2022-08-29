@@ -13,7 +13,7 @@ package main
 //
 //    ..., $CapName = capitalize($Name),...
 //
-// Cleve Lendon
+// Cleve Lendon  2022
 
 import (
     "strings"
