@@ -22,7 +22,7 @@ package main
 //
 // Suiron will solve for $Out and $OutErr.
 //
-// Cleve Lendon
+// Cleve Lendon   2022
 
 import (
     . "github.com/indrikoterio/suiron/suiron"
