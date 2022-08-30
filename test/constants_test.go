@@ -1,7 +1,7 @@
 package main
 
 // Test creation and unification of constants (Atoms, Integers, Floats).
-// Cleve Lendon
+// Cleve Lendon  2022
 
 import (
     . "github.com/indrikoterio/suiron/suiron"
@@ -35,7 +35,6 @@ func TestInteger(t *testing.T) {
     if ok { t.Error("Unification must fail: i1 != i3") }
     if len(newSS) > 0 { t.Error("Must not change substitution set.") }
 }
-
 
 func TestFloat(t *testing.T) {
     fmt.Println("TestFloat")
