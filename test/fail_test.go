@@ -12,7 +12,7 @@ package main
 //
 // This rule should print 1, 2 and 3 on separate lines.
 //
-// Cleve Lendon
+// Cleve Lendon  2022
 
 import (
     . "github.com/indrikoterio/suiron/suiron"
