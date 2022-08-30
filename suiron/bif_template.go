@@ -10,7 +10,7 @@ package suiron
 // in bifEvaluate(), and rename bifEvaluate to something meaningful.
 // Adjust comments appropriately and rename this file.
 //
-// Cleve Lendon
+// Cleve Lendon 2022
 
 import (
     // Uncomment this import if the function
