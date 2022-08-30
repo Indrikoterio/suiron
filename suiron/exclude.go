@@ -15,7 +15,7 @@ package suiron
 // The output list above will contain only females,
 //    [female(Penny), female(Bernadette)]
 //
-// Cleve Lendon
+// Cleve Lendon   2022
 
 type ExcludeStruct BuiltInPredicateStruct
 
@@ -125,9 +125,9 @@ func (n *ExcludeSolutionNodeStruct) GetParentNode() SolutionNode {
 // Return: true == pass, false == discard
 //
 func passFilter(term Unifiable, filter Unifiable, ss SubstitutionSet) bool {
-      _, ok := filter.Unify(term, ss)
-      if !ok { return true }
-      return false
+    _, ok := filter.Unify(term, ss)
+    if !ok { return true }
+    return false
 }
 
 // excludeFromList - scans the given input list, and tries to unify
