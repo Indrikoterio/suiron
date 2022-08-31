@@ -83,15 +83,15 @@ func TestFunctor(t *testing.T) {
     arity   := result.GetTerm(2).String()
 
     if functor != "diamonds" {
-            t.Error("\nTestFunctor - Expected: diamonds" +
-                    "\n                   Was: " + functor)
-            return
+        t.Error("\nTestFunctor - Expected: diamonds" +
+                "\n                   Was: " + functor)
+        return
     }
 
     if arity != "2" {
-            t.Error("\nTestFunctor - Expected: 2" +
-                    "\n                   Was: " + arity)
-            return
+        t.Error("\nTestFunctor - Expected: 2" +
+                "\n                   Was: " + arity)
+        return
     }
 
 }  // TestFunctor
