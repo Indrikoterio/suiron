@@ -61,7 +61,7 @@ func (js JoinStruct) String() string {
     return BuiltInPredicateStruct(js).String()
 }
 
-// joinsWordsAndPunctuation - joins strings (Atoms) of words and
+// joinWordsAndPunctuation - joins strings (Atoms) of words and
 // punctuation together to form a new string.
 // Params:
 //     list of arguments
