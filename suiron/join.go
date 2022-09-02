@@ -116,5 +116,5 @@ func (js JoinStruct) Unify(other Unifiable, ss SubstitutionSet) (SubstitutionSet
 }
 
 // TermType - returns a constant which identifies this type.
-// This functio satisfies the Unifiable interface.
+// This function satisfies the Unifiable interface.
 func (f JoinStruct) TermType() int { return FUNCTION }
