@@ -26,7 +26,7 @@ func (v VariableStruct) String() string {
     return fmt.Sprint(v.name, "_", v.id)
 }
 
-var variableId int
+var variableId int    // next ID number for logic variables
 
 // LogicVar - Factory function to create a logic Variable from a string.
 // The variable must begin with a dollar sign and a letter. Eg. $X
