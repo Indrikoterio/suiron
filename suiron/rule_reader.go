@@ -155,7 +155,7 @@ func stripComments(line string) string {
 
 
 // ReadFactsAndRules - reads Suiron facts and rules from a text file.
-// Strips out all comments. (Comments are preceeded by #, % or // .)
+// Strips out all comments. (Comments are preceded by #, % or // .)
 // Param:  file name
 // Return: array (slice) of rules
 //         error
