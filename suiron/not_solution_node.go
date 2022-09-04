@@ -34,7 +34,7 @@ func makeNotSolutionNode(n NotOp, kb KnowledgeBase,
     return &node
 }
 
-// NexSolution - calls NextSolution() on the operand (which is a Goal).
+// NextSolution - calls NextSolution() on the operand (which is a Goal).
 // If there is a solution, the function will set the success flag to false.
 // If there is no solution, the function will set the success flag to true.
 // ('Not' means 'not unifiable'.) 
