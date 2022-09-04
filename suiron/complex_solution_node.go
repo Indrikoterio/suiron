@@ -27,6 +27,10 @@ import (
     //"fmt"
 )
 
+// If matching a goal to a rule fails, restore
+// the variableId to the fallbackId.
+var fallbackId = 0
+
 type ComplexSolutionNodeStruct struct {
     SolutionNodeStruct
     child SolutionNode
@@ -71,6 +75,12 @@ func (n *ComplexSolutionNodeStruct) NextSolution() (SubstitutionSet, bool) {
     n.child = nil
 
     for n.HasNextRule() == true {
+
+        // The fallback id saves the variableId, in case the
+        // next rule fails. Restoring this id to variableId
+        // will keep the substitution set small.
+        fallbackId = variableId
+
         rule := n.NextRule()
 
         head := rule.GetHead()
@@ -82,6 +92,9 @@ func (n *ComplexSolutionNodeStruct) NextSolution() (SubstitutionSet, bool) {
             n.child = body.GetSolver(n.KnowledgeBase, solution, n);
             childSolution, ok := n.child.NextSolution()
             if ok { return childSolution, true }
+        } else {
+            // No success. Fallback to previous id.
+            variableId = fallbackId
         }
     }
     return nil, false
