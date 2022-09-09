@@ -65,7 +65,7 @@ func main() {
     }
 
     reader := bufio.NewReader(os.Stdin)
-    previous := ""   // Previouse query.
+    previous := ""   // Previous query.
 
     for {
 
