@@ -21,6 +21,9 @@ import (
 //    $X < 6
 // ...contains the LESS_THAN infix, index 3.
 //
+// Note: An infix must be preceded and followed by a space.
+// Don't like this:  $X<100
+//
 // Params: string to parse (runes)
 // Return: identifier (int)
 //         index
@@ -28,6 +31,7 @@ import (
 func identifyInfix(runestring []rune) (int, int) {
 
     length := len(runestring)
+    prev   := '#'  // not a space.
 
     for i := 0; i < length; i++ {
         c1 := runestring[i]
@@ -48,24 +52,47 @@ func identifyInfix(runestring []rune) (int, int) {
                 }
             }
         } else {
-            // Can't be last character.
-            if i == (length - 1) { break }
+            // Can't be first or last character.
+            // Previous character must be space.
+            if prev != ' ' || i >= (length - 3) {
+                prev = c1
+                continue
+            }
             if c1 == '<' {
                 c2 := runestring[i+1]
-                if c2 == '=' { return LESS_THAN_OR_EQUAL, i }
-                return LESS_THAN, i
-            }
-            if c1 == '>' {
+                if c2 == '=' {
+                    c3 := runestring[i+2]
+                    if c3 == ' ' {
+                        return LESS_THAN_OR_EQUAL, i
+                    }
+                } else if c2 == ' ' {
+                    return LESS_THAN, i
+                }
+            } else if c1 == '>' {
                 c2 := runestring[i+1]
-                if c2 == '=' { return GREATER_THAN_OR_EQUAL, i }
-                return GREATER_THAN, i
-            }
-            if c1 == '=' {
+                if c2 == '=' {
+                    c3 := runestring[i+2]
+                    if c3 == ' ' {
+                        return GREATER_THAN_OR_EQUAL, i
+                    }
+                } else if c2 == ' ' {
+                    return GREATER_THAN, i
+                }
+            } else if c1 == '=' {
                 c2 := runestring[i+1]
-                if c2 == '=' { return EQUAL, i }
-                return UNIFY, i
+                if c2 == '=' {
+                    c3 := runestring[i+2]
+                    if c3 == ' ' {
+                        return EQUAL, i
+                    }
+                } else if c2 == ' ' {
+                    return UNIFY, i
+                }
             }
-        }
+        } // else
+
+        prev = c1
+
     } // for
 
     return NONE, -1  // failed to find infix
