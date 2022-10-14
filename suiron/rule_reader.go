@@ -187,6 +187,36 @@ func ReadFactsAndRules(fileName string) ([]string, error) {
 } // ReadFactsAndRules
 
 
+// StringToRules - Divides string into an array of facts and rules.
+// Strips out all comments. (Comments are preceded by #, % or // .)
+//
+// Param:  string
+// Return: array (slice) of facts and rules
+//         error
+func StringToRules(str string) ([]string, error) {
+
+    var sb strings.Builder
+    scanner := bufio.NewScanner(strings.NewReader(str))
+
+    lineNum := 1
+    for scanner.Scan() {
+        aLine := scanner.Text()
+        strippedLine := stripComments(aLine)
+        if len(strippedLine) > 0 {
+            err := checkEndOfLine(strippedLine, lineNum)
+            if err != nil { return []string{}, err }
+            sb.WriteString(strippedLine)
+            sb.WriteString(" ")
+        }
+        lineNum++
+    }
+
+    roolz, err := separateRules(sb.String())
+    return roolz, err
+
+} // StringToRules
+
+
 // checkEndOfLine - checks to ensure that a line read from a file
 // ends with a valid character. Why?
 // Rules and facts can be split over several lines. For example,
@@ -235,7 +265,7 @@ func LoadKBFromFile(kb KnowledgeBase, fileName string) error {
     for _, str := range factsAndRules {
         factOrRule, err := ParseRule(str)
         if err != nil {
-            return loadParseError(previous, err)
+            return LoadParseError(previous, err)
         }
         kb.Add(factOrRule)
         previous = str
@@ -243,16 +273,16 @@ func LoadKBFromFile(kb KnowledgeBase, fileName string) error {
     return nil
 } // LoadKBFromFile
 
-// loadParseError - If a parse error occurs while loading rules,
+// LoadParseError - If a parse error occurs while loading rules,
 // this function adds the previous line for context.
 // Params: previous line
 //         parsing error
 // Return: new error
-func loadParseError(previous string, err error) error {
+func LoadParseError(previous string, err error) error {
     strError := err.Error()
     if len(previous) == 0 {
         return fmt.Errorf(strError + "Check start of file.")
     } else {
         return fmt.Errorf(strError + "Error occurs after: " + previous)
     } 
-} // loadParseError
+} // LoadParseError
