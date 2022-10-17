@@ -139,10 +139,10 @@ func (sn *LessThanSolutionNodeStruct) NextSolution() (SubstitutionSet, bool) {
     if type1 == INTEGER && type2 == INTEGER {
         number1 := term1.(Integer)
         number2 := term2.(Integer)
-        if number1 <= number2 { return sn.ParentSolution, true }
+        if number1 < number2 { return sn.ParentSolution, true }
     } else {
         number1, number2 := twoFloats(term1, type1, term2, type2)
-        if number1 <= number2 { return sn.ParentSolution, true }
+        if number1 < number2 { return sn.ParentSolution, true }
     }
 
     return sn.ParentSolution, false
