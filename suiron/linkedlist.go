@@ -98,7 +98,11 @@ func MakeLinkedList(vbar bool, args ...Unifiable) LinkedListStruct {
         if i == lastIndex && term.TermType() == LINKEDLIST {
             t, _ := term.(LinkedListStruct) // I know it's a LinkedList.
             tailPtr = &t
-            if tailPtr.term != nil {
+            // If the last term is empty [], there
+            // is no need to add it to the tail.
+            if tailPtr.term == nil {
+               tailPtr = nil
+            } else {
                num = tailPtr.count + 1
             }
         } else {
