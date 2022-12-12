@@ -4,7 +4,7 @@ Suiron is an inference engine written in Go. The rule declaration syntax is very
 
 This brief README does not present a detailed explanation of how inference engines work, so a basic understanding of Prolog is required. Documentation will be expanded in time.
 
-There is a online test site at: [klivo.net/suiron](https://klivo.net/suiron)
+There is a online test site and tutorial at: [klivo.net/suiron](https://klivo.net/suiron)
 
 ## Briefly
 
