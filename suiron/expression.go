@@ -23,7 +23,7 @@ type Expression interface {
     // The scope of a variable is the rule in which it is defined.
     // For example, in the knowledge base we have:
     //
-    //    grandparent($X, $Y) = parent($X, $Z), parent($Z, $Y).
+    //    grandparent($X, $Y) :- parent($X, $Z), parent($Z, $Y).
     //    parent($X, $Y) :- father($X, $Y).
     //    parent($X, $Y) :- mother($X, $Y).
     //    mother(Martha, Jackie)
