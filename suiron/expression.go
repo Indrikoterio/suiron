@@ -26,7 +26,7 @@ type Expression interface {
     //    grandparent($X, $Y) :- parent($X, $Z), parent($Z, $Y).
     //    parent($X, $Y) :- father($X, $Y).
     //    parent($X, $Y) :- mother($X, $Y).
-    //    mother(Martha, Jackie)
+    //    mother(Martha, Jackie).
     //    ... other facts and rules
     //
     // To find a solution for the goal 'grandparent(Frank, $X)',
