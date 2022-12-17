@@ -123,10 +123,10 @@ func MakeLinkedList(vbar bool, args ...Unifiable) LinkedListStruct {
 // by the parser; they need to be included as they are. Examples:
 //
 //    text := []rune("OK, sure.")
-//    if compareEscape(text, 2, ',')  <-- returns true
+//    if equalEscape(text, 2, ',')  <-- returns true
 //
 //    text2 := []rune("OK\\, sure.")  <-- double backslash for Go
-//    if compareEscape(text2, 3, ',')  <-- returns false
+//    if equalEscape(text2, 3, ',')  <-- returns false
 //
 func equalEscape(runes []rune, index int, ch rune) bool {
     r := runes[index]
