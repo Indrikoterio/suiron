@@ -251,7 +251,7 @@ func makeTerm(str string,
 
     length := len(s)
     if length == 0 {
-        e := parseTermError("Length of term is 0.", s)
+        e := makeTermError("Length of term is 0.", s)
         return Atom(s), e
     }
 
@@ -275,12 +275,12 @@ func makeTerm(str string,
             if last == "\"" {
                 s2 := s[1: length -1]
                 if len(s2) == 0 {
-                    err := parseTermError("Invalid term. Length is 0.", str)
+                    err := makeTermError("Invalid term. Length is 0.", str)
                     return Atom(s), err
                 }
                 return Atom(s2), nil
             } else {
-                err := parseTermError("Invalid term. Unmatched quote mark.", str)
+                err := makeTermError("Invalid term. Unmatched quote mark.", str)
                 return Atom(str), err
             }
         } else if first == "[" && last == "]" {
@@ -375,9 +375,9 @@ func parseTerm(str string) (Unifiable, error) {
 
 }  // parseTerm
 
-// parseTermError - creates an error for parseTerm().
+// makeTermError - creates an error for makeTerm().
 // msg - error message
 // str - string which caused the error
-func parseTermError(msg string, str string) error {
-    return fmt.Errorf("parseTerm() - %v: >%v<", msg, str)
+func makeTermError(msg string, str string) error {
+    return fmt.Errorf("makeTerm() - %v: >%v<", msg, str)
 }
