@@ -167,15 +167,15 @@ func indicesOfParentheses(chars []rune) (int, int, error) {
         }
     }
 
-    if second < first {
-        s := string(chars)
-        err := fmt.Errorf("indicesOfParentheses() - Invalid parentheses: %v", s)
-        return first, second, err
-    }
-
     if countLeft != countRight {
         s := string(chars)
         err := fmt.Errorf("indicesOfParentheses() - Unbalanced parentheses: %v", s)
+        return first, second, err
+    }
+
+    if second < first {
+        s := string(chars)
+        err := fmt.Errorf("indicesOfParentheses() - Invalid parentheses: %v", s)
         return first, second, err
     }
 
