@@ -30,7 +30,7 @@ func MakeGoal(terms ...Unifiable) Complex {
 } // MakeGoal
 
 // ParseGoal - creates a goal (Complex term) from a text string,
-// and ensures that all logic variables have a unique ID.
+// and ensures that all logic variables have unique IDs.
 // Params: string representation of goal
 // Return: complex term (slice of Unifiables)
 //         error
