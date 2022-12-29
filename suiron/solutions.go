@@ -11,7 +11,7 @@ import (
     "fmt"
 )
 
-// Solve - finds one solution for the given goal.
+// Solve - finds one solution for the given query.
 // The solution is returned as a string.
 // A second string indicates the reason for failure, as follows:
 //    "" (success)
@@ -19,16 +19,16 @@ import (
 //    "Other reason"
 // Note: This method only finds the first result.
 // See SolveAll below.
-// Params:  goal
+// Params:  query
 //          knowledgebase
 //          substitution set (previous bindings)
 // Returns: solution
 //          reason for failure
-func Solve(goal Complex, kb KnowledgeBase, ss SubstitutionSet) (solution Complex, failure string) {
+func Solve(query Complex, kb KnowledgeBase, ss SubstitutionSet) (solution Complex, failure string) {
 
     defer func() {  // Catch panics.
         if r := recover(); r != nil {
-            solution = goal
+            solution = query
             failure = fmt.Sprintf("%v", r)
         }
     }()
@@ -41,13 +41,13 @@ func Solve(goal Complex, kb KnowledgeBase, ss SubstitutionSet) (solution Complex
     solutionChannel := make(chan Complex)
 
     // Get the root solution node.
-    root := goal.GetSolver(kb, ss, nil)
+    root := query.GetSolver(kb, ss, nil)
 
     // Get the next solution.
     go func(out chan<- Complex) {
         newSS, found := root.NextSolution()
         if found {
-            out <- goal.ReplaceVariables(newSS).(Complex)
+            out <- query.ReplaceVariables(newSS).(Complex)
         } else {
             out <- nil
         }
@@ -72,19 +72,19 @@ func Solve(goal Complex, kb KnowledgeBase, ss SubstitutionSet) (solution Complex
 }  // Solve
 
 
-// SolveAll - finds all solutions for the given goal.
+// SolveAll - finds all solutions for the given query.
 // The solutions are returned as a list of complex terms.
 // A second return value indicates the reason for failure,
 // as follows:
 //    "" (success)
 //    "No" (no solution)
 //    "Other reason"
-// Params:  goal
+// Params:  query
 //          knowledge base
 //          substitution set (previous bindings)
 // Returns: solutions, failure
 //
-func SolveAll(goal Complex, kb KnowledgeBase, ss SubstitutionSet) (solutions []Complex, failure string) {
+func SolveAll(query Complex, kb KnowledgeBase, ss SubstitutionSet) (solutions []Complex, failure string) {
 
     var newSS  SubstitutionSet
     var found  bool
@@ -105,14 +105,14 @@ func SolveAll(goal Complex, kb KnowledgeBase, ss SubstitutionSet) (solutions []C
     go func(out chan<- []Complex) {
 
         // Get the root solution node.
-        root := goal.GetSolver(kb, ss, nil)
+        root := query.GetSolver(kb, ss, nil)
 
         // Get the next solution.
         newSS, found = root.NextSolution()
 
         for found {
             // Replace variables with their bound constants.
-            result := goal.ReplaceVariables(newSS)
+            result := query.ReplaceVariables(newSS)
             solutions = append(solutions, result.(Complex))
             newSS, found = root.NextSolution()
         }
@@ -160,7 +160,9 @@ func FormatSolution(query Complex, bindings SubstitutionSet) string {
                 first = false
             }
         }
-        return sb.String()
+        out := sb.String()
+        if len(out) == 0 { return "True " }
+        return out
     }
     return "No"
 } // FormatSolution
