@@ -16,7 +16,7 @@ type Goal interface {
               parentNode SolutionNode) SolutionNode
 }
 
-func MakeGoal(terms ...Unifiable) Complex {
+func MakeQuery(terms ...Unifiable) Complex {
 
     // The main bottleneck in Suiron is the time it takes
     // to copy the substitution set. The substitution set
@@ -27,14 +27,15 @@ func MakeGoal(terms ...Unifiable) Complex {
     newTerms := makeLogicVariablesUnique(terms...)
     return Complex(newTerms)
 
-} // MakeGoal
+} // MakeQuery
 
-// ParseGoal - creates a goal (Complex term) from a text string,
+// ParseQuery - creates a query (Complex term) from a text string,
 // and ensures that all logic variables have unique IDs.
-// Params: string representation of goal
-// Return: complex term (slice of Unifiables)
+//
+// Params: string representation of query
+// Return: query (Complex term)
 //         error
-func ParseGoal(str string) (Complex, error) {
+func ParseQuery(str string) (Complex, error) {
 
     // The main bottleneck in Suiron is the time it takes
     // to copy the substitution set. The substitution set
@@ -47,7 +48,7 @@ func ParseGoal(str string) (Complex, error) {
     terms := []Unifiable(c) // get terms
     newTerms := makeLogicVariablesUnique(terms...)
     return Complex(newTerms), nil
-} // ParseGoal
+} // ParseQuery
 
 // makeLogicVariablesUnique - Long explanation.
 // A substitution set keeps track of the bindings of logic variables.
