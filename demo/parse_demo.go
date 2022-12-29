@@ -53,10 +53,10 @@ package main
 //     word(envy, verb(envy, present, base)).
 //
 // Finally, the program calls the method Solve(), which tries to find
-// a solution for the goal 'parse'.
+// a solution for the query 'parse'.
 //
 // The arguments of Solve() are:
-//     the goal - parse([They, envy, us, .], $X)
+//     the query - parse([They, envy, us, .], $X)
 //     knowledge base
 //     an empty substitution set
 //
@@ -196,9 +196,9 @@ func main() {
         inList := sentenceToFacts(sentence, kb, pos)
         //DBKB(kb)
 
-        goal := MakeGoal(parse, inList, X)
+        query := MakeQuery(parse, inList, X)
 
-        _, failure := Solve(goal, kb, SubstitutionSet{})
+        _, failure := Solve(query, kb, SubstitutionSet{})
         if len(failure) != 0 { fmt.Println(failure) }
         fmt.Print("\n")
     }
