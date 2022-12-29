@@ -66,9 +66,9 @@ func TestJoin(t *testing.T) {
     ss := SubstitutionSet{}
 
     X, _ := LogicVar("$X")
-    goal := MakeGoal(would_you_like, X)
+    query := MakeQuery(would_you_like, X)
 
-    results, failure := Solve(goal, kb, ss)
+    results, failure := Solve(query, kb, ss)
     if failure != "" {
         t.Error("TestJoin - " + failure)
         return

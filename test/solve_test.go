@@ -41,14 +41,14 @@ func TestSolve(t *testing.T) {
 
     X, _ := LogicVar("$X")
 
-    // Do not use Complex{} to create a goal, because variables
-    // must have unique IDs. MakeGoal() ensures that variables
+    // Do not use Complex{} to create a query, because variables
+    // must have unique IDs. MakeQuery() ensures that variables
     // are assigned unique IDs.
-    // Don't do it> goal := Complex{hobby, tim, x}
-    goal := MakeGoal(hobby, tim, X)  // Goal is: hobby(Tim, $X)
+    // Don't do it> query := Complex{hobby, tim, x}
+    query := MakeQuery(hobby, tim, X)  // Query is: hobby(Tim, $X)
 
     expected := "hobby(Tim, dance)"
-    actual, failure := Solve(goal, kb, ss)
+    actual, failure := Solve(query, kb, ss)
     if len(failure) != 0 {
         t.Error("TestSolve - " + failure)
         return
@@ -62,13 +62,13 @@ func TestSolve(t *testing.T) {
 
     Y, _ := LogicVar("$Y")
 
-    // Do not use Complex{} to create a goal, because variables
-    // must have unique IDs. MakeGoal() ensures that variables
+    // Do not use Complex{} to create a query, because variables
+    // must have unique IDs. MakeQuery() ensures that variables
     // are assigned unique IDs.
-    // Don't do it> goal := goal = Complex{hobby, X, Y}
-    goal = MakeGoal(hobby, X, Y)
+    // Don't do it> query := Complex{hobby, X, Y}
+    query = MakeQuery(hobby, X, Y)
 
-    results, failure := SolveAll(goal, kb, ss)
+    results, failure := SolveAll(query, kb, ss)
     if len(failure) != 0 {
         t.Error("TestSolveAll - " + failure)
         return
@@ -110,10 +110,10 @@ func TestSolve(t *testing.T) {
     kb.Add(r1)
 
     // Even though c4 does not contain variables, it's better to
-    // create a goal with MakeGoal(), because MakeGoal() sets the
+    // create a query with MakeGoal(), because MakeQuery() sets the
     // variableId to 0.
-    goal = MakeGoal(Atom("Time out test."))
-    _, failure = Solve(goal, kb, ss)
+    query = MakeQuery(Atom("Time out test."))
+    _, failure = Solve(query, kb, ss)
     if len(failure) == 0 {
         t.Error("TestTimeOut - this test should time out.")
         return
@@ -128,8 +128,8 @@ func TestSolve(t *testing.T) {
     r2 := Rule(cEndless, cEndless) // Rule is: endless($X) :- endless($X).
     kb.Add(r2)
 
-    goal = MakeGoal(endless, Atom("loop")) // Goal is: endless(loop)
-    _, failure = Solve(goal, kb, SubstitutionSet{})
+    query = MakeQuery(endless, Atom("loop")) // Query is: endless(loop)
+    _, failure = Solve(query, kb, SubstitutionSet{})
     //fmt.Printf("----------- %v\n", failure)
     if len(failure) == 0 {
         t.Error("TestTimeOut - this test should time out.")

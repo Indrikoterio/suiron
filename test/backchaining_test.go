@@ -58,7 +58,7 @@ func TestBackChaining(t *testing.T) {
     // Register the above rules in the knowledgebase.
     kb.Add(r1, r2)
 
-    goal := MakeGoal(ancestor, charles, Y)
+    query := MakeQuery(ancestor, charles, Y)
 
     // Check the solutions of ancestor(Charles, $Y).
     expected := [4]string{"ancestor(Charles, Tony)",
@@ -67,7 +67,7 @@ func TestBackChaining(t *testing.T) {
                           "ancestor(Charles, Audrey)"}
 
 
-    solutions, failure := SolveAll(goal, kb, ss)
+    solutions, failure := SolveAll(query, kb, ss)
     if len(failure) != 0 {
         t.Error("TestBackChaining - " + failure)
         return

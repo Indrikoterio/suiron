@@ -56,8 +56,8 @@ func TestNot(t *testing.T) {
     kb.Add(f1, f2, f3, f4, f5, f6, r1, r2, r3, r4)
 
     // ?- father($X, Daniel)
-    goal, _ := ParseGoal("father($X, Daniel)")
-    result, failure := Solve(goal, kb, SubstitutionSet{})
+    query, _ := ParseQuery("father($X, Daniel)")
+    result, failure := Solve(query, kb, SubstitutionSet{})
     if failure != "" { t.Error("TestNot - " + failure); return }
 
     expected := "Richard"
@@ -71,8 +71,8 @@ func TestNot(t *testing.T) {
     // Second test.
     // ?- invite($X)
 
-    goal, _ = ParseGoal("invite($X)")
-    solutions, failure := SolveAll(goal, kb, SubstitutionSet{})
+    query, _ = ParseQuery("invite($X)")
+    solutions, failure := SolveAll(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestNot - " + failure)
         return
@@ -91,8 +91,8 @@ func TestNot(t *testing.T) {
     // Third test.
     // ?- invite2($X)
 
-    goal, _ = ParseGoal("invite2($X)")
-    solutions, failure = SolveAll(goal, kb, SubstitutionSet{})
+    query, _ = ParseQuery("invite2($X)")
+    solutions, failure = SolveAll(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestNot - " + failure)
         return

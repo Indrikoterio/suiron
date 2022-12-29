@@ -23,9 +23,9 @@ func TestTime(t *testing.T) {
         return
     }
 
-    goal, _ := ParseGoal("measure")
+    query, _ := ParseQuery("measure")
 
-    _, failure := Solve(goal, kb, SubstitutionSet{})
+    _, failure := Solve(query, kb, SubstitutionSet{})
     if len(failure) > 0 {
         t.Errorf("\nTestTime: %v\n", failure)
         return

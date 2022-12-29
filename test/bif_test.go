@@ -49,8 +49,8 @@ func TestBuiltInFunction(t *testing.T) {
 
     kb.Add(r1)  // Add rule to knowledgebase.
 
-    goal := MakeGoal(test, Atom("london"), X)
-    solution, failure := Solve(goal, kb, SubstitutionSet{})
+    query := MakeQuery(test, Atom("london"), X)
+    solution, failure := Solve(query, kb, SubstitutionSet{})
 
     if len(failure) != 0 {
         t.Error("TestBuiltInFunction - " + failure)

@@ -20,14 +20,14 @@ func TestComplex(t *testing.T) {
 
     X, ok  := LogicVar("$X")
 
-    // Use MakeGoal(), instead of Complex{}, to ensure
+    // Use MakeQuery(), instead of Complex{}, to ensure
     // that variables have unique ids.
-    c1 := MakeGoal(owns, john, house)  // owns(John, house)
-    c2 := MakeGoal(owns, john, house)  // owns(John, house)
-    c3 := MakeGoal(owns, john, car)    // owns(John, car)
+    c1 := MakeQuery(owns, john, house)  // owns(John, house)
+    c2 := MakeQuery(owns, john, house)  // owns(John, house)
+    c3 := MakeQuery(owns, john, car)    // owns(John, car)
 
     if ok != nil { t.Error("LogicVar() - Invalid variable: $X") }
-    c4 := MakeGoal(owns, john, X)
+    c4 := MakeQuery(owns, john, X)
 
     ss := SubstitutionSet{}
 

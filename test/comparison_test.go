@@ -118,9 +118,9 @@ func TestComparison(t *testing.T) {
     kb.Add(r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12)
     kb.Add(r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24)
 
-    goal, _ := ParseGoal("test($Z)")
+    query, _ := ParseQuery("test($Z)")
 
-    solutions, failure := SolveAll(goal, kb, ss)
+    solutions, failure := SolveAll(query, kb, ss)
     if len(failure) != 0 {
         t.Error("TestComparison - " + failure)
         return

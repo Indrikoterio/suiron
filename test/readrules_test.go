@@ -56,8 +56,8 @@ func TestReadRules(t *testing.T) {
         return
     }
 
-    goal, _ := ParseGoal("grandfather($X, Skule)")
-    solution, failure := Solve(goal, kb, SubstitutionSet{})
+    query, _ := ParseQuery("grandfather($X, Skule)")
+    solution, failure := Solve(query, kb, SubstitutionSet{})
 
     if len(failure) > 0 {
         t.Error("\nTestReadRules: No solution.\n", failure)

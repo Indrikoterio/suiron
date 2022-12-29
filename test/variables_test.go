@@ -37,8 +37,8 @@ func TestVariables(t *testing.T) {
     plurality, _ := LogicVar("$Plurality")
     case_, _     := LogicVar("$Case")
 
-    c1 := MakeGoal(pronoun, me, first, sing, acc)
-    c2 := MakeGoal(pronoun, me, person, plurality, case_)
+    c1 := MakeQuery(pronoun, me, first, sing, acc)
+    c2 := MakeQuery(pronoun, me, person, plurality, case_)
 
     newSS, ok := X.Unify(X, SubstitutionSet{})
     if !ok { t.Error("TestVariables - unification should succeed: $X = $X") }

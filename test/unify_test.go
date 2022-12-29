@@ -16,7 +16,7 @@ func TestUnify(t *testing.T) {
 
     // First test is:
     // test($X) :- $X = pronoun.
-    // Goal is test($X)
+    // Query is test($X)
 
     X, _    := LogicVar("$X")
     pronoun := Atom("pronoun")
@@ -30,8 +30,8 @@ func TestUnify(t *testing.T) {
     kb := KnowledgeBase{}
     kb.Add(r1)
 
-    goal := MakeGoal(test, X)
-    solution, failure := Solve(goal, kb, SubstitutionSet{})
+    query := MakeQuery(test, X)
+    solution, failure := Solve(query, kb, SubstitutionSet{})
 
     if len(failure) != 0 {
         t.Error("TestUnify - Failure: " + failure)
@@ -47,7 +47,7 @@ func TestUnify(t *testing.T) {
 
     // Second test is:
     // test2($A, $B, $C) := [eagle, parrot, raven, sparrow] = [$A, $B | $C].
-    // Goal is test2($A, $B, $C)
+    // Query is test2($A, $B, $C)
 
     A, _ := LogicVar("$A")
     B, _ := LogicVar("$B")
@@ -67,8 +67,8 @@ func TestUnify(t *testing.T) {
     r2 := Rule(head2, body2)
     kb.Add(r2)
 
-    goal = MakeGoal(test2, A, B, C)
-    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    query = MakeQuery(test2, A, B, C)
+    solution, failure = Solve(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("\nTestUnify - Solve failed.")
         return
@@ -114,8 +114,8 @@ func TestUnify(t *testing.T) {
     r1 = Rule(head, body3)
     kb.Add(r1)
 
-    goal, _ = ParseGoal("unify_test($X, $Y, $Z)")
-    solutions, failure := SolveAll(goal, kb, SubstitutionSet{})
+    query, _ = ParseQuery("unify_test($X, $Y, $Z)")
+    solutions, failure := SolveAll(query, kb, SubstitutionSet{})
 
     // Expected solutions of unify_test($X, $Y, $Z).
     expected2 := [4]string{"unify_test(lawyer, programmer, janitor)",
@@ -144,7 +144,7 @@ func TestUnify(t *testing.T) {
 
     /*
       second_test($Y) :- $X = up, $Y = down, $X = $Y.
-      This goal must fail.
+      This query must fail.
      */
 
     u1, _ = ParseUnify("$X = up")
@@ -155,8 +155,8 @@ func TestUnify(t *testing.T) {
     r2 = Rule(head, body4)
     kb.Add(r2)
 
-    goal, _ = ParseGoal("second_test($Y)")
-    _, failure = SolveAll(goal, kb, SubstitutionSet{})
+    query, _ = ParseQuery("second_test($Y)")
+    _, failure = SolveAll(query, kb, SubstitutionSet{})
 
     if failure != "No" {
         t.Error("TestUnify - Query must fail.")

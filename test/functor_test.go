@@ -34,13 +34,13 @@ func TestFunctor(t *testing.T) {
     r2, _ := ParseRule("get($Y) :- $X = cat(mammal, carnivore), functor($X, $Y).")
     kb.Add(r2)
 
-    goal := MakeGoal(get, X)  // get($X)
+    query := MakeQuery(get, X)  // get($X)
 
     // Check the solutions for get($X).
     expected := [2]string{"mouse", "cat"}
 
     // Get the root solution node.
-    root := goal.GetSolver(kb, SubstitutionSet{}, nil)
+    root := query.GetSolver(kb, SubstitutionSet{}, nil)
 
     for i := 0; i < 2; i++ {
         solution, found := root.NextSolution()
@@ -48,7 +48,7 @@ func TestFunctor(t *testing.T) {
             fmt.Println("TestFunctor - expected two solutions")
             return
         }
-        result := goal.ReplaceVariables(solution).(Complex)
+        result := query.ReplaceVariables(solution).(Complex)
         str := result.GetTerm(1).String()
         if str != expected[i] {
             t.Error("\nTestFunctor - Expected: " + expected[i] +
@@ -67,10 +67,10 @@ func TestFunctor(t *testing.T) {
     r3 := Rule(head, body2)
     kb.Add(r3)
 
-    goal = MakeGoal(check_arity, X, Y)
+    query = MakeQuery(check_arity, X, Y)
 
     // Get the root solution node.
-    root = goal.GetSolver(kb, SubstitutionSet{}, nil)
+    root = query.GetSolver(kb, SubstitutionSet{}, nil)
 
     solution, found := root.NextSolution()
     if !found {
@@ -78,7 +78,7 @@ func TestFunctor(t *testing.T) {
         return
     }
 
-    result := goal.ReplaceVariables(solution).(Complex)
+    result := query.ReplaceVariables(solution).(Complex)
     functor := result.GetTerm(1).String()
     arity   := result.GetTerm(2).String()
 

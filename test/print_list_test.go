@@ -26,7 +26,7 @@ func TestPrintList(t *testing.T) {
     r1 := Rule(head, body)
     kb.Add(r1)
 
-    goal, _ := ParseGoal("print_list_test")
-    Solve(goal, kb, SubstitutionSet{})
+    query, _ := ParseQuery("print_list_test")
+    Solve(query, kb, SubstitutionSet{})
 
 } // TestPrintList

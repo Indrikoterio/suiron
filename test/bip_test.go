@@ -74,8 +74,8 @@ func TestBuiltInPredicate(t *testing.T) {
     // Show the knowledgebase.
     //DBKB(kb)
 
-    goal := MakeGoal(bip_test, X, Y)
-    solution, failure := Solve(goal, kb, SubstitutionSet{})
+    query := MakeQuery(bip_test, X, Y)
+    solution, failure := Solve(query, kb, SubstitutionSet{})
 
     if len(failure) != 0 {
         t.Error("TestBuiltInPredicate - " + failure)

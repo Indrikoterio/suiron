@@ -46,9 +46,9 @@ func TestArithmetic(t *testing.T) {
     r     := Rule(head, body)
     kb.Add(r)
     
-    goal := MakeGoal(test1, X)
+    query := MakeQuery(test1, X)
 
-    solution, failure := Solve(goal, kb, SubstitutionSet{})
+    solution, failure := Solve(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestArithmetic 1 - " + failure)
         return
@@ -72,9 +72,9 @@ func TestArithmetic(t *testing.T) {
     r    = Rule(head, body)
     kb.Add(r)
     
-    goal = MakeGoal(test2, X)
+    query = MakeQuery(test2, X)
 
-    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    solution, failure = Solve(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestArithmetic 2 - " + failure)
         return
@@ -95,9 +95,9 @@ func TestArithmetic(t *testing.T) {
     r, _ = ParseRule("test3($X) :- $X = add(7.922, 3).")
     kb.Add(r)
     
-    goal, _ = ParseGoal("test3($X)")
+    query, _ = ParseQuery("test3($X)")
 
-    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    solution, failure = Solve(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestArithmetic 3 - " + failure)
         return
@@ -121,9 +121,9 @@ func TestArithmetic(t *testing.T) {
     r     = Rule(head, body)
     kb.Add(r)
     
-    goal = MakeGoal(test4, X)
+    query = MakeQuery(test4, X)
 
-    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    solution, failure = Solve(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestArithmetic 4 - " + failure)
         return
@@ -143,9 +143,9 @@ func TestArithmetic(t *testing.T) {
 
     r, _ = ParseRule("test5($X) :- $X = subtract(5.68, 3).")
     kb.Add(r)
-    goal, _ = ParseGoal("test5($X)")
+    query, _ = ParseQuery("test5($X)")
 
-    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    solution, failure = Solve(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestArithmetic 5 - " + failure)
         return
@@ -167,9 +167,9 @@ func TestArithmetic(t *testing.T) {
 
     r, _ = ParseRule("test6($X) :- $X = multiply(4, 2).")
     kb.Add(r)
-    goal, _ = ParseGoal("test6($X)")
+    query, _ = ParseQuery("test6($X)")
 
-    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    solution, failure = Solve(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestArithmetic 6 - " + failure)
         return
@@ -190,9 +190,9 @@ func TestArithmetic(t *testing.T) {
 
     r, _ = ParseRule("test7($X) :- $X = multiply(3.14159, 2).")
     kb.Add(r)
-    goal, _ = ParseGoal("test7($X)")
+    query, _ = ParseQuery("test7($X)")
 
-    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    solution, failure = Solve(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestArithmetic 7 - " + failure)
         return
@@ -215,9 +215,9 @@ func TestArithmetic(t *testing.T) {
 
     r, _ = ParseRule("test8($X) :- $X = divide(4, 2).")
     kb.Add(r)
-    goal, _ = ParseGoal("test8($X)")
+    query, _ = ParseQuery("test8($X)")
 
-    solution, failure = Solve(goal, kb, SubstitutionSet{})
+    solution, failure = Solve(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestArithmetic 8 - " + failure)
         return
@@ -265,7 +265,7 @@ func TestArithmetic(t *testing.T) {
     r = Rule(head, And(u1, u2, u3, u4))
     kb.Add(r)
 
-    calc, _ := ParseGoal("calculate(3.0, 7.0, $Out)")
+    calc, _ := ParseQuery("calculate(3.0, 7.0, $Out)")
 
     solution, failure = Solve(calc, kb, SubstitutionSet{})
     if len(failure) != 0 {

@@ -49,8 +49,8 @@ func TestFail(t *testing.T) {
     r2 := Rule(head, body2)
     kb.Add(r2)
 
-    goal := MakeGoal(test)
-    _, failure := SolveAll(goal, kb, ss)
+    query := MakeQuery(test)
+    _, failure := SolveAll(query, kb, ss)
     if failure == "" {
         t.Error("TestFail - " + failure)
     }

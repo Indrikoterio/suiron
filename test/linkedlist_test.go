@@ -220,10 +220,10 @@ func TestLinkedList(t *testing.T) {
     kb := KnowledgeBase{}
     kb.Add(r1)
 
-    goal := MakeGoal(test_count, Out)
+    query := MakeQuery(test_count, Out)
     ss = SubstitutionSet{}
 
-    solution, failure := Solve(goal, kb, ss)
+    solution, failure := Solve(query, kb, ss)
     if len(failure) != 0 {
         t.Error("TestLinkedList - Count - " + failure)
         return

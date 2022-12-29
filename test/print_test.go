@@ -43,8 +43,8 @@ func TestPrint(t *testing.T) {
 
     kb.Add(r1)
 
-    goal := MakeGoal(print_test)
-    Solve(goal, kb, ss)
+    query := MakeQuery(print_test)
+    Solve(query, kb, ss)
 
     //----------------------------------------------------
     fmt.Println("TestPrint 2:")
@@ -60,7 +60,7 @@ func TestPrint(t *testing.T) {
     r2 := Rule(c5, c6)
     kb.Add(r2)
 
-    goal = MakeGoal(print_test2)
-    Solve(goal, kb, ss)
+    query = MakeQuery(print_test2)
+    Solve(query, kb, ss)
 
 } // TestPrint

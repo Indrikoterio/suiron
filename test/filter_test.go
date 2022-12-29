@@ -45,8 +45,8 @@ func TestFilter(t *testing.T) {
     r2 := Rule(list_nerds, ex)
     kb.Add(r1, r2)
 
-    goal, _ := ParseGoal("list_wimmin($W)")
-    result, failure := Solve(goal, kb, SubstitutionSet{})
+    query, _ := ParseQuery("list_wimmin($W)")
+    result, failure := Solve(query, kb, SubstitutionSet{})
     if failure != "" {
         t.Error("TestFilter - " + failure)
     }
@@ -58,8 +58,8 @@ func TestFilter(t *testing.T) {
                 "\n                  Was: " + actual)
     }
 
-    goal, _ = ParseGoal("list_nerds($W)")
-    result, failure = Solve(goal, kb, SubstitutionSet{})
+    query, _ = ParseQuery("list_nerds($W)")
+    result, failure = Solve(query, kb, SubstitutionSet{})
     if failure != "" {
         t.Error("TestFilter - " + failure)
     }

@@ -55,9 +55,9 @@ func TestAndOr(t *testing.T) {
     kb.Add(r1, r2, r3)
     //DBKB(kb)
 
-    goal, _ := ParseGoal("relative($X, Marcus)")
+    query, _ := ParseQuery("relative($X, Marcus)")
 
-    results, failure := SolveAll(goal, kb, SubstitutionSet{})
+    results, failure := SolveAll(query, kb, SubstitutionSet{})
     if len(failure) != 0 {
         t.Error("TestAndOr - " + failure)
         return

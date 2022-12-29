@@ -44,9 +44,9 @@ func TestCut(t *testing.T) {
     kb.Add(r1, r2, f1, r3, r4)
 
     //DBKB(kb)
-    goal := MakeGoal(Atom("test"), X)
+    query := MakeQuery(Atom("test"), X)
 
-    solutions, failure := SolveAll(goal, kb, ss)
+    solutions, failure := SolveAll(query, kb, ss)
 
     if failure != "" {
         t.Error("TestCut - " + failure)
@@ -122,9 +122,9 @@ func TestCut(t *testing.T) {
     fact6 := Fact(h4)
 
     kb.Add(rule1, rule2, rule3, fact6)
-    goal = MakeGoal(priority_seating, John, X)
+    query = MakeQuery(priority_seating, John, X)
 
-    solutions, failure = SolveAll(goal, kb, ss)
+    solutions, failure = SolveAll(query, kb, ss)
 
     if failure != "" {
         t.Error("TestCut - " + failure)
