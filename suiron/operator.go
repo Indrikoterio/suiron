@@ -52,9 +52,9 @@ func RecreateVariablesForOperators(op []Goal, vars VarMap) []Goal {
     return newGoals
 }
 
-// ReplaceVariables - Operators must implement ReplaceVariables(),
-// in order to satisfy the Expression and Goal interfaces.
-// Refer to comments in expression.go.
+// ReplaceVariablesForOperators()
+// Operators must implement ReplaceVariables(), in order to satisfy the
+// Expression and Goal interfaces. Refer to comments in expression.go.
 func ReplaceVariablesForOperators(op []Goal, ss SubstitutionSet) []Goal {
     newGoals := []Goal{}
     for i := 0; i < len(op); i++ {
