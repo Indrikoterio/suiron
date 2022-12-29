@@ -72,23 +72,23 @@ func main() {
         fmt.Print("?- ")  // Prompt for query.
 
         q, _ := reader.ReadString('\n')
-        query := strings.TrimSpace(q)
-        if len(query) == 0 { break }
+        queryStr := strings.TrimSpace(q)
+        if len(queryStr) == 0 { break }
 
-        if query == "." {
-            query = previous
+        if queryStr == "." {
+            queryStr = previous
         } else {
-            previous = query
+            previous = queryStr
         }
 
-        goal, err := ParseGoal(query)
+        query, err := ParseQuery(queryStr)
         if err != nil {
             fmt.Println(err.Error())
             continue
         }
 
         // Get the root solution node.
-        root := goal.GetSolver(kb, SubstitutionSet{}, nil)
+        root := query.GetSolver(kb, SubstitutionSet{}, nil)
 
         for {
             solution, found := root.NextSolution()
@@ -96,7 +96,7 @@ func main() {
                 fmt.Println("No")
                 break
             }
-            result := FormatSolution(goal, solution)
+            result := FormatSolution(query, solution)
             fmt.Print(result)
             _, _ = reader.ReadString('\n')
         }
