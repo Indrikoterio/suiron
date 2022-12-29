@@ -53,7 +53,7 @@ The query mother(June, $Child) could be created in Go as follows:
 mother   := Atom("mother")
 June     := Atom("June")
 child, _ := LogicVar("$Child")
-query    := MakeGoal(mother, June, child)
+query    := MakeQuery(mother, June, child)
 ```
 
 Please refer to [variable.go](suiron/variable.go) and [goal.go](suiron/goal.go) for more details.
