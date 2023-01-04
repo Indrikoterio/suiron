@@ -74,7 +74,6 @@ func TokenBranch(theType int, children []TokenStruct) TokenStruct {
 // numberOfChildren - returns the number of children, if any.
 // Otherwise returns 1.
 func (ts TokenStruct) numberOfChildren() int {
-    if ts.children == nil { return 1 }
     return len(ts.children)
 }
 
