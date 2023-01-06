@@ -256,7 +256,7 @@ func groupAndTokens(token TokenStruct) TokenStruct {
             andList = []TokenStruct{}
         } else if theType == GROUP {
             t := groupAndTokens(token)
-            t  = groupOrTokens(token)
+            t  = groupOrTokens(t)
             andList = append(andList, t)
         }
 
