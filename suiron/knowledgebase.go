@@ -1,10 +1,10 @@
 package suiron
 
-// KnowledgeBase - defines a dictionary of Prolog-like rules and facts.
-// The dictionary (a map) is indexed by a key, which is created from the
-// functor and arity. For example, for the fact mother(Carla, Caitlyn),
-// the key would be "mother/2".
-// Each key indexes a slice of Rules which have the same key.
+// KnowledgeBase - defines a dictionary (a map) of predicates (facts and rules).
+// Each entry in the dictionary is a list of facts and rules, indexed by the
+// predicate's name. The name consists of its functor and arity, separated by
+// a slash. For example, for the fact mother(Carla, Caitlyn), the index, or key,
+// would be "mother/2".
 //
 // Cleve Lendon
 
