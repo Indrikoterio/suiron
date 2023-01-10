@@ -12,18 +12,6 @@ import (
 // An operator consists of a list of operands (= Goals).
 type Operator []Goal
 
-// copy - makes a copy of this operator.
-func (op Operator) copy() Operator {
-    operands := []Goal{}
-    for _, g := range op { operands = append(operands, g) }
-    return Operator(operands)
-}
-
-// getOperand - gets operand by index.
-func (op Operator) getOperand(i int) Goal {
-    return op[i]
-}
-
 // getHeadOperand - gets the first operand of the operand list.
 func (op Operator) getHeadOperand() Goal {
     return op[0]
