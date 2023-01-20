@@ -121,10 +121,17 @@ func parseArguments(str string) ([]Unifiable, error) {
         return []Unifiable{}, err
     }
 
+    // A comma at the end probably indicates a missing argument, but...
+    // make sure comma is not escaped, because this is valid: "term1, term2, \,"
     last := r[length - 1]
     if last == ',' {
-        err := makeParseError("Missing last argument", str)
-        return []Unifiable{}, err
+        // Length must be longer than 1, because comma
+        // is not the first character.
+        prev := r[length - 2]
+        if prev != '\\' {   // escape character
+            err := makeParseError("Missing last argument", str)
+            return []Unifiable{}, err
+        }
     }
 
     hasDigit    := false
