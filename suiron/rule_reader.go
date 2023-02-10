@@ -73,9 +73,9 @@ func unmatchedBracket(str string, roundDepth int, squareDepth int) error {
     var msg2 string
 
     if roundDepth > 0 {
-        msg = "unmatched bracket: (\n"
+        msg = "unmatched parenthesis: (\n"
     } else if roundDepth < 0 {
-        msg = "unmatched bracket: )\n"
+        msg = "unmatched parenthesis: )\n"
     } else if squareDepth > 0 {
         msg = "unmatched bracket: [\n"
     } else if squareDepth < 0 {
