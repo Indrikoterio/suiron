@@ -28,7 +28,7 @@ func TestReadRules(t *testing.T) {
     }
 
     err = LoadKBFromFile(kb, "badrule1.txt")
-    expected = "Error - unmatched bracket: (\n" +
+    expected = "Error - unmatched parenthesis: (\n" +
                "Check start of file."
     if err.Error() != expected {
         t.Error("\nTestReadRules - Should produce error:\n" + expected)
@@ -36,7 +36,7 @@ func TestReadRules(t *testing.T) {
     }
 
     err = LoadKBFromFile(kb, "badrule2.txt")
-    expected = "Error - unmatched bracket: )\n" +
+    expected = "Error - unmatched parenthesis: )\n" +
                "Error occurs after: parent(Godwin, Tostig)."
     if err.Error() != expected {
         t.Error("\nTestReadRules - Should produce error:\n" + expected)
