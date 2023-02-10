@@ -232,7 +232,10 @@ func StringToRules(str string) ([]string, error) {
 //
 //   sentence
 //
-// That would likely be an error, and should be flagged.
+// That would indicate an error in the source.
+//
+// Currently, valid characters are dash, comma, semicolon,
+// period and the equal sign.
 //
 // Params: line of text to check
 //         number of line to check
@@ -242,13 +245,12 @@ func checkEndOfLine(line string, num int) error {
     if length > 0 {
         last := line[length - 1:]
         if last != "-" && last != "," &&
-           last != "." && last != "=" {
+           last != ";" && last != "." && last != "=" {
             return fmt.Errorf("Check line %d: %v", num, line)
         }
     }
     return nil
 }
-
 
 // LoadKBFromFile - reads rules and facts from a text file, parses
 // them, then adds them to the knowledge base. If a parsing error is
