@@ -95,7 +95,7 @@ func makeAppendSolutionNode(goal Goal, kb KnowledgeBase,
     return &node
 }
 
-// NextSolution - calls a function  to evaluate the current goal,
+// NextSolution - calls a function to evaluate the current goal,
 // based on its arguments and the substitution set.
 // Returns:
 //    updated substitution set
