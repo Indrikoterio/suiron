@@ -139,4 +139,44 @@ func TestCut(t *testing.T) {
                 "\n               Was: " + result2)
     }
 
+    /*
+     * Another test.
+     *
+     * get_value($X) :- $X = 1.
+     * get_value($X) :- $X = 2.
+     * another_test($X) :- get_value($X), !, $X == 2.
+     *
+     * When the inference engine is queried with 'another_test(X)',
+     * it should returns no solutions.
+     */
+
+    get_value    := Atom("get_value")
+    another_test := Atom("another_test")
+    i1 := Integer(1)
+    i2 := Integer(2)
+
+    // get_value($X) :- $X = 1.
+    head1 := Complex{get_value, X}
+    body1  := Unify(X, i1)
+    rule1 = Rule(head1, body1)
+
+    // get_value($X) :- $X = 2.
+    head2 := Complex{get_value, X}
+    body2  := Unify(X, i2)
+    rule2 = Rule(head2, body2)
+
+    // another_test($X) :- get_value($X), !, $X == 2.
+    head3 := Complex{another_test, X}
+    c1 = Complex{get_value, X}
+    uni3 := Unify(X, i2)
+    body3 := And(c1, Cut(), uni3)
+    rule3 = Rule(head3, body3)
+
+    query = MakeQuery(another_test, X)
+    solutions, failure = SolveAll(query, kb, ss)
+
+    if failure != "No" {
+        t.Error("Query (another_test) must fail.")
+    }
+
 }  // TestBackChaining
