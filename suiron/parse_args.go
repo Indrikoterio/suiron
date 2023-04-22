@@ -1,6 +1,6 @@
 package suiron
 
-// parseargs
+// parse_args
 //
 // A complex term consists of a functor followed by a list of arguments
 // (terms) between parentheses: functor(arg1, arg2, arg3). These arguments
