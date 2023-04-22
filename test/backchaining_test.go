@@ -48,7 +48,7 @@ func TestBackChaining(t *testing.T) {
     c6   := Complex{parent, X, Z}
     c7   := Complex{ancestor, Z, Y}
 
-    // ancestor($X, $Y) := parent($X, $Y) 
+    // ancestor($X, $Y) := parent($X, $Y).
     r1 := Rule(head, c5)
 
     // ancestor($X, $Y) := parent($X, $Z), ancestor($Z, $Y).
