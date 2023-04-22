@@ -368,14 +368,12 @@ func parseTerm(str string) (Unifiable, error) {
     hasPeriod   := false
 
     for _, ch := range s {
-        if ch != '\\' {
-            if ch >= '0' && ch <= '9' {
-                hasDigit = true
-            } else if ch == '.' {
-                hasPeriod = true
-            } else {
-                hasNonDigit = true
-            }
+        if ch >= '0' && ch <= '9' {
+            hasDigit = true
+        } else if ch == '.' {
+            hasPeriod = true
+        } else {
+            hasNonDigit = true
         }
     }
     return makeTerm(str, hasDigit, hasNonDigit, hasPeriod)
