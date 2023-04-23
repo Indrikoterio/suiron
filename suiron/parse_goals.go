@@ -54,13 +54,13 @@ func identifyInfix(runestring []rune) (int, int) {
         } else {
             // Can't be first or last character.
             // Previous character must be space.
-            if prev != ' ' || i >= (length - 3) {
+            if prev != ' ' || i >= (length - 2) {
                 prev = c1
                 continue
             }
             if c1 == '<' {
                 c2 := runestring[i+1]
-                if c2 == '=' {
+                if c2 == '=' && i < length - 2 {
                     c3 := runestring[i+2]
                     if c3 == ' ' {
                         return LESS_THAN_OR_EQUAL, i
@@ -70,7 +70,7 @@ func identifyInfix(runestring []rune) (int, int) {
                 }
             } else if c1 == '>' {
                 c2 := runestring[i+1]
-                if c2 == '=' {
+                if c2 == '=' && i < length - 2 {
                     c3 := runestring[i+2]
                     if c3 == ' ' {
                         return GREATER_THAN_OR_EQUAL, i
@@ -80,7 +80,7 @@ func identifyInfix(runestring []rune) (int, int) {
                 }
             } else if c1 == '=' {
                 c2 := runestring[i+1]
-                if c2 == '=' {
+                if c2 == '=' &&  i < length - 2 {
                     c3 := runestring[i+2]
                     if c3 == ' ' {
                         return EQUAL, i
@@ -328,6 +328,7 @@ func ParseFunction(str string) (Function, error) {
 
     unifiables := append([]Unifiable{}, t...)
 
+    if functor == "join" { return Join(unifiables...), nil }
     if functor == "add" { return Add(unifiables...), nil }
     if functor == "subtract" { return Subtract(unifiables...), nil }
     if functor == "multiply" { return Multiply(unifiables...), nil }
