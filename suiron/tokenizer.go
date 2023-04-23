@@ -91,15 +91,17 @@ func Tokenize(str string) ([]TokenStruct, error) {
         top, _ := stkParenth.Peek()
 
         ch := runes[i]
-        if ch == '"' { // Ignore characters between quotes.
+        if noEsc(ch, '"', previous) { // Ignore characters between quotes.
+            prev := '#'
             for j := i + 1; j < length; j++ {
                 ch = runes[j]
-                if ch == '"' {
+                if noEsc(ch, '"', prev) {
                     i = j
                     break
                 }
+                prev = ch
             }
-        } else if ch == '(' {
+        } else if noEsc(ch, '(', previous) {
             // Is the previous character valid in a functor?
             if LetterNumberHyphen(previous) {
                 stkParenth.Push(COMPLEX)
@@ -108,7 +110,7 @@ func Tokenize(str string) ([]TokenStruct, error) {
                 tokens = append(tokens, TokenLeaf("("))
                 startIndex = i + 1
             }
-        } else if ch == ')' {
+        } else if noEsc(ch, ')', previous) {
             if top == NONE {
                 err := fmt.Errorf("Tokenize() - Unmatched parenthesis: %v", s)
                 return tokens, err
@@ -122,9 +124,9 @@ func Tokenize(str string) ([]TokenStruct, error) {
                 err := fmt.Errorf("Tokenize() - Unmatched parenthesis: %v", s)
                 return tokens, err
             }
-        } else if ch == '[' {
+        } else if noEsc(ch, '[', previous) {
             stkParenth.Push(LINKEDLIST)
-        } else if ch == ']' {
+        } else if noEsc(ch, ']', previous) {
             if top == NONE {
                 err := fmt.Errorf("Tokenize() - Unmatched bracket: %v", s)
                 return tokens, err
@@ -141,12 +143,12 @@ func Tokenize(str string) ([]TokenStruct, error) {
                     err := fmt.Errorf("Tokenize() - Invalid character: %v", s)
                     return tokens, err
                 }
-                if ch == ',' {   // AND
+                if noEsc(ch, ',', previous) {   // AND
                     subgoal := s[startIndex: i]
                     tokens = append(tokens, TokenLeaf(subgoal))
                     tokens = append(tokens, TokenLeaf(","))
                     startIndex = i + 1
-                } else if ch == ';' {   // OR
+                } else if noEsc(ch, ';', previous) {   // OR
                     subgoal := s[startIndex: i]
                     tokens = append(tokens, TokenLeaf(subgoal))
                     tokens = append(tokens, TokenLeaf(";"))
@@ -171,6 +173,18 @@ func Tokenize(str string) ([]TokenStruct, error) {
 
 } // Tokenize
 
+// noEsc - Ensures that the character being checked matches the
+// match character, and is not escaped by a backslash. (Eg. \, \[ )
+//
+// Params: character to check
+//         match character
+//         previous character
+// Return: true if not escaped by backslash
+func noEsc(check rune, match_char rune, previous rune) bool {
+    if previous == '\\' { return false }
+    if check != match_char { return false }
+    return true
+}
 
 // groupTokens - collects tokens within parentheses into groups.
 // Converts a flat array of tokens into a tree of tokens.
