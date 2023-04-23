@@ -34,19 +34,25 @@ func identifyInfix(runestring []rune) (int, int) {
     prev   := '#'  // not a space.
 
     for i := 0; i < length; i++ {
+
         c1 := runestring[i]
+        c2 := '#'
+        if i < length - 1 { c2 = runestring[i+1] }
+        c3 := '#'
+        if i < length - 2 { c3 = runestring[i+2] }
+
         if c1 == '"' {
             for j := i + 1; j < length; j++ {
-                c2 := runestring[j]
-                if c2 == '"' {
+                cx := runestring[j]
+                if cx == '"' {
                     i = j
                     break
                 }
             }
         } else if c1 == '(' {
             for j := i + 1; j < length; j++ {
-                c2 := runestring[j]
-                if c2 == ')' {
+                cx := runestring[j]
+                if cx == ')' {
                     i = j
                     break
                 }
@@ -59,9 +65,7 @@ func identifyInfix(runestring []rune) (int, int) {
                 continue
             }
             if c1 == '<' {
-                c2 := runestring[i+1]
-                if c2 == '=' && i < length - 2 {
-                    c3 := runestring[i+2]
+                if c2 == '=' {
                     if c3 == ' ' {
                         return LESS_THAN_OR_EQUAL, i
                     }
@@ -69,9 +73,7 @@ func identifyInfix(runestring []rune) (int, int) {
                     return LESS_THAN, i
                 }
             } else if c1 == '>' {
-                c2 := runestring[i+1]
-                if c2 == '=' && i < length - 2 {
-                    c3 := runestring[i+2]
+                if c2 == '=' {
                     if c3 == ' ' {
                         return GREATER_THAN_OR_EQUAL, i
                     }
@@ -79,9 +81,7 @@ func identifyInfix(runestring []rune) (int, int) {
                     return GREATER_THAN, i
                 }
             } else if c1 == '=' {
-                c2 := runestring[i+1]
-                if c2 == '=' &&  i < length - 2 {
-                    c3 := runestring[i+2]
+                if c2 == '=' {
                     if c3 == ' ' {
                         return EQUAL, i
                     }
