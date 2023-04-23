@@ -263,7 +263,10 @@ func makeTerm(str string,
     }
 
     first := s[0:1]
-    if first == "$" {
+    if first == "\\" && length > 1 {
+        s = s[1:]
+        length = len(s)
+    } else if first == "$" {
 
         // Anonymous variable.
         if s == "$_" { return Anon(), nil }
@@ -297,7 +300,8 @@ func makeTerm(str string,
         // Try complex terms, eg.:  job(programmer)
         } else if first != "(" && last == ")" {
             // Check for built-in functions.
-            if strings.HasPrefix(s, "add(") { return ParseFunction(s) }
+            if strings.HasPrefix(s, "join(")     { return ParseFunction(s) }
+            if strings.HasPrefix(s, "add(")      { return ParseFunction(s) }
             if strings.HasPrefix(s, "subtract(") { return ParseFunction(s) }
             if strings.HasPrefix(s, "multiply(") { return ParseFunction(s) }
             if strings.HasPrefix(s, "divide(")   { return ParseFunction(s) }
