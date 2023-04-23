@@ -6,7 +6,7 @@ package main
 // and punctuation to form a single string (= Atom). In the following
 // source example,
 //
-//   $D1 = coffee, $D2 = "," , $D3 = tea, $D4 = or, $D5 = juice, $D6 = "?",
+//   $D1 = coffee, $D2 = "," , $D3 = tea, $D4 = or, $D5 = juice, $D6 = ?,
 //   $X = join($D1, $D2, $D3, $D4, $D5, $D6).
 //
 // $X is bound to the Atom "coffee, tea or juice?".
