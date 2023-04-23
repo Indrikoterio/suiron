@@ -82,4 +82,29 @@ func TestJoin(t *testing.T) {
                 "\n                Was: " + actual)
     }
 
+    // New test. Let the parser create a join function.
+
+    kb = KnowledgeBase{}
+    s := "would_you_like($Out) :- $D1 = coffee, $D2 = \\,, " +
+         "$D3 = tea, $D4 = or, $D5 = juice, $D6 = ?, " +
+         "$Out = join($D1, $D2, $D3, $D4, $D5, $D6)."
+
+    r, _ := ParseRule(s)
+    kb.Add(r)
+
+    query, _ = ParseQuery("would_you_like($X)")
+
+    results, failure = Solve(query, kb, SubstitutionSet{})
+    if failure != "" {
+        t.Error("TestJoin - " + failure)
+        return
+    }
+
+    actual = results.GetTerm(1).String()
+
+    if actual != expected {
+        t.Error("\nTestJoin - Expected: " + expected +
+                "\n                Was: " + actual)
+    }
+
 } // TestJoin
