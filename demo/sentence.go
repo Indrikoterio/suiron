@@ -19,7 +19,7 @@ const MAX_WORDS_IN_SENTENCE int = 120
 // Params: character (rune)
 // Return: true/false
 func isAnApostrophe(ch rune) bool {
-    if ch == '\'' || ch == '\u2019' || ch == '\u02bc' { return true }
+    if ch == '\'' || ch == '\u02bc' { return true }
     return false
 }
 
