@@ -11,7 +11,6 @@ import (
     //"fmt"
 )
 
-const MAX_WORD_LENGTH int       = 30
 const MAX_WORDS_IN_SENTENCE int = 120
 
 // isAnApostrophe - tests whether a character is an apostrophe.
